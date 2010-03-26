@@ -67,6 +67,8 @@
 
 \noindent\textbf{Dzielona tablica} (ang. \textit{shared whiteboard}) -- miejsce na dysku dostępne dla wielu użytkowników jednocześnie. Wersje poszczególnych użytkowników są synchronizowane w czasie zbliżonym do rzeczywistego.\\
 
+\noindent\textbf{Emotikony} (ang. \textit{emoticons}) -- zestaw symboli wyrażających emocje, które są wykorzystywane w wiadomościach przesyłanych pocztą elektroniczną, przez komunikator internetowy, w grupach dyskusyjnych i w wiadomościach SMS.\\
+
 \noindent\textbf{Excite} -- wyszukiwarka internetowa autorstwa firmy o tej samej nazwie, która została w roku 1999 wykupiona przez amerykańską firmę At Home.\\
 
 \noindent\textbf{Extensible Messaging and Presence Protocol} (dawniej Jabber) -- protokół komunikacji oraz powiadamiania o obecności w czasie rzeczywistym oparty na XML. Głównym zastosowaniem Extensible Messaging and Presence Protocol jest wymiana wiadomości w komunikatorach internetowych. Serwery XMPP umożliwiają także za pomocą tzw. transportów komunikację z użytkownikami innych protokołów, np. Gadu-Gadu, Tlen.pl, ICQ i MSN Messenger.
@@ -164,5 +166,86 @@ Wszystkie wymienione aplikacje posiadały własne, niezależne protokoły przesy
 W 2000 roku na rynek wprowadzono aplikację typu open source o nazwie \textbf{Jabber} oraz standardowy protokół \textbf{Extensible Messaging and Presence Protocol} (skrót XMPP). Serwery XMPP potrafiły działać jak bramy (ang. \textit{gateway}) dla innych protokołów wymiany wiadomości, w związku z czym wystarczyła jedna aplikacja typu klient, aby móc korzystać z wielu sieci. Serwery XMPP obsługiwały wszystkie najpopularniejsze wówczas protokoły.
 
 
-\section[Przegląd najpopularniejszych komunikatorów]{Przegląd najpopularniejszych komunikatorów}
+
+\section[Planowane funkcje aplikacji]{Planowane funkcje splikacji}
+
+Poniższy opis zawiera funkcje, które powinien realizować program. Każda funkcja składa się z nazwy, opisu i priorytetu. Priorytet określa jak ważna jest realizacja danej funkcjonalności. W opisie uwzględniono 3 rodzaje priorytetów: wysoki, średni i niski.
+\subsection[Rozpoczynanie rozmowy]{Rozpoczynanie rozmowy}
+Priorytet: wysoki.\\
+
+Użytkownik A rozpoczyna rozmowę z użytkownikiem B. Użytkownik B powinien zostać o tym fakcie poinformowany. Użytkownik B nie musi akceptować rozmowy. Informacja zwrotna o decyzji użytkownika B powinna zostać wysłana do osoby rozpoczynającej rozmowę.
+
+\subsection[Prowadzenie rozmowy]{Prowadzenie rozmowy}
+
+Priorytet: wysoki.\\
+
+Dwóch użytkowników może swobodnie prowadzić rozmowę wymieniając komunikaty tekstowe.
+
+\subsection[Zmiana statusu użytkownika]{Zmiana statusu użytkownika}
+
+Priorytet: wysoki.\\
+
+Każdy użytkownik posiada aktualny status, który może dowolnie zmieniać. W aplikacji będą dostępne statusy: ,,dostępny'', ,,niedostępny'', ,,zaraz wracam'' oraz ,,niewidoczny''. Status użytkownika pokazywany jest wszystkim innym użytkownikom. Nie dotyczy to jednak statusu ,,niewidoczny'', osoba posiadająca ten status jest widoczna dla innych użytkowników w taki sam sposób jak osoba o statusie ,,niedostępny''.
+
+\subsection[Lista kontaktów]{Lista kontaktów}
+
+Priorytet: wysoki.\\
+
+Użytkownicy powinni dysponować samodzielnie definiowaną listą kontaktów. Lista może być dowolnie modyfikowana przez użytkownika.
+
+\subsection[Zakładanie konta]{Zakładanie konta}
+
+Priorytet: wysoki.\\
+
+Osoby nie posiadające konta na serwerze aplikacji mogą przy pierwszym uruchomieniu programu założyć nowe konto. W tym celu muszą one wypełnić krótki formularz podając podstawowe dane osobowe.
+
+\subsection[Zmiana danych profilu]{Zmiana danych profilu}
+
+Priorytet: wysoki.\\
+
+Użytkownik może dowolnie zmieniać dane zawarte w swoim profilu.
+
+\subsection[Podstawowe funkcje edytora tekstu]{Podstawowe funkcje edytora tekstu}
+
+Priorytet: wysoki.\\
+
+Użytkownik powinien mieć możliwość prostego formatowania tekstu swojej wiadomości. 
+Przewiduje się następujące funkcje:
+\begin{itemize}
+    \item[--] zmiana rodzaju, wielkości i stylu czcionki;
+    \item[--] zmiana koloru tekstu;
+    \item[--] kopiowanie, wklejanie i wycinanie tekstu.
+\end{itemize}
+
+\subsection[Wyszukiwanie użytkowników]{Wyszukiwanie użytkowników}
+Priorytet: średni.\\
+
+Użytkownik może szukać innych użytkowników podając fragment ich danych osobowych.
+\subsection[Import oraz eksport listy kontaktów]{Import oraz eksport listy kontaktów}
+
+Priorytet: średni.\\
+
+Aplikacja pozwala na eksportowanie listy kontaktów do pliku lub serwera oraz import z pliku lub serwera.
+\subsection[Zapisywanie i przeglądanie archiwum rozmów]{Zapisywanie i przeglądanie archiwum rozmów}
+Priorytet: średni.\\
+
+Użytkownik powinien mieć możliwość przeglądania treści rozmów, które przeprowadzał.
+
+\subsection[Wklejanie obrazków do tekstu]{Wklejanie obrazków do tekstu}
+
+Priorytet: niski.\\
+
+Użytkownik powinien mieć możliwość dodania do swojego tekstu obrazka wczytanego z dysku twardego.
+Przewiduje się obsługę wszystkich najpopularniejszych formatów graficznych.
+\subsection[Przesyłanie plików]{Przesyłanie plików}
+
+Priorytet: niski.\\
+
+Dwóch rozmawiających ze sobą użytkowników powinno mieć możliwość przesyłania między sobą plików.
+\subsection[Wyświetlanie emotikonek]{Wyświetlanie emotikonek}
+
+Priorytet: niski.\\
+
+Aplikacja powinna wymieniać pewne określone ciągi znaków zapisane w tekście wiadomości na małe obrazki, które
+wyrażają w sposób symboliczny grymas twarzy użytkownika. 
 \end{document}
