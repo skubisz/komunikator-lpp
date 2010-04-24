@@ -171,7 +171,7 @@ W 2000 roku na rynek wprowadzono program \textbf{Jabber} z powszechnie dostępny
 
 
 \section[Przegląd najpopularniejszych komunikatorów na polskim rynku]{Przegląd najpopularniejszych komunikatorów na polskim rynku}
-Autorzy projektu wykonali przegląd rynku komunikatorów internetowych w Polsce, aby wybrać najlepsze funkcjonalności dla swojej aplikacji i uniknąć powielania błędów konkurencji. 
+Autorzy projektu wykonali przegląd rynku komunikatorów internetowych w Polsce, aby wybrać najlepsze funkcjonalności dla swojej aplikacji i uniknąć powielania błędów konkurencji.
 Według ankiety przeprowadzonej przez serwis \textbf{idg.pl} \cite{ID} najpopularniejszym komunikatorem w Polsce jest Gadu-Gadu, którego używa aż 76\% internautów. Drugie miejsce zajął Tlen (niecałe 14\%). Pozostałe komunikatory, w tym znane na całym świecie ICQ, cieszą się popularnością jednoprocentową.
 Poniżej przeanalizowano najpopularniejsze komunikatory internetowe w naszym kraju.
 
@@ -196,11 +196,11 @@ Program realizuje właściwie wszystkie funkcjonalności znane z Gadu-Gadu oraz 
     \item[--] czaty,
     \item[--] konferencje.
 \end{itemize}
-Ciekawym dodatkiem są proste gry internetowe, w których mogą uczestniczyć użytkownicy oraz tablica dzielona, na której użytkownicy mogą wspólnie rysować. Ponadto, na rynku istnieje wiele nieoficjalnych rozszerzeń wzbogacających funkcjonalności i wygląd komunikatora.\\ 
+Ciekawym dodatkiem są proste gry internetowe, w których mogą uczestniczyć użytkownicy oraz tablica dzielona, na której użytkownicy mogą wspólnie rysować. Ponadto, na rynku istnieje wiele nieoficjalnych rozszerzeń wzbogacających funkcjonalności i wygląd komunikatora.\\
 Aby przekonać do siebie użytkowników Gadu-Gadu, których jest więcej, Tlen jest w pełni kompatybilny z siecią Gadu-Gadu obsługując protokół GG. Oznacza to, że można wymieniać wiadomości z użytkownikami Gadu-Gadu, którzy nie mają zainstalowanego komunikatora Tlen. Oczywiście wtedy możliwości komunikacji zostają zredukowane do tego, co oferuje oryginalna wersja Gadu-Gadu. Ponadto istnieją dodatkowe rozszerzenia pozwalające nawiązać tekstową łączność z użytkownikami sieci ICQ i Jabber.\\
 Tlen jest aplikacją darmową, której wadą są reklamy.
- 
-\subsection[AQQ]{AQQ} 
+
+\subsection[AQQ]{AQQ}
 Powstały w czerwcu 2007 roku AQQ realizuje najwięcej funkcjonalności ze wszystkich polskich komunikatorów internetowych. Liczne rozszerzenia (oficjalne i nieoficjalne) bogatej w funkcjonalności wersji podstawowej powodują, że program można uznać za medialno--komunikacyjną hybrydę. AQQ oprócz wszystkich podstawowych funkcji komunikatora internetowego oferuje również:
 \begin{itemize}
     \item[--] odtwarzacz audio-wideo,
@@ -209,7 +209,7 @@ Powstały w czerwcu 2007 roku AQQ realizuje najwięcej funkcjonalności ze wszys
     \item[--] tablicę dzieloną,
     \item[--] monitor pobranych danych dla użytkowników Neostrady,
     \item[--] monitor wewnętrznych zasobów komputera.
-\end{itemize}    
+\end{itemize}
 Inną zaletą AQQ są częste aktualizacje i stosunkowo szybko poprawiane błędy.\\
 AQQ oferuje komunikację z następującymi sieciami: Gadu-Gadu, Tlen, Jabber, ICQ oraz Skype.\\
 Największą wadą, która przesądza o mniejszej popularności AQQ, oprócz reklam, jest izolacja użytkowników tej sieci.
@@ -303,6 +303,60 @@ Priorytet: niski.\\
 Aplikacja powinna wymieniać pewne określone ciągi znaków zapisane w tekście wiadomości na małe obrazki, które
 wyrażają w sposób symboliczny grymas twarzy użytkownika.
 
+\section[Model konceptualny bazy danych]{Model konceptualny bazy danych}
+\subsection[Profil klienta]{Profil klienta}
+Do tej kategorii należą wszyscy klienci, zarejestrowani w systemie.
+Użytkownicy powinni mieć dostęp jedynie do swoich kont. Nie powinni
+mieć dostępu do danych żadnych innych użytkowników systemu.
+Od klienta nie wymaga się żadnej wcześniejszej wiedzy o systemie. Każdy klient dostanie
+podręcznik użytkownika zawierający opis wszystkich możliwości systemu.
+Ważne jest, aby opis był zrozumiały nawet dla bardzo niedoświadczonych użytkowników.
+
+\subsection[Administratorzy systemu]{Administratorzy systemu}
+Administratorzy, to osoby odpowiedzialne za prawidłowe działanie systemu i zarządzające bazą danych. 
+Administratorzy powinni zostać gruntownie przeszkoleni tak, aby mogli sprawnie
+zarzadzać systemem.\\
+Administratorzy mają dostęp do wszystkich danych związanych z działaniem systemu i nieograniczone uprawnienia związane
+z modyfikowaniem zawartości bazy danych.
+Informacje o klientach powinni otrzymywać jedynie w sytuacjach, w których
+jest to niezbędne.
+
+\subsection[Opis encji]{Opis encji}
+\subsubsection[Użytkownicy]{Użytkownicy}
+Relacja \texttt{użytkownicy} przechowuje podstawowe informacje o kliencie, które są konieczne do prawidłowego działania systemu uwierzytelniania klienta. Relacja zawiera kolejno następujące atrybuty:
+\begin{itemize}
+    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownicy} i jest automatycznie generowany przez sekwencję \texttt{num\_gen} po rejestracji klienta;
+    \item[--] unikatową nazwę użytkownika, która jednoznacznie określa klienta w bazie danych;
+    \item[--] hasło, które użytkownik podaje podczas rejestracji składające się z co najmniej 6 znaków alfanumerycznych.
+\end{itemize}
+
+\subsubsection[Dane]{Dane}
+Relacja \texttt{dane} przechowuje dodatkowe informacje o kliencie, które nie są konieczne do prawidłowego działania systemu. Dane mogą okazać się jednak pomocne przy wyszukiwaniu użytkowników systemu e-Talk. Relacja zawiera kolejno następujące atrybuty:
+\begin{itemize}
+    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownicy} i jest kluczem obcym z relacji \texttt{użytkownicy};
+    \item[--] nazwisko, które jest polem wymaganym do wypełnienia podczas rejestracji;
+    \item[--] imię, które jest polem wymaganym do wypełnienia podczas rejestracji;
+    \item[--] kod pocztowy, który nie jest wymaganym polem do wypełnienia podczas rejestracji. Poprawność
+              tego pola jest sprawdzana na podstawie domeny \texttt{kod\_type} opartej na prostym wyrażeniu
+              regularnym;
+    \item[--] e-mail, który jest polem wymaganym do wypełnienia podczas rejestracji. Poprawność
+              tego pola jest sprawdzana na podstawie domeny \texttt{email\_type} opartej na prostym wyrażeniu
+              regularnym;
+    \item[--] data urodzenia, która nie jest wymaganym polem do wypełnienia podczas rejestracji;
+    \item[--] zainteresowania, które użytkownik wypełnia dowolnie, według własnego uznania.
+\end{itemize}
+
+\subsubsection[Znajomi]{Znajomi}
+Relacja \texttt{znajomi} przechowuje informacje o użytkownikach, którzy się znają. Dane potrzebne są podczas pobierania z serwera listy kontaktów dla danego użytkownika. Relacja zawiera kolejno następujące atrybuty:
+\begin{itemize}
+    \item[--] identyfikator pary znajomych, który jest kluczem publicznym relacji \texttt{znajomi} i jest automatycznie generowany przez sekwencję \texttt{znaj\_gen} po dodaniu nowego użytkownika do listy znajomych;
+    \item[--] numer pierwszego konta, który jest kluczem obcym z relacji \texttt{użytkownicy};
+    \item[--] numer drugiego konta, który jest kluczem obcym z relacji \texttt{użytkownicy}.
+\end{itemize}
+
+\subsection[Dodatkowe elementy bazy danych]{Dodatkowe elementy bazy danych}
+
+\subsection[Diagram UML]{Diagram UML}
 
 \begin{thebibliography}{9}
 \bibitem{OU} http://www.seoteka.pl/a85.php (ostatni dostęp do strony 2010-04-12)
