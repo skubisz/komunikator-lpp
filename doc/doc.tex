@@ -307,13 +307,13 @@ wyrażają w sposób symboliczny grymas twarzy użytkownika.
 \subsection[Profil klienta]{Profil klienta}
 Do tej kategorii należą wszyscy klienci, zarejestrowani w systemie.
 Użytkownicy powinni mieć dostęp jedynie do swoich kont. Nie powinni
-mieć dostępu do danych żadnych innych użytkowników systemu.
+mieć dostępu do żadnych danych innych użytkowników systemu.
 Od klienta nie wymaga się żadnej wcześniejszej wiedzy o systemie. Każdy klient dostanie
 podręcznik użytkownika zawierający opis wszystkich możliwości systemu.
 Ważne jest, aby opis był zrozumiały nawet dla bardzo niedoświadczonych użytkowników.
 
 \subsection[Administratorzy systemu]{Administratorzy systemu}
-Administratorzy, to osoby odpowiedzialne za prawidłowe działanie systemu i zarządzające bazą danych. 
+Administratorzy, to osoby odpowiedzialne za prawidłowe działanie systemu i zarządzanie bazą danych.
 Administratorzy powinni zostać gruntownie przeszkoleni tak, aby mogli sprawnie
 zarzadzać systemem.\\
 Administratorzy mają dostęp do wszystkich danych związanych z działaniem systemu i nieograniczone uprawnienia związane
@@ -322,10 +322,10 @@ Informacje o klientach powinni otrzymywać jedynie w sytuacjach, w których
 jest to niezbędne.
 
 \subsection[Opis encji]{Opis encji}
-\subsubsection[Użytkownicy]{Użytkownicy}
-Relacja \texttt{użytkownicy} przechowuje podstawowe informacje o kliencie, które są konieczne do prawidłowego działania systemu uwierzytelniania klienta. Relacja zawiera kolejno następujące atrybuty:
+\subsubsection[Użytkownik]{Użytkownik}
+Relacja \texttt{użytkownik} przechowuje podstawowe informacje o klientach, które są konieczne do prawidłowego działania systemu uwierzytelniania. Relacja zawiera kolejno następujące atrybuty:
 \begin{itemize}
-    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownicy} i jest automatycznie generowany przez sekwencję \texttt{num\_gen} po rejestracji klienta;
+    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownik} i jest automatycznie generowany przez sekwencję \texttt{num\_gen} po rejestracji klienta;
     \item[--] unikatową nazwę użytkownika, która jednoznacznie określa klienta w bazie danych;
     \item[--] hasło, które użytkownik podaje podczas rejestracji składające się z co najmniej 6 znaków alfanumerycznych.
 \end{itemize}
@@ -333,7 +333,7 @@ Relacja \texttt{użytkownicy} przechowuje podstawowe informacje o kliencie, któ
 \subsubsection[Dane]{Dane}
 Relacja \texttt{dane} przechowuje dodatkowe informacje o kliencie, które nie są konieczne do prawidłowego działania systemu. Dane mogą okazać się jednak pomocne przy wyszukiwaniu użytkowników systemu e-Talk. Relacja zawiera kolejno następujące atrybuty:
 \begin{itemize}
-    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownicy} i jest kluczem obcym z relacji \texttt{użytkownicy};
+    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownik} i jest kluczem obcym z relacji \texttt{użytkownik};
     \item[--] nazwisko, które jest polem wymaganym do wypełnienia podczas rejestracji;
     \item[--] imię, które jest polem wymaganym do wypełnienia podczas rejestracji;
     \item[--] kod pocztowy, który nie jest wymaganym polem do wypełnienia podczas rejestracji. Poprawność
@@ -350,13 +350,31 @@ Relacja \texttt{dane} przechowuje dodatkowe informacje o kliencie, które nie s�
 Relacja \texttt{znajomi} przechowuje informacje o użytkownikach, którzy się znają. Dane potrzebne są podczas pobierania z serwera listy kontaktów dla danego użytkownika. Relacja zawiera kolejno następujące atrybuty:
 \begin{itemize}
     \item[--] identyfikator pary znajomych, który jest kluczem publicznym relacji \texttt{znajomi} i jest automatycznie generowany przez sekwencję \texttt{znaj\_gen} po dodaniu nowego użytkownika do listy znajomych;
-    \item[--] numer pierwszego konta, który jest kluczem obcym z relacji \texttt{użytkownicy};
-    \item[--] numer drugiego konta, który jest kluczem obcym z relacji \texttt{użytkownicy}.
+    \item[--] numer pierwszego konta, który jest kluczem obcym z relacji \texttt{użytkownik};
+    \item[--] numer drugiego konta, który jest kluczem obcym z relacji \texttt{użytkownik}.
 \end{itemize}
 
 \subsection[Dodatkowe elementy bazy danych]{Dodatkowe elementy bazy danych}
+W celu przyspieszenia procesu wyszukiwania i sortowania założono indeksy na następujących atrybutach:
+\begin{itemize}
+    \item[--] nazwisko w relacji \texttt{dane};
+    \item[--] login w relacji \texttt{użytkownik};
+    \item[--] numery użytkowników w relacji \texttt{znajomi}.
+\end{itemize} 
+Oprócz powyżej opisanych indeksów, system zarządzania bazą danych założył automatycznie indeksy na kluczach publicznych
+wszystkich relacji bazy danych.
 
 \subsection[Diagram UML]{Diagram UML}
+\begin{center}
+	\begin{figure}[!hbp]
+	  \caption{Diagram UML}
+	    \label{fig:Diagram}
+	      \begin{center}
+	        \includegraphics[scale=0.55]{Model.eps}
+	      \end{center}
+    \end{figure}
+\end{center}
+
 
 \begin{thebibliography}{9}
 \bibitem{OU} http://www.seoteka.pl/a85.php (ostatni dostęp do strony 2010-04-12)
