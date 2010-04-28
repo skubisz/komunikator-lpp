@@ -1,0 +1,157 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Threading;
+using System.IO;
+using Npgsql;
+
+namespace Serwer
+{
+    /// <summary>
+    /// Klasa formularza łączącego z bazą PostgreSQL dziedzicząca po klasie Form.
+    /// Okno jest modalne.
+    /// </summary>
+    public class LoginWindow : Form
+    {
+        // Deklaracja zmiennych.
+        private Label txtB4, txtB5;
+        private TextBox txtB3, txtB6;
+        private Button bOk, bAn;
+        private MainForm parent;
+        private MenuItem mi;
+
+        /// <summary>
+        /// Konstruktor klasy LoginWindow.
+        /// </summary>
+        /// <param name="parent"> Główne okno aplikacji. </param>  
+        /// <param name="mi"> Przycisk menu łączenia z bazą. </param>
+        public LoginWindow(MainForm parent, MenuItem mi)
+        {
+            this.mi = mi;
+            this.parent = parent;
+
+            configWindow();
+        }
+
+        /// <summary>
+        /// Metoda konfigurująca okno.
+        /// </summary>
+        private void configWindow()
+        {
+            // Konfiguruję ustawienia okna.
+            Text = "Łączenie z bazą";
+            Size = new Size(500, 250);
+            TopMost = true;
+
+            txtB4 = new Label();
+            txtB4.Location = new Point(10, 20);
+            txtB4.Size = new Size(Width - 150, 25);
+            txtB4.Text = "Podaj nazwę użytkownika:";
+
+            txtB3 = new TextBox();
+            txtB3.Location = new Point(10, 50);
+            txtB3.Size = new Size(Width - 150, 25);
+            txtB3.Multiline = false;
+            txtB3.Enabled = true;
+
+            txtB5 = new Label();
+            txtB5.Location = new Point(10, 80);
+            txtB5.Size = new Size(Width - 150, 25);
+            txtB5.Text = "Podaj hasło:";
+
+            txtB6 = new TextBox();
+            txtB6.Location = new Point(10, 110);
+            txtB6.Size = new Size(Width - 150, 25);
+            txtB6.Multiline = false;
+            txtB6.Enabled = true;
+
+            // Tworzę przycisk OK.
+            bOk = new Button();
+            bOk.Location = new Point(10, 140);
+            bOk.Size = new Size(50, 30);
+            bOk.Text = "OK";
+            bOk.Click += new EventHandler(bOk_Click);
+
+            // Tworzę przycisk Anuluj.
+            bAn = new Button();
+            bAn.Location = new Point(100, 140);
+            bAn.Size = new Size(50, 30);
+            bAn.Text = "Anuluj";
+            bAn.Click += new EventHandler(bAn_Click);
+
+            // Dodaję komponenty okna.
+            Controls.AddRange(new Control[] { bOk, bAn, txtB4, txtB3, txtB5, txtB6 });
+        }
+
+        /// <summary>
+        /// Metoda obsługująca wciśnięcie przycisku Anuluj.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void bAn_Click(object sender, EventArgs e)
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Metoda obsługująca wciśnięcie przycisku OK.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void bOk_Click(object sender, EventArgs e)
+        {
+            if (txtB3.Text == "")
+            {
+                MessageBox.Show("Podaj nazwę użytkownika");
+            }
+            else if (txtB6.Text == "")
+            {
+                MessageBox.Show("Podaj hasło");
+            }
+            else 
+            {
+                // Połączenie z bazą.
+                if (checkpass())
+                {
+                    NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=postgres;Password=przemek;Database=template1;");
+                    conn.Open();
+
+                    NpgsqlCommand command = new NpgsqlCommand("insert into uzytkownik(login, haslo) values('janek88', 'janek88')", conn);
+                    Int32 rowsaffected;
+
+                    try
+                    {
+                        rowsaffected = command.ExecuteNonQuery();
+                    }
+
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+                    mi.Visible = false;
+                    Dispose();
+                }
+                else
+                {
+                    MessageBox.Show("Niepoprawna nazwa użytkownika i/lub hasło!");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Metoda sprawdzająca poprawność nazwy użytkownika i hasła.
+        /// </summary>
+        private bool checkpass()
+        {
+            return txtB3.Text == "postgres" && txtB6.Text == "przemek";
+        }
+
+    }
+
+}

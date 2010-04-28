@@ -1,0 +1,17 @@
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\obj\Debug\ResolveAssemblyReference.cache
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\obj\Debug\Serwer.Properties.Resources.resources
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\obj\Debug\Serwer.csproj.GenerateResource.Cache
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\Serwer.exe
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\Serwer.pdb
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\obj\Debug\Serwer.exe
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\obj\Debug\Serwer.pdb
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\Npgsql.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\Mono.Security.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\Npgsql.pdb
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\Npgsql.xml
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\de\Npgsql.resources.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\es\Npgsql.resources.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\fi\Npgsql.resources.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\fr\Npgsql.resources.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\ja\Npgsql.resources.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\zh-CN\Npgsql.resources.dll
