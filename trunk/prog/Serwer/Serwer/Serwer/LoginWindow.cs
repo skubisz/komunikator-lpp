@@ -69,6 +69,7 @@ namespace Serwer
             txtB6.Size = new Size(Width - 150, 25);
             txtB6.Multiline = false;
             txtB6.Enabled = true;
+            txtB6.UseSystemPasswordChar = true;
 
             // Tworzę przycisk OK.
             bOk = new Button();
@@ -121,20 +122,21 @@ namespace Serwer
                     NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=postgres;Password=przemek;Database=template1;");
                     conn.Open();
 
-                    NpgsqlCommand command = new NpgsqlCommand("insert into uzytkownik(login, haslo) values('janek88', 'janek88')", conn);
-                    Int32 rowsaffected;
-
-                    try
-                    {
-                        rowsaffected = command.ExecuteNonQuery();
-                    }
-
-                    finally
-                    {
-                        conn.Close();
-                    }
 
                     mi.Visible = false;
+                    parent.subm2.Visible = true;
+                    parent.lab1.Visible = true;
+                    parent.lab2.Visible = true;
+                    parent.lb1.Visible = true;
+                    parent.lb2.Visible = true;
+                    QueryMaker qm = new QueryMaker(conn);
+                    String[] users = qm.getClients();
+                    parent.qm = qm;
+                    for (int i = 0; i < users.Length; i+=2)
+                    {
+                        if (users[i]!=null)
+                            parent.lb1.Items.Add(users[i+1]+" ("+ users[i]+")");
+                    }
                     Dispose();
                 }
                 else

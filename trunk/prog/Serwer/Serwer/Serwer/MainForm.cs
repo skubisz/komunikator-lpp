@@ -15,9 +15,13 @@ namespace Serwer
     public class MainForm : Form
     {
         private MainMenu menu;
-        private MenuItem m1, m2, subm1;
+        public MenuItem m1, m2, subm1, subm2;
         private StatusBarPanel sbPnlTime, menuTextProvider1, sbPnlDate;
         private LoginWindow lw;
+        public Label lab1, lab2;
+        public ListBox lb1, lb2;
+        public QueryMaker qm;
+        public Button but1;
 
         /// <summary>
         /// Metoda główna.
@@ -55,6 +59,11 @@ namespace Serwer
             subm1.Select += new EventHandler(MMLoginSelect);
             m1.MenuItems.Add(subm1);
 
+            subm2 = new MenuItem("Nasłuchuj", new EventHandler(MMListenClick), Shortcut.CtrlN);
+            subm2.Select += new EventHandler(MMListenSelect);
+            subm2.Visible = false;
+            m1.MenuItems.Add(subm2);
+
             // Tworzę panel pomocniczego tekstu.
             menuTextProvider1 = new StatusBarPanel();
             menuTextProvider1.Name = "menuTextProvider1";
@@ -66,6 +75,9 @@ namespace Serwer
 
             // Dodaję dolny panel.
             BuildTimerHelpBar();
+
+            // Dodaję wewnętrzne komponenty.
+            BuildInnerComponents();
 
         }
 
@@ -87,6 +99,16 @@ namespace Serwer
         protected void MMLoginSelect(object sender, EventArgs e)
         {
             menuTextProvider1.Text = "Łączy z bazą PostgreSQL";
+        }
+
+        /// <summary>
+        /// Metoda obsługująca wskazanie kursorem na przycisk nasłuchiwania.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void MMListenSelect(object sender, EventArgs e)
+        {
+            menuTextProvider1.Text = "Rozpoczyna nasłuchiwanie serwera na połączenia klientów";
         }
 
         /// <summary>
@@ -113,6 +135,32 @@ namespace Serwer
         {
             lw = new LoginWindow(this, subm1);
             lw.ShowDialog();
+        }
+
+        /// <summary>
+        /// Metoda obsługująca wciśnięcie przycisku nasłuchiwania.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void MMListenClick(object sender, EventArgs e)
+        {
+            // TODO: Listener!!!
+        }
+
+        /// <summary>
+        /// Metoda obsługująca wciśnięcie przycisku pokaż szczegóły o użytkowniku.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void MMDetailsClick(object sender, EventArgs e)
+        {
+            String numer = ((String)lb1.SelectedItem).Split((Char[])new Char[] { '(', ')' })[1];
+            String[] data = qm.getClientDetail(numer);
+            lb2.Items.Clear();
+            lb2.Items.AddRange((String[])new String[] { "numer: " + numer, "imię: " + data[0], "nazwisko: " + data[1],
+                                                         "miasto: " + data[2], "kod_pocztowy: " + data[3],
+                                                         "e_mail: " + data[4], "data_ur: " + data[5], 
+                                                         "zainteresowania: " + data[6]});       
         }
 
 
@@ -164,6 +212,41 @@ namespace Serwer
             // Dodaję komponenty.
             statusBar.Panels.AddRange((StatusBarPanel[])new StatusBarPanel[] { menuTextProvider1, sbPnlDate, sbPnlTime });
             Controls.Add(statusBar);
+        }
+
+
+        /// <summary>
+        /// Metoda wewnętrzne komponenty okna głównego.
+        /// </summary>
+        private void BuildInnerComponents()
+        {
+            // Dodaję napisy.
+            lab1 = new Label();
+            lab1.Location = new Point(50, 50);
+            lab1.Size = new Size(250, 20);
+            lab1.Text = "Użytkownicy w bazie -- użytkownik(numer)";
+
+            lab2 = new Label();
+            lab2.Location = new Point(50, 200);
+            lab2.Size = new Size(250, 20);
+            lab2.Text = "Szczegółowe dane wybranego użytkownika:";
+
+            // Dodaję ListBoxy.
+            lb1 = new ListBox();
+            lb1.Location = new Point(50, 70);
+            lb1.Width = 300;
+            lb1.SelectedIndexChanged += new EventHandler(MMDetailsClick);
+
+            lb2 = new ListBox();
+            lb2.Location = new Point(50, 220);
+            lb2.Width = 300;
+
+            Controls.AddRange((Control[])new Control[] {lab1, lab2, lb1, lb2});
+
+            lab1.Visible = false;
+            lab2.Visible = false;
+            lb1.Visible = false;
+            lb2.Visible = false;
         }
     }
 }
