@@ -12,6 +12,9 @@ using Npgsql;
 
 namespace Serwer
 {
+    /// <summary>
+    /// Klasa głównego formularza dziedzicząca po klasie Form.
+    /// </summary>
     public class MainForm : Form
     {
         private MainMenu menu;
@@ -22,6 +25,7 @@ namespace Serwer
         public ListBox lb1, lb2;
         public QueryMaker qm;
         public Button but1;
+        public Serwer listener;
 
         /// <summary>
         /// Metoda główna.
@@ -144,7 +148,8 @@ namespace Serwer
         /// <param name="e"> Parametr zdarzenia. </param>
         protected void MMListenClick(object sender, EventArgs e)
         {
-            // TODO: Listener!!!
+            listener = new Serwer("127.0.0.1", 8888);
+            listener.start();
         }
 
         /// <summary>

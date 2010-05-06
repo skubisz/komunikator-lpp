@@ -13,6 +13,9 @@ using NpgsqlTypes;
 
 namespace Serwer
 {
+    /// <summary>
+    /// Klasa umożliwiająca interakcję z bazą danych.
+    /// </summary>
     public class QueryMaker
     {
         private NpgsqlConnection conn;
