@@ -141,7 +141,7 @@ namespace Serwer
                     }
 
                     //usunąć to !!!!!!!!
-                    Dictionary<String, String> data = new Dictionary<String, String>();
+                    /*Dictionary<String, String> data = new Dictionary<String, String>();
                     data["login"] = "Mike";
                     data["haslo"] = "Mikel66";
                     data["imie"] = "Mike";
@@ -150,11 +150,13 @@ namespace Serwer
                     data["kod"] = null;
                     data["email"] = "Mike@gmail.com";
                     data["data"] = null;
-                    data["zainteresowania"] = null;
+                    data["zainteresowania"] = "filmy";
                     if (qm.addClient(data))
                         MessageBox.Show("OK!");
                     else
                         MessageBox.Show("Err!");
+                    qm.deleteClient(17);*/
+                    qm.makeFriends(1,3);
                     Dispose();
                 }
                 else
