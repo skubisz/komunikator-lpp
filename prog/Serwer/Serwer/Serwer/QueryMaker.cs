@@ -97,15 +97,90 @@ namespace Serwer
 
         }
 
-        public void addClient(String[] data)
+        /// <summary>
+        /// Dodaje klienta do bazy.
+        /// </summary>
+        /// <param name="data"> Słownik z danymi klienta. </param>  
+        /// <returns>Zwraca prawdę, gdy operacja przebiegnie poprawnie i fałsz w przeciwnym przypadku.</returns>
+        public bool addClient(Dictionary<String, String> data)
         {
-            NpgsqlCommand command = new NpgsqlCommand("insert into uzytkownik(login, haslo) values('janek87', 'janek87')", conn);
-            Int32 rowsaffected;
+            if (data["login"] == null || data["haslo"] == null || data["imie"] == null || data["nazwisko"] == null ||
+                data["email"] == null)
+                return false;
+            if (data["miasto"] == null && data["kod"] == null && data["data"] == null && data["zainteresowania"] == null)
+            {
+                // Komenda dodająca klienta do bazy.
+                NpgsqlCommand command = new NpgsqlCommand("insert into uzytkownik(login, haslo) values(:login, :haslo)", conn);
 
-                rowsaffected = command.ExecuteNonQuery();
-           
-         
+                // Typy parametrów w zapytaniu.
+                command.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
+                command.Parameters.Add(new NpgsqlParameter("haslo", NpgsqlDbType.Varchar));
+                // Zapisywanie wartości parametrów.
+                command.Parameters[0].Value = data["login"];
+                command.Parameters[1].Value = data["haslo"];
 
+                Int32 rowsaffected;
+
+                try
+                {
+                    rowsaffected = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                }
+
+
+                // Zapytanie o przydzielony numer klienta.
+                NpgsqlCommand command1 = new NpgsqlCommand("select numer from uzytkownik where uzytkownik.login = :login", conn);
+                // Typy parametrów w zapytaniu.
+                command1.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
+                // Zapisywanie wartości parametrów.
+                command1.Parameters[0].Value = data["login"];
+
+                Int32 numer = 0;
+                try
+                {
+                    // Wykonanie zapytania.
+                    NpgsqlDataReader dr = command1.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        numer = Int32.Parse(dr[0].ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                }
+
+
+                // Komenda dodająca klienta do bazy.
+                NpgsqlCommand command2 = new NpgsqlCommand("insert into dane(numer, imie, nazwisko, e_mail) values(:numer, :imie, :nazwisko, :email)", conn);
+
+                // Typy parametrów w zapytaniu.
+                command2.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+                command2.Parameters.Add(new NpgsqlParameter("imie", NpgsqlDbType.Varchar));
+                command2.Parameters.Add(new NpgsqlParameter("nazwisko", NpgsqlDbType.Varchar));
+                command2.Parameters.Add(new NpgsqlParameter("email", NpgsqlDbType.Varchar));
+                // Zapisywanie wartości parametrów.
+                command2.Parameters[0].Value = numer;
+                command2.Parameters[1].Value = data["imie"];
+                command2.Parameters[2].Value = data["nazwisko"];
+                command2.Parameters[3].Value = data["email"];
+
+                Int32 rowsaffected2;
+
+                try
+                {
+                    rowsaffected2 = command2.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                }
+            }
+            return true;
         }
         
     }

@@ -21,6 +21,7 @@ namespace Serwer
         public MenuItem m1, m2, subm1, subm2;
         private StatusBarPanel sbPnlTime, menuTextProvider1, sbPnlDate;
         private LoginWindow lw;
+        private ListenerWindow liw;
         public Label lab1, lab2;
         public ListBox lb1, lb2;
         public QueryMaker qm;
@@ -142,14 +143,30 @@ namespace Serwer
         }
 
         /// <summary>
+        /// Metoda obsługująca wciśnięcie przycisku odświerzenia listboxa.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void bRef_Click(object sender, EventArgs e)
+        {
+            String[] users = qm.getClients();
+            lb1.Items.Clear();
+            for (int i = 0; i < users.Length; i += 2)
+            {
+                if (users[i] != null)
+                   lb1.Items.Add(users[i + 1] + " (" + users[i] + ")");
+            }
+        }
+
+        /// <summary>
         /// Metoda obsługująca wciśnięcie przycisku nasłuchiwania.
         /// </summary>
         /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
         /// <param name="e"> Parametr zdarzenia. </param>
         protected void MMListenClick(object sender, EventArgs e)
         {
-            listener = new Serwer("127.0.0.1", 8888);
-            listener.start();
+            liw = new ListenerWindow(this);
+            liw.ShowDialog();
         }
 
         /// <summary>
@@ -242,15 +259,23 @@ namespace Serwer
             lb1.Width = 300;
             lb1.SelectedIndexChanged += new EventHandler(MMDetailsClick);
 
+            but1 = new Button();
+            but1.Location = new Point(50, 170);
+            but1.Size = new Size(100, 25);
+            but1.Text = "Odświerz";
+            but1.Click += new EventHandler(bRef_Click);
+            but1.Enabled = false;
+
             lb2 = new ListBox();
             lb2.Location = new Point(50, 220);
             lb2.Width = 300;
 
-            Controls.AddRange((Control[])new Control[] {lab1, lab2, lb1, lb2});
+            Controls.AddRange((Control[])new Control[] {lab1, lab2, lb1, lb2, but1});
 
             lab1.Visible = false;
             lab2.Visible = false;
             lb1.Visible = false;
+            but1.Visible = false;
             lb2.Visible = false;
         }
     }
