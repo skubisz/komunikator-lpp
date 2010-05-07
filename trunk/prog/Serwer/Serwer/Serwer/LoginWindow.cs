@@ -129,14 +129,32 @@ namespace Serwer
                     parent.lab2.Visible = true;
                     parent.lb1.Visible = true;
                     parent.lb2.Visible = true;
+                    parent.but1.Visible = true;
                     QueryMaker qm = new QueryMaker(conn);
                     String[] users = qm.getClients();
                     parent.qm = qm;
+                    parent.but1.Enabled = true;
                     for (int i = 0; i < users.Length; i+=2)
                     {
                         if (users[i]!=null)
                             parent.lb1.Items.Add(users[i+1]+" ("+ users[i]+")");
                     }
+
+                    //usunąć to !!!!!!!!
+                    Dictionary<String, String> data = new Dictionary<String, String>();
+                    data["login"] = "Mike";
+                    data["haslo"] = "Mikel66";
+                    data["imie"] = "Mike";
+                    data["nazwisko"] = "Shinoda";
+                    data["miasto"] = null;
+                    data["kod"] = null;
+                    data["email"] = "Mike@gmail.com";
+                    data["data"] = null;
+                    data["zainteresowania"] = null;
+                    if (qm.addClient(data))
+                        MessageBox.Show("OK!");
+                    else
+                        MessageBox.Show("Err!");
                     Dispose();
                 }
                 else
