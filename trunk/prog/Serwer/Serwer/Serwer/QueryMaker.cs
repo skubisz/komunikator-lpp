@@ -46,12 +46,13 @@ namespace Serwer
                 int j = 0;
                 while (dr.Read())
                 {
-                    for (int i = 0; i < dr.FieldCount - 1; i++)
+                    for (int i = 0; i < dr.FieldCount - 2; i++)
                     {
                         data[j] = dr[i].ToString();
                         j++;
                     }
                 }
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -87,6 +88,8 @@ namespace Serwer
                         data[i] = dr[i].ToString();
                     }
                 }
+
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -104,19 +107,21 @@ namespace Serwer
         /// <returns>Zwraca prawdę, gdy operacja przebiegnie poprawnie i fałsz w przeciwnym przypadku.</returns>
         public bool addClient(Dictionary<String, String> data)
         {
-            if (data["login"] == null || data["haslo"] == null || data["imie"] == null || data["nazwisko"] == null ||
+            if (data["login"] == null || data["haslo"] == null || data["status"] == null || data["imie"] == null || data["nazwisko"] == null ||
                 data["email"] == null)
                 return false;
 
             // Komenda dodająca klienta do bazy.
-            NpgsqlCommand command = new NpgsqlCommand("insert into uzytkownik(login, haslo) values(:login, :haslo)", conn);
+            NpgsqlCommand command = new NpgsqlCommand("insert into uzytkownik(login, haslo, status) values(:login, :haslo, :status)", conn);
 
             // Typy parametrów w zapytaniu.
             command.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
             command.Parameters.Add(new NpgsqlParameter("haslo", NpgsqlDbType.Varchar));
+            command.Parameters.Add(new NpgsqlParameter("status", NpgsqlDbType.Varchar));
             // Zapisywanie wartości parametrów.
             command.Parameters[0].Value = data["login"];
             command.Parameters[1].Value = data["haslo"];
+            command.Parameters[2].Value = data["status"];
 
             Int32 rowsaffected;
 
@@ -147,6 +152,8 @@ namespace Serwer
                 {
                     numer = Int32.Parse(dr[0].ToString());
                 }
+
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -411,6 +418,7 @@ namespace Serwer
                 {
                     i++;
                 }
+                dr.Close();
 
                 if (i != 0)
                 {
@@ -439,7 +447,198 @@ namespace Serwer
                     {
                         MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
                     }
-                }           
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Modyfikuje dane klienta.
+        /// </summary>
+        /// <param name="numer"> Numer klienta. </param> 
+        /// <param name="data"> Zmieniane dane. </param>
+        /// <returns>Zwraca prawdę, gdy operacja przebiegnie poprawnie i fałsz w przeciwnym przypadku.</returns>
+        public bool modifyClient(Int32 numer, Dictionary<String, String> dict)
+        {
+            // Zapytanie o podstawowe dane klienta.
+            NpgsqlCommand command = new NpgsqlCommand("select login, haslo, status from uzytkownik where numer = :numer", conn);
+            // Typ parametru w zapytaniu.
+            command.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            // Zapisywanie wartości parametru.
+            command.Parameters[0].Value = numer;
+
+            try
+            {
+                // Wykonanie zapytania.
+                NpgsqlDataReader dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    if (dr.FieldCount > 0)
+                    {
+                        if (!dict.ContainsKey("login"))
+                        {
+                            dict.Add("login", dr[0].ToString());
+                        }
+                        if (!dict.ContainsKey("haslo"))
+                        {
+                            dict.Add("haslo", dr[1].ToString());
+                        }
+                        if (!dict.ContainsKey("status"))
+                        {
+                            dict.Add("status", dr[2].ToString());
+                        }
+                    }
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                return false;
+            }
+
+            // Komenda modyfikująca wpis o kliencie w tabeli uzytkownik.
+            NpgsqlCommand command4 = new NpgsqlCommand("update uzytkownik set login = :login, haslo = :haslo, status = :status where numer = :numer", conn);
+
+            // Typy parametrów w zapytaniu.
+            command4.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            command4.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
+            command4.Parameters.Add(new NpgsqlParameter("haslo", NpgsqlDbType.Varchar));
+            command4.Parameters.Add(new NpgsqlParameter("status", NpgsqlDbType.Varchar));
+            // Zapisywanie wartości parametrów.
+            command4.Parameters[0].Value = numer;
+            command4.Parameters[1].Value = dict["login"];
+            command4.Parameters[2].Value = dict["haslo"];
+            command4.Parameters[3].Value = dict["status"];
+
+            Int32 rowsaffected4;
+
+            try
+            {
+                rowsaffected4 = command4.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                return false;
+            }
+
+
+            NpgsqlCommand command2 = new NpgsqlCommand("select imie, nazwisko, miasto, kod_pocztowy, e_mail, data_ur, zainteresowania from dane where numer = :numer", conn);
+            // Typ parametru w zapytaniu.
+            command2.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            // Zapisywanie wartości parametru.
+            command2.Parameters[0].Value = numer;
+
+            try
+            {
+                // Wykonanie zapytania.
+                NpgsqlDataReader dr2 = command2.ExecuteReader();
+                while (dr2.Read())
+                {
+                    if (dr2.FieldCount > 0)
+                    {
+                        if (!dict.ContainsKey("imie"))
+                        {
+                            dict.Add("imie", dr2[0].ToString());
+                        }
+                        if (!dict.ContainsKey("nazwisko"))
+                        {
+                            dict.Add("nazwisko", dr2[1].ToString());
+                        }
+                        if (!dict.ContainsKey("miasto"))
+                        {
+                            dict.Add("miasto", dr2[2].ToString());
+                        }
+                        if (!dict.ContainsKey("kod"))
+                        {
+                            dict.Add("kod", dr2[3].ToString());
+                        }
+                        if (!dict.ContainsKey("email"))
+                        {
+                            dict.Add("email", dr2[4].ToString());
+                        }
+                        if (!dict.ContainsKey("data"))
+                        {
+                            dict.Add("data", dr2[5].ToString());
+                        }
+                        if (!dict.ContainsKey("zainteresowania"))
+                        {
+                            dict.Add("zainteresowania", dr2[6].ToString());
+                        }
+                    }
+                }
+                dr2.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                return false;
+            }
+
+
+
+            // Komenda modyfikująca wpis o kliencie w tabeli dane.
+            NpgsqlCommand command3 = new NpgsqlCommand("update dane set imie = :imie, nazwisko = :nazwisko, miasto = :miasto, kod_pocztowy = :kod, e_mail = :email, data_ur = :data, zainteresowania = :zainteresowania  where numer = :numer", conn);
+            // Typy parametrów w zapytaniu.
+            command3.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            command3.Parameters.Add(new NpgsqlParameter("imie", NpgsqlDbType.Varchar));
+            command3.Parameters.Add(new NpgsqlParameter("nazwisko", NpgsqlDbType.Varchar));
+            command3.Parameters.Add(new NpgsqlParameter("miasto", NpgsqlDbType.Varchar));
+            command3.Parameters.Add(new NpgsqlParameter("kod", NpgsqlDbType.Varchar));
+            command3.Parameters.Add(new NpgsqlParameter("email", NpgsqlDbType.Varchar));
+            command3.Parameters.Add(new NpgsqlParameter("data", NpgsqlDbType.Date));
+            command3.Parameters.Add(new NpgsqlParameter("zainteresowania", NpgsqlDbType.Varchar));
+            // Zapisywanie wartości parametrów.
+            command3.Parameters[0].Value = numer;
+            command3.Parameters[1].Value = dict["imie"];
+            command3.Parameters[2].Value = dict["nazwisko"];
+            command3.Parameters[3].Value = dict["miasto"];
+            command3.Parameters[4].Value = dict["kod"];
+            command3.Parameters[5].Value = dict["email"];
+            command3.Parameters[6].Value = dict["data"];
+            command3.Parameters[7].Value = dict["zainteresowania"];
+
+            Int32 rowsaffected3;
+
+            try
+            {
+                rowsaffected3 = command3.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Zmienia status klienta.
+        /// </summary>
+        /// <param name="numer"> Numer klienta. </param> 
+        /// <param name="status"> Nowy status. </param>
+        public void changeStatus(Int32 numer, String status)
+        {
+            // Komenda modyfikująca wpis o kliencie w tabeli uzytkownik.
+            NpgsqlCommand command4 = new NpgsqlCommand("update uzytkownik set status = :status where numer = :numer", conn);
+
+            // Typy parametrów w zapytaniu.
+            command4.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            command4.Parameters.Add(new NpgsqlParameter("status", NpgsqlDbType.Varchar));
+            // Zapisywanie wartości parametrów.
+            command4.Parameters[0].Value = numer;
+            command4.Parameters[1].Value = status;
+
+            Int32 rowsaffected4;
+
+            try
+            {
+                rowsaffected4 = command4.ExecuteNonQuery();
             }
             catch (Exception ex)
             {

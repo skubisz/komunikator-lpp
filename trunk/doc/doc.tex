@@ -327,7 +327,8 @@ Relacja \texttt{użytkownik} przechowuje podstawowe informacje o klientach, któ
 \begin{itemize}
     \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownik} i jest automatycznie generowany przez sekwencję \texttt{num\_gen} po rejestracji klienta;
     \item[--] unikatową nazwę użytkownika, która jednoznacznie określa klienta w bazie danych;
-    \item[--] hasło, które użytkownik podaje podczas rejestracji składające się z co najmniej 6 znaków alfanumerycznych.
+    \item[--] hasło, które użytkownik podaje podczas rejestracji składające się z co najmniej 6 znaków alfanumerycznych;
+    \item[--] status, możliwe wartości: ,,Dostepny'', ,,Niedostepny'', ,,Zaraz wracam'' i ,,Niewidoczny''.
 \end{itemize}
 
 \subsubsection[Dane]{Dane}
@@ -360,7 +361,7 @@ W celu przyspieszenia procesu wyszukiwania i sortowania założono indeksy na na
     \item[--] nazwisko w relacji \texttt{dane};
     \item[--] login w relacji \texttt{użytkownik};
     \item[--] numery użytkowników w relacji \texttt{znajomi}.
-\end{itemize} 
+\end{itemize}
 Oprócz powyżej opisanych indeksów, system zarządzania bazą danych założył automatycznie indeksy na kluczach publicznych
 wszystkich relacji bazy danych.
 
