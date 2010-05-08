@@ -144,6 +144,7 @@ namespace Serwer
                     /*Dictionary<String, String> data = new Dictionary<String, String>();
                     data["login"] = "Mike";
                     data["haslo"] = "Mikel66";
+                    data["status"] = "Niedostepny";
                     data["imie"] = "Mike";
                     data["nazwisko"] = "Shinoda";
                     data["miasto"] = null;
@@ -152,11 +153,16 @@ namespace Serwer
                     data["data"] = null;
                     data["zainteresowania"] = "filmy";
                     if (qm.addClient(data))
-                        MessageBox.Show("OK!");
+                       MessageBox.Show("OK!");
                     else
-                        MessageBox.Show("Err!");
-                    qm.deleteClient(17);*/
-                    qm.makeFriends(1,3);
+                        MessageBox.Show("Err!");*/
+                    //qm.deleteClient(21);
+                    //qm.makeFriends(18,22);
+                    /*Dictionary<String, String> dict = new Dictionary<String, String>();
+                    dict["login"] = "Mikel";
+                    dict["status"] = "Dostepny";
+                    qm.modifyClient(22, dict);*/
+                    qm.changeStatus(18, "Zaraz wracam");
                     Dispose();
                 }
                 else

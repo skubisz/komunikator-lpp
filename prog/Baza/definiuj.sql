@@ -10,6 +10,8 @@ CREATE SEQUENCE znaj_gen;
 CREATE DOMAIN email_type AS character varying(30) CHECK (VALUE like '%@%\.%');
 -- typ dla pola kod_pocztowy
 CREATE DOMAIN kod_type AS char(6) CHECK (VALUE like '%-%' AND LENGTH(VALUE) = 6);
+-- typ dla pola status
+CREATE DOMAIN status_type AS character varying(20) CHECK (VALUE = 'Dostepny' OR VALUE = 'Niedostepny' OR VALUE = 'Niewidoczny' OR VALUE = 'Zaraz wracam');
 
 -- tabela u¿ytkownik
 CREATE TABLE uzytkownik
@@ -17,6 +19,7 @@ CREATE TABLE uzytkownik
     numer integer NOT NULL DEFAULT NEXTVAL('num_gen'),
     login character varying(15) NOT NULL UNIQUE,
     haslo character varying(15) NOT NULL,
+    status status_type NOT NULL,
     CONSTRAINT uzytkownik_pkey PRIMARY KEY (numer),
     CONSTRAINT uzytkownik_haslo CHECK (LENGTH(haslo) > 5)    
 );
