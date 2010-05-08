@@ -15,3 +15,9 @@ E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Pro
 E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\fr\Npgsql.resources.dll
 E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\ja\Npgsql.resources.dll
 E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\zh-CN\Npgsql.resources.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\DotGadu.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\DotGadu.pdb
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\DotGadu.xml
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\shgg.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\nunit.framework.dll
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Serwer\Serwer\Serwer\bin\Debug\nunit.framework.xml

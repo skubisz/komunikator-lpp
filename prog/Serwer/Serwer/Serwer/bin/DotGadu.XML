@@ -1,0 +1,2325 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotGadu</name>
+    </assembly>
+    <members>
+        <member name="T:DotGadu.OnGaduCriticalErrorHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnGaduCriticalError;
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduConnectionException">
+            <summary>
+            Wyjatek zwracany podczas nieudanej proby polaczenia z serverem gadu-gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduConnectionException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas nieudanej proby polaczenia z serverem gadu-gadu
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduNotConnectedException">
+            <summary>
+            Wyjatek zwracany gdy sprobujemy sie zalogowac do gg bez nawiazanego polaczenie z serverem Gadu-Gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduNotConnectedException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany gdy sprobujemy sie zalogowac do gg bez nawiazanego polaczenie z serverem Gadu-Gadu
+            </summary>
+        </member>
+        <member name="T:DotGadu.Gadu">
+            <summary>
+            Najwazniejsza klasa z punktu widzenia uzytkownika, to za pomoca niej laczymy sie z serverem gg, logujemy sie
+            oraz wysylamy wiadomosci
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.host">
+            <summary>
+            Adres ip servera
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.port">
+            <summary>
+            Port Servera gg
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.socketIn">
+            <summary>
+            BinaryReader podlaczony do naszego socketa
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.socketOut">
+            <summary>
+            BinaryWriter podlaczony do naszego socketa
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.tcpClient">
+            <summary>
+            Gniazdo podlaczone do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.timeOut">
+            <summary>
+            Czas oczekiwania na odpowiedz od servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.seed">
+            <summary>
+            Ziarno zwracane przez servera Gadu-Gadu zaraz po polaczeniu, potrzebne do wyliczenia hashu hasla
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduLogin">
+            <summary>
+            Klasa udostepniajaca mechanizm logowania
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduStatus">
+            <summary>
+            Klasa udostepniajaca mechanizm zmiany statusu
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduMessage">
+            <summary>
+            Klasa umozliwiajaca wysylanie wiadomisci
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduReciever">
+            <summary>
+            Klasa w, ktorej dziala watek odbierajacy pakiety z servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduSender">
+            <summary>
+            Klasa kolejkujaca pakiety do wyslania
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduPinger">
+            <summary>
+            Co 2 min. wysyla pakiet ping do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduNotifier">
+            <summary>
+            Klasa realizujaca operacje powiadomien o uzytkownikach na liscie
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduUserList">
+            <summary>
+            Klasa odpowiedzialna za zarzadzanie lista kontaktow
+            </summary>
+        </member>
+        <member name="F:DotGadu.Gadu.gaduPubDir">
+            <summary>
+            Klasa dostarczajaca mechanizmow dzialania na katalogu publicznym
+            </summary>
+        </member>
+        <member name="M:DotGadu.Gadu.GaduCriticalError">
+            <summary>
+            Statyczna metoda, ktora wywoluje event OnGaduCriticalError, nie wywolywac samemu, prawo do wywolania
+            maja tylko GaduSender, GaduReciever lub GaduPinger
+            </summary>
+            <returns>Stan mowiacy o powodzeniu lub niepowodzeniu wywolania eventu</returns>
+        </member>
+        <member name="M:DotGadu.Gadu.#ctor">
+            <summary>
+            Tworzy gniazdo oraz ustawia domyslny timeOut, tworzy klasy GaduReciever,GaduSender,GaduPinger
+            </summary>
+        </member>
+        <member name="M:DotGadu.Gadu.Connect(DotGadu.GaduServer)">
+            <summary>
+            Laczy sie z danym serverem gadu-gadu
+            </summary>
+            <param name="gaduServer">Server gadu-gadu</param>
+            <example>
+            Gadu gadu = new Gadu();
+            gadu.Connect(new GaduServer("217.17.41.87",8074));
+            </example>
+        </member>
+        <member name="M:DotGadu.Gadu.Disconnect">
+            <summary>
+            Konczymy polaczenie z gadu-gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.Gadu.Login(System.Int32,System.String)">
+            <summary>
+            Logujemy sie do gg
+            </summary>
+            <param name="uin">Nasz numer gg</param>
+            <param name="pass">Nasze haslo</param>
+        </member>
+        <member name="M:DotGadu.Gadu.Logout">
+            <summary>
+            Wylogowanie z gg
+            </summary>
+        </member>
+        <member name="M:DotGadu.Gadu.changeStatus(System.Int32,System.String)">
+            <summary>
+            Zmiana status, statusid nalezy podac z GaduPacketConstans.GG_STATUS_*
+            </summary>
+            <param name="statusid">Numerek statusu z GG_STATUS_*</param>
+            <param name="descr">Jezeli wybralismy jakis status z opisem to tutaj dajemy opis</param>
+        </member>
+        <member name="M:DotGadu.Gadu.sendMessage(System.Int32,System.String)">
+            <summary>
+            Wysyla wiadomosc pod dany numer gg
+            </summary>
+            <param name="uin">Numer odbiorcy</param>
+            <param name="msg">Wiadomosc</param>
+            <returns>Status wiadomosci, potwierdzenie odebrania lub kod bledu</returns>
+        </member>
+        <member name="E:DotGadu.Gadu.OnGaduCriticalError">
+            <summary>
+            Event, ktory jest wywolywany podczas wszelkich nieprzewidzianych bledow podczas
+            odczytu/zapisu na/z gniazda.
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.PubDir">
+            <summary>
+            Klasa dostarczajaca mechanizmow dzialania na katalogu publicznym
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.UserList">
+            <summary>
+            Klasa odpowiedzialna za zarzadzanie lista kontaktow
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.Notifier">
+            <summary>
+            Zwraca referencje do klasy GaduNotifier, dzieki niej mozemy wyslac liste
+            do server gg i dowiedziec sie kto ma jaki status
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.Reciever">
+            <summary>
+            Zwraca referencje do klasy GaduReciever, dzieki niej mozemy dopisac obsluge eventow,
+            ustawic parametry klasy
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.Sender">
+            <summary>
+            Zwraca referencje do klasy GaduSender, dzieki niej mozemy dopisac obsluge eventow,
+            ustawic parametry klasy
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.Pinger">
+            <summary>
+            Zwraca referencje do klasy GaduPinger, dzieki niej mozemy dopisac obsluge eventow,
+            ustawic parametry klasy
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.TimeOut">
+            <summary>
+            Czas po ktorym uznajemy ze dany server gadu-gadu nie odpowiada, jest martwy.
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.Host">
+            <summary>
+            Adres ip servera gadu-gadu
+            </summary>
+        </member>
+        <member name="P:DotGadu.Gadu.Port">
+            <summary>
+            Port servera gadu-gadu
+            </summary>
+            <value>Port servera gadu-gadu</value>
+        </member>
+        <member name="T:DotGadu.GaduHttpException">
+            <summary>
+            Wyjatek zwracany w przypadku bledu pobierania danych przez protokol HTTP
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduHttpException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany w przypadku bledu pobierania danych przez protokol HTTP
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduTokenException">
+            <summary>
+            Wyjatek zwracany w przypadku bledu pobierania tokena z HTTP
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduTokenException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany w przypadku bledu pobierania tokena z HTTP
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduRegisterException">
+            <summary>
+            Wyjatek zwracany w przypadku bledu rejestrowania konta
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduRegisterException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany w przypadku bledu rejestrowania konta
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduDeleteException">
+            <summary>
+            Wyjatek zwracany w przypadku bledu usuwania konta
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduDeleteException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany w przypadku bledu usuwania konta
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduChangePasswordException">
+            <summary>
+            Wyjatek zwracany w przypadku bledu zmiany hasla
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduChangePasswordException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany w przypadku bledu zmiany hasla
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduRemindException">
+            <summary>
+            Wyjatek zwracany w przypadku bledu przypomnienia hasla
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduRemindException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany w przypadku bledu przypomnienia hasla
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduHttp">
+            <summary>
+            Klasa udostepniajaca obsluge uslug HTTP
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduHttp.getResponse(System.String,System.String)">
+            <summary>
+            Laczy sie z serverem HTTP, wysyla zadzanie i zwraca odpowiedz
+            </summary>
+            <param name="url">Pelny adres URL</param>
+            <param name="method">GET/POST</param>
+            <returns></returns>
+        </member>
+        <member name="M:DotGadu.GaduHttp.getHttpHash(System.String[])">
+            <summary>
+            Zwraca hash, potrzebny do operacji HTTP, wziete z Sharp THGG
+            </summary>
+            <param name="hashParams">Parametry, ktorych hash chcemy wyliczyc</param>
+            <returns>Hash parametrow</returns>
+        </member>
+        <member name="M:DotGadu.GaduHttp.getToken(System.String@,System.Drawing.Image@)">
+            <summary>
+            Pobiera i zwraca token
+            </summary>
+            <param name="tokenId">Tutaj wpisany zostanie id pobranego tokenu</param>
+            <param name="tokenImage">Tutaj zostanie wpisany obrazek prezentujacy token</param>
+        </member>
+        <member name="M:DotGadu.GaduHttp.registerAccount(System.String,System.String,System.String,System.String)">
+            <summary>
+            Rejestruje nowe konto
+            </summary>
+            <param name="password">Haslo do konta</param>
+            <param name="email">E-Mail konta</param>
+            <param name="tokenid">Id pobranego wczesniej tokenu</param>
+            <param name="tokenval">Odczytany ciag znakow z obrazka</param>
+            <returns></returns>
+        </member>
+        <member name="M:DotGadu.GaduHttp.deleteAccount(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Usuwa konto
+            </summary>
+            <param name="uin">Numer gg</param>
+            <param name="password">Haslo do konta</param>
+            <param name="tokenid">Id pobranego wczesniej tokenu</param>
+            <param name="tokenval">Odczytany ciag znakow z obrazka</param>
+        </member>
+        <member name="M:DotGadu.GaduHttp.changePassword(System.Int32,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Zmienia haslo dla danego numeru gg
+            </summary>
+            <param name="uin">Numer gg</param>
+            <param name="email">E-Mail naszego konta</param>
+            <param name="OldPass">Stare haslo</param>
+            <param name="NewPass">Nowe haslo</param>
+            <param name="tokenid">Id pobranego tokenu</param>
+            <param name="tokenval">Odczytany ciag znakow z obrazka</param>
+        </member>
+        <member name="M:DotGadu.GaduHttp.remindPassword(System.Int32,System.String,System.String)">
+            <summary>
+            Przypomnienie hasla, wysyla haslo na e-mail
+            </summary>
+            <param name="uin">Numer gg</param>
+            <param name="tokenid">Id pobranego tokenu</param>
+            <param name="tokenval">Odczytany ciag znakow z obrazka</param>
+        </member>
+        <member name="T:DotGadu.GaduLoginException">
+            <summary>
+            Wyjatek zwracany podczas bledu w logowaniu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduLoginException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu w logowaniu
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduLogin">
+            <summary>
+            Klasa udostepniajaca mechanizm logowania
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduLogin.seed">
+            <summary>
+            Ziarno pobrane z servera Gadu-Gadu, potrzebne do wyliczenia hashu hasla
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduLogin.gaduSender">
+            <summary>
+            Za pomoca tej klasy wyslylamy pakiety
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduLogin.#ctor(System.UInt32,DotGadu.GaduSender)">
+            <summary>
+            Glowny konstruktor klasy GaduLogin
+            </summary>
+            <param name="seed">
+            Ziarno pobrane z servera Gadu-Gadu
+            </param>
+            <param name="gaduSender">
+            Klasa GaduSender za pomoca, ktorej bedziemy wysylac pakiety
+            </param>
+        </member>
+        <member name="M:DotGadu.GaduLogin.login(System.Int32,System.String)">
+            <summary>
+            Logowanie do gg
+            </summary>
+            <param name="uin">Numer gg</param>
+            <param name="pass">Haslo</param>
+        </member>
+        <member name="M:DotGadu.GaduLogin.getHash(System.String)">
+            <summary>
+            Funkcja hashuje haslo za pomoca SHA1
+            </summary>
+            <param name="password">Haslo do zaszyfrowania</param>
+            <returns>Hash SHA1</returns>
+        </member>
+        <member name="M:DotGadu.GaduLogin.getHash(System.String,System.UInt32)">
+            <summary>
+            Funkcja hashuje haslo algorytmem gadu-gadu
+            </summary>
+            <param name="password">Haslo do zaszyfrowania</param>
+            <param name="seed">Ziarno pobrane z server gadu-gadu</param>
+            <returns>Hash hasla</returns>
+        </member>
+        <member name="T:DotGadu.GaduMessageException">
+            <summary>
+            Wyjatek zwracany w przypadku bledu podczas wysylania wiadomosci
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduMessageException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany w przypadku bledu podczas wysylania wiadomosci
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduMessage">
+            <summary>
+            Sluzy do wysylania wiadomosci
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduMessage.gaduSender">
+            <summary>
+            Klasa za pomoca, ktorej bedziemy wysylac wiadomosci
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduMessage.#ctor(DotGadu.GaduSender)">
+            <summary>
+            Konsruktor GaduMessage
+            </summary>
+            <param name="gaduSender">
+            Referencja do klasu GaduSender za pomoca, ktorej bedziemy wysylac pakiety
+            </param>
+        </member>
+        <member name="M:DotGadu.GaduMessage.sendMessage(System.Int32,System.String)">
+            <summary>
+            Wysyla wiadomosc pod dany numer
+            </summary>
+            <param name="uin">Numer odbiorcy</param>
+            <param name="msg">Wiadomosc</param>
+        </member>
+        <member name="T:DotGadu.GaduNotifierException">
+            <summary>
+            Wyjatek zwracany podczas bledu typu gg_notify
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduNotifierException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu typu gg_notify
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduNotifier">
+            <summary>
+            Klasa realizujaca operacje powiadomien o uzytkownikach na liscie
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduNotifier.gaduSender">
+            <summary>
+            Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduNotifier.#ctor(DotGadu.GaduSender)">
+            <summary>
+            Konstruktor GaduNotifier
+            </summary>
+            <param name="gaduSender">Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu</param>
+        </member>
+        <member name="M:DotGadu.GaduNotifier.addNotify(DotGadu.GaduPacketNotify)">
+            <summary>
+            Dodawanie numerku w czasie pracy
+            </summary>
+            <param name="gaduPacketNotify">Numer do dodania reprezentowany przez pakiet GaduPacketNotify</param>
+        </member>
+        <member name="M:DotGadu.GaduNotifier.delNotify(DotGadu.GaduPacketNotify)">
+            <summary>
+            Usuwanie numerku w czasie pracy
+            </summary>
+            <param name="gaduPacketNotify">Numer do usuniecia reprezentowany przez pakiet GaduPacketNotify</param>
+        </member>
+        <member name="M:DotGadu.GaduNotifier.sendNotify">
+            <summary>
+            Wysyla wszystkie pakiety na server
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketConstans">
+            <summary>
+            Zawiera stale uzyte poczas komunikacji sieciowej
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_WELCOME">
+            <summary>
+            pakiet na dzien dobry, to dostajemy zaraz po polaczeniu sie z serverem
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_LOGIN70">
+            <summary>
+            logowanie na server w v7.0
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_LOGIN_OK">
+            <summary>
+            logowanie sie powiodlo
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_NEED_EMAIL">
+            <summary>
+            user musi potwierdzic e-mail swojego konta
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_LOGIN_FAILED">
+            <summary>
+            logowanie sie nie powiodlo
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_LOGIN_HASH_GG32">
+            <summary>
+            autoryzacja przez gg_hash
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_LOGIN_HASH_SHA1">
+            <summary>
+            autoryzacja przez sha1_hash
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_VERSION">
+            <summary>
+            ver. klienta
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_NEW_STATUS">
+            <summary>
+            bedziemy ustawiac nowy status
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_NOT_AVAIL">
+            <summary>
+            Niedostepny
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_NOT_AVAIL_DESCR">
+            <summary>
+            Niedostepny (z opisem)
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_AVAIL">
+            <summary>
+            Dostepny
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_AVAIL_DESCR">
+            <summary>
+            Dostepny (z opisem)
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_BUSY">
+            <summary>
+            Zajety
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_BUSY_DESCR">
+            <summary>
+            Zajety (z opisem)
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_INVISIBLE">
+            <summary>
+            Niewidoczny
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_INVISIBLE_DESCR">
+            <summary>
+            Niewidoczny z opisem
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_BLOCKED">
+            <summary>
+            Zablokowany
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS_FRIENDS_MASK">
+            <summary>
+            Maska bitowa oznaczajaca tryb tylko dla przyjaciol
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PING">
+            <summary>
+            Ping wysylany do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PONG">
+            <summary>
+            Odpowiedz z servera Gadu-Gadu (server nie zawsze wysyla ten pakiet)
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_SEND_MSG">
+            <summary>
+            wysylanie wiadomosci
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_SEND_MSG_ACK">
+            <summary>
+            potwierdzenie wiadomosci
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_RECV_MSG">
+            <summary>
+            odbieramy wiadomosc
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_CLASS_QUEUED">
+            <summary>
+            Bit ustawiany wylacznie przy odbiorze wiadomosci, gdy wiadomosc zostala wczesniej zakolejkowania z powodu nieobecnosci
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_CLASS_MSG">
+            <summary>
+            Wiadomosc ma sie pojawic w osobnym okienku
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_CLASS_CHAT">
+            <summary>
+            Wiadomosc jest czescia toczacej sie rozmowy i zostanie wyswietlona w istniejacym okienku
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_CLASS_CTCP">
+            <summary>
+            Wiadomosc jest przeznaczona dla klienta Gadu-Gadu i nie powinna byc wyswietlona uzytkownikowi.
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_CLASS_ACK">
+            <summary>
+            Klient nie zyczy sobie potwierdzenia wiadomosci.
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_ACK_BLOCKED">
+            <summary>
+            Wiadomosci nie przeslano (zdarza sie przy wiadomosciach zawierajacych adresy internetowe blokowanych przez serwer GG gdy odbiorca nie ma nas na liscie)
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_ACK_DELIVERED">
+            <summary>
+            Wiadomosc dostarczono
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_ACK_QUEUED">
+            <summary>
+            Wiadomosc zakolejkowano
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_ACK_MBOXFULL">
+            <summary>
+            Wiadomosci nie dostarczono. Skrzynka odbiorcza na serwerze jest pelna (20 wiadomosci maks). Wystepuje tylko w trybie offline
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_ACK_NOT_DELIVERED">
+            <summary>
+            Wiadomosci nie dostarczono. Odpowiedz ta wystepuje tylko w przypadku wiadomosci klasy GG_CLASS_CTCP
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_LIST_EMPTY">
+            <summary>
+            Mamy pusta liste
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_NOTIFY_FIRST">
+            <summary>
+            Pierwszy wpis w naszej liscie kontaktow
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_NOTIFY_LAST">
+            <summary>
+            Ostatni wpis w naszej liscie kontaktow
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USER_BUDDY">
+            <summary>
+            Kazdy uzytkownik dodany do listy kontaktow
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USER_FRIEND">
+            <summary>
+            Uzytkownik dla ktorego jestesmy wydoczni w trybie tylko dla przyjaciol
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USER_BLOCKED">
+            <summary>
+            Uzytkownik od ktorego wiadomosci nie chcemy otrzymywac
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_NOTIFY_REPLY77">
+            <summary>
+            Dostalismy odpowiedz od servera, informacje o danym uzytkowniku, jego statusie
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_UINFLAG_UNKNOWN1">
+            <summary>
+            Nieznane
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_UINFLAG_UNKNOWN2">
+            <summary>
+            Flaga spotykana, gdy użytkownik staje się niedostępny
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_UINFLAG_VOICE">
+            <summary>
+            Użytkownik może prowadzić rozmowy głosowe
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_UINFLAG_ERA_OMNIX">
+            <summary>
+            Użytkownik łączy się przez bramkę Era Omnix
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_STATUS77">
+            <summary>
+            Ktos z listy zmienil status
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_ADD_NOTIFY">
+            <summary>
+            Dodawanie danego numerku w czasie pracy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_REMOVE_NOTIFY">
+            <summary>
+            Usuwanie danego numerku w czasie pracy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_REQUEST">
+            <summary>
+            Pakiet bedzie dotyczy listy kontaktow
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_PUT">
+            <summary>
+            Poczatek eksportu listy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_PUT_MORE">
+            <summary>
+            Dalsza czesc eksportu listy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_GET">
+            <summary>
+            Import listy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_REPLY">
+            <summary>
+            Odpowiedz servera gg dotyczaca listy kontaktow
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_PUT_REPLY">
+            <summary>
+            poczatek eksportu listy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_PUT_MORE_REPLY">
+            <summary>
+            kontynuacja
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_GET_MORE_REPLY">
+            <summary>
+            poczatek importu listy 
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_USERLIST_GET_REPLY">
+            <summary>
+            ostatnia czesc importu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PUBDIR50_REQUEST">
+            <summary>
+            Pakiet bedzie dotyczyl zapytania do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PUBDIR50_WRITE">
+            <summary>
+            Zapisujemy nowe inforamcje do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PUBDIR50_READ">
+            <summary>
+            Czytamy informacje z katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PUBDIR50_SEARCH">
+            <summary>
+            Szukamy jakiejs osoby
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PUBDIR50_REPLY">
+            <summary>
+            Server zwrocil wynik zapytania do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_PUBDIR50_SEARCH_REPLY">
+            <summary>
+            Server zwrocil wynik zapytania do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_DISCONNECTING">
+            <summary>
+            Server GG chce nas rozlaczyc
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketConstans.GG_DISCONNECTING2">
+            <summary>
+            Server GG chce nas rozlaczyc
+            </summary>
+        </member>
+        <member name="T:DotGadu.IGaduPacket">
+            <summary>
+            Interfejs ktory bedzie implementowany przez dane pakiety wysylane do servera gadu-gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.IGaduPacket.getSize">
+            <summary>
+            Funkcja zlicza rozmiar danego pakietu
+            </summary>
+            <returns>Rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.IGaduPacket.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Funkcja czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z TcpClient</param>
+            <param name="readSize">Rozmiar pakietu, ktory nalezy wczytac</param>
+        </member>
+        <member name="M:DotGadu.IGaduPacket.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Funkcja wpisuje pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z TcpClient</param>
+        </member>
+        <member name="T:DotGadu.GaduPacketHeader">
+            <summary>
+            Naglowek kazdego pakietu
+            Przed wyslaniem dowolnego pakietu najpierw musimy wyslac ten, zawiera on typ wyslanego pakietu
+            oraz jego dlugosc, dzieki temu server gadu-gadu wie ile bajtow ma od nasz przeczytac oraz co one
+            oznaczaja.
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketHeader.type">
+            <summary>
+            Typ pakietu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketHeader.length">
+            <summary>
+            Rozmiar pakietu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketHeader.getSize">
+            <summary>
+            Zwraca rozmiar pakietu.
+            </summary>
+            <returns>Rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketHeader.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda</param>
+            <param name="readSize">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketHeader.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wypisuje pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda, na ten stream pujda dane</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketHeader.Type">
+            <summary>
+            Typ pakietu
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketHeader.Length">
+            <summary>
+            Rozmiar pakietu
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketLogin">
+            <summary>
+            Pakiet, ktory sluzy do logowania sie
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketLogin.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketLogin.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readSize">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketLogin.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.Uin">
+            <summary>
+            Nasz numer gg
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.HashType">
+            <summary>
+            Typ Hash, moze to byc GG32Hash albo SHA1 (SHA512)
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.Hash">
+            <summary>
+            Zaszyfrowane haslo
+            Hash ma dlugosc 64 bajtow, z tym ze jezeli nasz hash wyjdzie krotszy to reszte
+            uzupelnimy zerami
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.Status">
+            <summary>
+            Status gg
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.Version">
+            <summary>
+            Wersja protokolu/klienta gg
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.LocalIp">
+            <summary>
+            Lokalne ip
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.LocalPort">
+            <summary>
+            Loklany Port
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.ExternalIp">
+            <summary>
+            Zewnetrzne Ip
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.ExternalPort">
+            <summary>
+            Zewnetrzny port
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.ImageSize">
+            <summary>
+            Max rozmiar rysunku jaki przyjmujemy
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.Description">
+            <summary>
+            Opis GG
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketLogin.Time">
+            <summary>
+            Czas logowania
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketStatus">
+            <summary>
+            Pakiet sluzacy do ustawiania statusu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketStatus.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketStatus.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketStatus.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu do wczytania</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus.Status">
+            <summary>
+            Numer statusu
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus.Description">
+            <summary>
+            Opis gg
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketMessage">
+            <summary>
+            Pakiet sluzy do wysylania wiadomosci
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketMessage.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketMessage.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketMessage.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu do wczytania</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketMessage.Recepient">
+            <summary>
+            Odbiorca wiadomosci
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketMessage.Klasa">
+            <summary>
+            Klasa wiadomosci
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketMessage.Message">
+            <summary>
+            Wiadomosc
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketMessageAck">
+            <summary>
+            Potwierdzenie, ktore dostajemy z server po wyslaniu wiadomosci
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketMessageAck.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketMessageAck.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketMessageAck.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu do wczytania</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketMessageAck.Status">
+            <summary>
+            Status wiadomosci
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketMessageAck.Recepient">
+            <summary>
+            Do kogo byla wyslana wiadomosc
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketMessageAck.Sequence">
+            <summary>
+            Seeuence
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketRecieveMessage">
+            <summary>
+            Pakiet, ktory otrzumujemy kiedy ktos przesle do nas wiadomosc
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketRecieveMessage.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketRecieveMessage.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketRecieveMessage.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketRecieveMessage.Sender">
+            <summary>
+            Od kogo pochodzi wiadomosc
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketRecieveMessage.Sequence">
+            <summary>
+            Sequence
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketRecieveMessage.Time">
+            <summary>
+            Kiedy wiadomosc zostala wyslana
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketRecieveMessage.Class">
+            <summary>
+            Klasa wiadomosci
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketRecieveMessage.Message">
+            <summary>
+            Wiadomosc
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketNotify">
+            <summary>
+            Klasa reprezentujaca pakiet wysylany do servera gg,
+            jest to pojedynczy element listy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotify.uin">
+            <summary>
+            Numer danej osoby
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotify.type">
+            <summary>
+            GG_USER_BUDDY lub GG_USER_FRIEND lub GG_USER_BLOCKED
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketNotify.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketNotify.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketNotify.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotify.Uin">
+            <summary>
+            Numer danej osoby
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotify.Type">
+            <summary>
+            GG_USER_BUDDY lub GG_USER_FRIEND lub GG_USER_BLOCKED
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketNotifyReplay77">
+            <summary>
+            Pakiet zawierajacy informacje o stanie danego numeru gg
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.uin">
+            <summary>
+            numerek plus flagi w najstarszym bajcie
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.status">
+            <summary>
+            status danej osoby
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.remote_ip">
+            <summary>
+            adres IP bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.remote_port">
+            <summary>
+            port bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.version">
+            <summary>
+            wersja klienta
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.image_size">
+            <summary>
+            maksymalny rozmiar obrazkow w KB
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.unknown1">
+            <summary>
+            0x00
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.unknown2">
+            <summary>
+            0x00000000
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.description_size">
+            <summary>
+            rozmiar opisu i czasu, nie musi wystapic
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.description">
+            <summary>
+            opis, nie musi wystapic
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketNotifyReplay77.time">
+            <summary>
+            czas, nie musi wystapic
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketNotifyReplay77.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketNotifyReplay77.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketNotifyReplay77.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Flaga">
+            <summary>
+            Flaga z UIN
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Uin">
+            <summary>
+            Numerek
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Status">
+            <summary>
+            status danej osoby
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.RemoteIP">
+            <summary>
+            adres IP bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.RemotePort">
+            <summary>
+            port bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Version">
+            <summary>
+            wersja klienta
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.ImageSize">
+            <summary>
+            maksymalny rozmiar obrazkow w KB
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Unknown1">
+            <summary>
+            0x00
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Unknown2">
+            <summary>
+            0x00000000
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.DescriptionSize">
+            <summary>
+            rozmiar opisu i czasu, nie musi wystapic
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Description">
+            <summary>
+            opis, nie musi wystapic
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketNotifyReplay77.Time">
+            <summary>
+            czas, nie musi wystapic
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketStatus77">
+            <summary>
+            Pakiet zawierajacy informacje o stanie danego numeru gg
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.uin">
+            <summary>
+            numerek plus flagi w najstarszym bajcie
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.status">
+            <summary>
+            status danej osoby
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.remote_ip">
+            <summary>
+            adres IP bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.remote_port">
+            <summary>
+            port bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.version">
+            <summary>
+            wersja klienta
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.image_size">
+            <summary>
+            maksymalny rozmiar obrazkow w KB
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.unknown1">
+            <summary>
+            0x00
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.unknown2">
+            <summary>
+            0x00000000
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.description">
+            <summary>
+            opis, nie musi wystapic
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketStatus77.time">
+            <summary>
+            czas, nie musi wystapic
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketStatus77.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketStatus77.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketStatus77.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Flaga">
+            <summary>
+            Flaga z UIN
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Uin">
+            <summary>
+            Numerek
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Status">
+            <summary>
+            status danej osoby
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.RemoteIP">
+            <summary>
+            adres IP bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.RemotePort">
+            <summary>
+            port bezposrednich polaczen
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Version">
+            <summary>
+            wersja klienta
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.ImageSize">
+            <summary>
+            maksymalny rozmiar obrazkow w KB
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Unknown1">
+            <summary>
+            0x00
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Unknown2">
+            <summary>
+            0x00000000
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Description">
+            <summary>
+            opis, nie musi wystapic
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketStatus77.Time">
+            <summary>
+            czas, nie musi wystapic
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketUserListRequest">
+            <summary>
+            Pakiet dokonujacych zmian na liscie kontaktow na serwerze
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketUserListRequest.type">
+            <summary>
+            Rodzaj zapytania
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketUserListRequest.request">
+            <summary>
+            Tresc zapytania, nie musi wystapic
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketUserListRequest.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketUserListRequest.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketUserListRequest.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketUserListRequest.Type">
+            <summary>
+            Rodzaj zapytania
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketUserListRequest.Request">
+            <summary>
+            Tresc zapytania, nie musi wystapic
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPacketPubDir50">
+            <summary>
+            Pakiet sluzacy do wymiany informacji z katalogiem publicznym
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketPubDir50.type">
+            <summary>
+            Rodzaj zapytania
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketPubDir50.seq">
+            <summary>
+            Numer sekwencyjny
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPacketPubDir50.data">
+            <summary>
+            Tresc zapytania lub odpowiedzi
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPacketPubDir50.getSize">
+            <summary>
+            Zwraca rozmiar pakietu
+            </summary>
+            <returns>rozmiar pakietu</returns>
+        </member>
+        <member name="M:DotGadu.GaduPacketPubDir50.write(System.Net.Sockets.NetworkStream)">
+            <summary>
+            Wysyla pakiet na NetworkStream
+            </summary>
+            <param name="outs">NetworkStream pobrany z gniazda</param>
+        </member>
+        <member name="M:DotGadu.GaduPacketPubDir50.read(System.Net.Sockets.NetworkStream,System.Int32)">
+            <summary>
+            Czyta pakiet z NetworkStream
+            </summary>
+            <param name="ins">NetworkStream pobrany z gniazda, z niego zostanie wczytany pakiet</param>
+            <param name="readByte">Rozmiar pakietu, mowi o tym ile wczytac bajtow</param>
+        </member>
+        <member name="P:DotGadu.GaduPacketPubDir50.Type">
+            <summary>
+            Rodzaj zapytania
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketPubDir50.Seq">
+            <summary>
+            Numer sekwencyjny
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduPacketPubDir50.Data">
+            <summary>
+            Tresc zapytania
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPingerException">
+            <summary>
+            Wyjatek zwracany podczas bledu pingowania servera
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPingerException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu pingowania servera
+            </summary>
+        </member>
+        <member name="T:DotGadu.OnPingHandler">
+            <summary>
+            Nalezy podstawic pod event OnPing
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPinger">
+            <summary>
+            Klasa, ktora co 2 min. wysla pakiet ping do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPinger.thread">
+            <summary>
+            Watek, ktory co 2 min.wysyla pakiet ping do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPinger.gaduSender">
+            <summary>
+            Za pomoca tej klasy wyslamy pakiety do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPinger.#ctor(DotGadu.GaduSender)">
+            <summary>
+            Konstruktor klasy, tworzy watek zajmujacy sie pingowaniem servera
+            </summary>
+            <param name="gaduSender">
+            Referencja do klasy GaduSender, za pomoca tej klasy bedziemy wysylac pakiety
+            </param>
+        </member>
+        <member name="M:DotGadu.GaduPinger.Terminate">
+            <summary>
+            Zakoncz dzialanie watku
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPinger.go">
+            <summary>
+            Funkcja dzialajaca na rzecz watku
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduPinger.OnPing">
+            <summary>
+            Event wywolywany podczas wysylania pakietu ping do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPubDirException">
+            <summary>
+            Wyjatek zwracany podczas bledu dzialania na katalogu publicznym
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPubDirException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu dzialania na katalogu publicznym
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduPubDir">
+            <summary>
+            Klasa realizujaca operacje na katalogu publicznym
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduPubDir.gaduSender">
+            <summary>
+            Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduPubDir.#ctor(DotGadu.GaduSender)">
+            <summary>
+            Konstruktor GaduPubDir
+            </summary>
+            <param name="gaduSender">Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu</param>
+        </member>
+        <member name="M:DotGadu.GaduPubDir.Read(DotGadu.GaduUser)">
+            <summary>
+            Czyta dane z katalogu publicznego dotyczace naszego konta, wystarczy ze w GaduUser
+            wypelnimy tylko pole Uin
+            </summary>
+            <param name="gaduUser">Nasze dane</param>
+        </member>
+        <member name="M:DotGadu.GaduPubDir.Write(DotGadu.GaduUser)">
+            <summary>
+            Zapisuje informacje do katalogu publicznego
+            </summary>
+            <param name="gaduUser">Nasze dane</param>
+        </member>
+        <member name="M:DotGadu.GaduPubDir.Search(DotGadu.GaduUser)">
+            <summary>
+            Wysyla do servera zapytanie o uzytkownika
+            </summary>
+            <param name="gaduUser">Uzytkownik, ktorego chcemy znalezc</param>
+        </member>
+        <member name="T:DotGadu.GaduRecieverException">
+            <summary>
+            Wyjatek zwracany podczas bledu odbierania pakietu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduRecieverException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu odbierania pakietu
+            </summary>
+        </member>
+        <member name="T:DotGadu.OnRecieveMessageHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnRecieveMessage
+            </summary>
+            <param name="msg">Otrzymana Wiadomosc</param>
+        </member>
+        <member name="T:DotGadu.OnRecieveMessageAckHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnRecieveMessageAck
+            </summary>
+            <param name="ack">
+            Pakiet, ktory jest potwierdzeniem wyslanej wiadomosci
+            </param>
+        </member>
+        <member name="T:DotGadu.OnLoginOKHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnLoginOK
+            </summary>
+        </member>
+        <member name="T:DotGadu.OnLoginNeedEmailHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnLoginNeedEmail
+            </summary>
+        </member>
+        <member name="T:DotGadu.OnLoginFailedHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnLoginFailed
+            </summary>
+        </member>
+        <member name="T:DotGadu.OnPongHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnPong
+            </summary>
+        </member>
+        <member name="T:DotGadu.OnUnhandledPackethandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnUnhandledPacket
+            </summary>
+            <param name="header">Naglowek nieobsluzonego pakietu</param>
+            <param name="packet">Pakiet w bajtach</param>
+        </member>
+        <member name="T:DotGadu.OnGaduNotifyReplayHandler">
+            <summary>
+            Otrzymalismy pakiet z informacja o statusie ktoregos uzytkownika na naszej liscie
+            </summary>
+            <param name="gaduPacketNotifyReplay77">Pakiet z informacjami o statusie</param>
+        </member>
+        <member name="T:DotGadu.OnGaduStatusHandler">
+            <summary>
+            Ktos zmienil status
+            </summary>
+            <param name="gaduPacketStatus77">Pakiet z informacjami o nowym statusie</param>
+        </member>
+        <member name="T:DotGadu.OnPacketHandler">
+            <summary>
+            Otrzymalismy jakis pakiet
+            </summary>
+            <param name="gaduPacketHeader">Naglowek pakietu</param>
+        </member>
+        <member name="T:DotGadu.OnUserListReplayHandler">
+            <summary>
+            Otrzymalismy odpowiedz tyczaca sie listy uzytkownikow
+            </summary>
+            <param name="gaduPacketUserlistReplay">Pakiet zawierajacy informacje dotyczace uzytkownika na naszej liscie</param>
+        </member>
+        <member name="T:DotGadu.OnPubDirReplayHandler">
+            <summary>
+            Odpowiedz z servera - katalog publiczny
+            </summary>
+            <param name="gaduPacketPubDir50">Pakiet zawierajacy odpowiedz servera</param>
+        </member>
+        <member name="T:DotGadu.OnGaduDisconnectingHandler">
+            <summary>
+            Server GG chce nas rozlaczyc
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduReciever">
+            <summary>
+            Klasa zajmuje sie odbieraniem pakietow z servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduReciever.thread">
+            <summary>
+            watek ktory zajmie sie odbieraniem pakietow
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduReciever.tcpClient">
+            <summary>
+            gniazdo z ktorego bedziemy czytac
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduReciever.sleepTime">
+            <summary>
+            Wskazuje co ile watek ma sprawdzac czy na gniezdzie sa dane
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduReciever.work">
+            <summary>
+            Ta zmienna blokuje wykonywanie sie watku odbierajacego pakiety, wskazuje czy pracowac czy nie.
+            Jest wykorzystana w Gadu.cs w metodzie Connect()
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduReciever.#ctor(System.Net.Sockets.TcpClient)">
+            <summary>
+            Konstruktor GaduReciever
+            </summary>
+            <param name="tcpClient">gniazdo podlaczone do servera</param>
+        </member>
+        <member name="M:DotGadu.GaduReciever.Terminate">
+            <summary>
+            Przerwanie dzialania watku, ktory odbiera pakiety
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduReciever.go">
+            <summary>
+            Zajmuje sie sprawdzaniem czy cos jest na gniezdzie, wczytywaniem naglowka
+            oraz calych pakietow
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnRecieveMessage">
+            <summary>
+            Event, ktory zostaje wywolany kiedy otrzymamy wiadomosc
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnRecieveMessageAck">
+            <summary>
+            Event, ktory zostaje wywolany kiedy otrzymamy potwierdzenie wyslanej wiadomosci
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnLoginOK">
+            <summary>
+            Event, ktory zostaje wywolany kiedy logowanie sie powiedzie
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnLoginNeedEmail">
+            <summary>
+            Event, ktory zostaje wywolany kiedy musimy uzupelnic email na naszym koncie
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnLoginFailed">
+            <summary>
+            Event, ktory zostaje wywolany kiedy logownie sie nie powiedzie
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnPong">
+            <summary>
+            Event, ktory zostaje wywolany kiedy otrzymamy pakiet GG_PONG z servera
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnUnhandledPacket">
+            <summary>
+            Event, ktory zostaje wywolany jezeli biblioteka wychwyci pakiet nie przechwycony
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnGaduNotifyReplay">
+            <summary>
+            Otrzymalismy pakiet z informacja o statusie ktoregos uzytkownika na naszej liscie
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnGaduStatus">
+            <summary>
+            Ktos z naszej listy zmienil status
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnPacket">
+            <summary>
+            Otrzymalismy jakis pakiet
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnUserListReplay">
+            <summary>
+            Otrzymalismy odpowiedz tyczaca sie listy uzytkownikow
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnPubDirReplay">
+            <summary>
+            Odpowiedz z servera - katalog publiczny
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduReciever.OnGaduDisconnecting">
+            <summary>
+            Server GG chce nas rozlaczyc
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduReciever.SleepTime">
+            <summary>
+            Wskazuje co ile watek ma sprawdzac czy na gniezdzie sa dane
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduSenderException">
+            <summary>
+            Wyjatek zwracany podczas bledu wysylania pakietu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduSenderException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu wysylania pakietu
+            </summary>
+        </member>
+        <member name="T:DotGadu.OnPacketSentHandler">
+            <summary>
+            Delegacja, ktora nalezy podstawic pod event OnPacketSent
+            </summary>
+            <param name="packet">
+            Pakiet, ktory zostal wyslany
+            </param>
+        </member>
+        <member name="T:DotGadu.GaduSender">
+            <summary>
+            Zajmuje sie kolejkowaniem i wysylaniem pakietow do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduSender.thread">
+            <summary>
+            Watek ktory jest tworzony kiedy kolejka jest pusta, wysyla pakiety do servera gg
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduSender.tcpClient">
+            <summary>
+            Gniazdo podlaczone do servera gg
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduSender.queue">
+            <summary>
+            Kolejka pakietow do wyslania
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduSender.sleepTime">
+            <summary>
+            Semafor mowiacy o tym czy watek dziala czy nie
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduSender.#ctor(System.Net.Sockets.TcpClient)">
+            <summary>
+            Konstruktor klasy, inicjalizuje kolejke, gniazdo
+            </summary>
+            <param name="tcpClient">
+            Gniazdo na ktorym jestesmy podlaczeni do servera gg
+            </param>
+        </member>
+        <member name="M:DotGadu.GaduSender.Terminate">
+            <summary>
+            Czeka na zakonczenie watku
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduSender.sendPacket(DotGadu.IGaduPacket)">
+            <summary>
+            Kolejkuje pakiet do wyslania
+            </summary>
+            <param name="packet">
+            Pakiet do wyslania
+            </param>
+        </member>
+        <member name="M:DotGadu.GaduSender.go">
+            <summary>
+            Funkcja dzialajaca na rzecz watku, pobiera i wysla pakiety z kolejki
+            </summary>
+        </member>
+        <member name="E:DotGadu.GaduSender.OnPacketSent">
+            <summary>
+            Event wywolany kiedy klasa wysle jakis pakiet
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduSender.SleepTime">
+            <summary>
+            Wykorzystywany kiedy gniazdo nie jest podlaczone, watek sprawdza co
+            sleepTime czy gniazdo jest juz podlaczone
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduServerException">
+            <summary>
+            Wyjatek zwracany podczas pobierania adresu ip i portu z appmsg.gadu-gadu.pl
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduServerException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas pobierania adresu ip i portu z appmsg.gadu-gadu.pl
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduServer">
+            <summary>
+            Klasa, ktora pobiera ip oraz port z appmsg.gadu-gadu.pl. Istnieje rowniez mozliwosc podania tych danych
+            tak aby nie trzeba bylo ich pobierac z servera.
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduServer.#ctor(System.Int32)">
+            <summary>
+            UWAGA wystepuje PROBLEM z pobieraniem adresow z hub gg, ZALECA sie uzywanie konstruktora GaduServer(String host, int port)
+            
+            Konstruktor do ktorego podajemy numer gg, na podstawie nr. gg appmsg.gadu-gadu.pl wybiera nam odpowiedni
+            server
+            </summary>
+            <param name="uin">Numer gg</param>
+        </member>
+        <member name="M:DotGadu.GaduServer.#ctor(System.String,System.Int32)">
+            <summary>
+            Konstruktor, ktory wpisze dane o adres ip server i port, nie sa one wiec pobierane z appmsg.gadu-gadu.pl
+            </summary>
+            <param name="host">Adres ip servera gadu-gadu</param>
+            <param name="port">Port servera gadu-gadu</param>
+        </member>
+        <member name="M:DotGadu.GaduServer.getServer">
+            <summary>
+            Pobiera adres ip oraz port z servera gadu-gadu
+            </summary>
+            <exception cref="T:DotGadu.GaduServerException">GaduServerException</exception>
+        </member>
+        <member name="P:DotGadu.GaduServer.Host">
+            <summary>
+            Adres ip servera gadu-gadu
+            </summary>
+            <value>Adres ip servera gadu-gadu</value>
+        </member>
+        <member name="P:DotGadu.GaduServer.Port">
+            <summary>
+            Port servera gadu-gadu
+            </summary>
+            <value>Port servera gadu-gadu</value>
+        </member>
+        <member name="P:DotGadu.GaduServer.TimeOut">
+            <summary>
+            Czas po ktorym uznajemy ze dany server gadu-gadu nie odpowiada, jest martwy.
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduStatusException">
+            <summary>
+            Wyjatek zwracany podczas bledu zmiany statusu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduStatusException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu zmiany statusu
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduStatus">
+            <summary>
+            Klasa odpowiedzialna za zmiane statusu uzytkownika gg
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduStatus.gaduSender">
+            <summary>
+            Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduStatus.#ctor(DotGadu.GaduSender)">
+            <summary>
+            Konstruktor GaduStatus
+            </summary>
+            <param name="gaduSender">Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu</param>
+        </member>
+        <member name="M:DotGadu.GaduStatus.changeStatus(System.Int32,System.String)">
+            <summary>
+            Zmienia status uzytkownika gg
+            </summary>
+            <param name="statusid">Numer statusu nalezy pobrac z tad GaduPacketConstans.GG_STATUS_*</param>
+            <param name="descr">Opis, jezeli ustawilismy status, ktory nie jest typu *_DESCR, dajemy pusty string</param>
+        </member>
+        <member name="T:DotGadu.GaduUserException">
+            <summary>
+            Wyjatek zwracany podczas bledu operacji na uzytkowniku
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduUserException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu operacji na uzytkowniku
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduUser">
+            <summary>
+            Klasa reperezentujaca uzytkownika Gadu-Gadu
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.name">
+            <summary>
+            Imie
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.lastname">
+            <summary>
+            Nazwisko
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.nick">
+            <summary>
+            Pseudonim
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.visiblenick">
+            <summary>
+            Pseudonim wyswietlany
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.mobile_phone">
+            <summary>
+            Telefon komorkowy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.group">
+            <summary>
+            Grupa
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.uin">
+            <summary>
+            Numer gg
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.email">
+            <summary>
+            Adres email
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.avail">
+            <summary>
+            Okresla dzwiek zwiazany z pojawieniem sie danej osoby, mozliwe stany:
+            0 - ustawienia globalne
+            1 - dzwiek powiadomienia wylaczony
+            2 - zostanie odtworzony dzwiek z pola podanego w polu path_avail
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.path_avail">
+            <summary>
+            Sciezka do dzieku ktory zostanie odtworzony gdy dany numerek zmieni status oraz
+            jezeli zmienna avail ustawiona jest na 2
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.message">
+            <summary>
+            Okresla dzwiek zwiazany z odebraniem wiadomosci od danej osoby, mozliwe stany:
+            0 - ustawienia globalne
+            1 - dzwiek powiadomienia wylaczony
+            2 - zostanie odtworzony dzwiek z pola podanego w polu path_message
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.path_message">
+            <summary>
+            Sciezka do dzieku ktory zostanie odtworzony po otrzymaniu wiadomosci od danego numerku
+            jezeli zmienna message ustawiona jest na 2
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.hidden">
+            <summary>
+            Okresla czy bedziemy dostepni dla danej osoby w trybie "tylko dla przyjaciol", mozliwe stany:
+            0 - dostepni
+            1 - niedostepni
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.phone">
+            <summary>
+            Telefon domowy
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.birthyear">
+            <summary>
+            Rok urodzenia - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.city">
+            <summary>
+            Miasto zamieszkania - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.gender">
+            <summary>
+            Plec - do katalogu publicznego:
+            1 - kobieta
+            2 - mezczyzna
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.activeonly">
+            <summary>
+            Jesli szukamy tylko aktywnych ma wartosc 1 - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.familyname">
+            <summary>
+            Nazwisko panienskie - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.familycity">
+            <summary>
+            Miejscowosc pochodzenia - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUser.fmstart">
+            <summary>
+            Numer, od ktorego rozpoczac wyszukiwanie. Ma znaczenie, gdy kontynuujemy wyszukiwanie - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduUser.getUserListString">
+            <summary>
+            Zwraca string nadajacy sie do wyslania do servera gg - lista kontaktow
+            </summary>
+            <returns>String ktory mozemy wyslac do servera gg</returns>
+        </member>
+        <member name="M:DotGadu.GaduUser.ParseUserListString(System.String)">
+            <summary>
+            Parsuje cala list kontaktow zwrocona w postaci jednego duzego zlepka charow
+            </summary>
+            <param name="s">String z, ktorego pobierzemy dane</param>
+            <returns>Tablica obiektow klasy GaduUser</returns>
+        </member>
+        <member name="M:DotGadu.GaduUser.getPubDirString">
+            <summary>
+            Zwraca string nadajacy sie do wyslania do servera gg - katalog publiczny
+            </summary>
+            <returns>String ktory mozemy wyslac do servera gg</returns>
+        </member>
+        <member name="M:DotGadu.GaduUser.ParsePubDirString(System.String)">
+            <summary>
+            Parsuje string tyczacy sie katalogu publicznego i zwraca liste obiektow klasy GaduUser
+            </summary>
+            <param name="s">String z, ktorego pobierzemy dane</param>
+            <returns>Lista obiektow klasy GaduUser</returns>
+        </member>
+        <member name="P:DotGadu.GaduUser.Name">
+            <summary>
+            Imie
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.LastName">
+            <summary>
+            Nazwisko
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Nick">
+            <summary>
+            Pseudonim
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.VisibleNick">
+            <summary>
+            Pseudonim wyswietlany
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.MobilePhone">
+            <summary>
+            Telefon komorkowy
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Group">
+            <summary>
+            Grupa
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Uin">
+            <summary>
+            Numer gg
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Email">
+            <summary>
+            Adres email
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Avail">
+            <summary>
+            Okresla dzwiek zwiazany z pojawieniem sie danej osoby, mozliwe stany:
+            0 - ustawienia globalne
+            1 - dzwiek powiadomienia wylaczony
+            2 - zostanie odtworzony dzwiek z pola podanego w polu path_avail
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.PathAvail">
+            <summary>
+            Sciezka do dzieku ktory zostanie odtworzony gdy dany numerek zmieni status oraz
+            jezeli zmienna avail ustawiona jest na 2
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Message">
+            <summary>
+            Okresla dzwiek zwiazany z odebraniem wiadomosci od danej osoby, mozliwe stany:
+            0 - ustawienia globalne
+            1 - dzwiek powiadomienia wylaczony
+            2 - zostanie odtworzony dzwiek z pola podanego w polu path_message
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.PathMessage">
+            <summary>
+            Sciezka do dzieku ktory zostanie odtworzony po otrzymaniu wiadomosci od danego numerku
+            jezeli zmienna message ustawiona jest na 2
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Hidden">
+            <summary>
+            Okresla czy bedziemy dostepni dla danej osoby w trybie "tylko dla przyjaciol", mozliwe stany:
+            0 - dostepni
+            1 - niedostepni
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Phone">
+            <summary>
+            Telefon domowy
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.BirthYear">
+            <summary>
+            Rok urodzenia - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.City">
+            <summary>
+            Miasto zamieszkania - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.Gender">
+            <summary>
+            Plec - do katalogu publicznego:
+            1 - kobieta
+            2 - mezczyzna
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.ActiveOnly">
+            <summary>
+            Jesli szukamy tylko aktywnych ma wartosc 1 - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.FamilyName">
+            <summary>
+            Nazwisko panienskie - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.FamilyCity">
+            <summary>
+            Miejscowosc pochodzenia - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="P:DotGadu.GaduUser.FmStart">
+            <summary>
+            Numer, od ktorego rozpoczac wyszukiwanie. Ma znaczenie, gdy kontynuujemy wyszukiwanie - do katalogu publicznego
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduUserListException">
+            <summary>
+            Wyjatek zwracany podczas bledu operacji na liscie uzytkownikow
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduUserListException.#ctor(System.String)">
+            <summary>
+            Wyjatek zwracany podczas bledu operacji na liscie uzytkownikow
+            </summary>
+        </member>
+        <member name="T:DotGadu.GaduUserList">
+            <summary>
+            Zarzadza lista konaktow na serwerze
+            </summary>
+        </member>
+        <member name="F:DotGadu.GaduUserList.gaduSender">
+            <summary>
+            Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduUserList.#ctor(DotGadu.GaduSender)">
+            <summary>
+            Konstruktor GaduUserList
+            </summary>
+            <param name="gaduSender">Referencja do klasy wyslajaca pakiety do servera Gadu-Gadu</param>
+        </member>
+        <member name="M:DotGadu.GaduUserList.sendAll">
+            <summary>
+            Przesyla cala liste na serwer
+            </summary>
+        </member>
+        <member name="M:DotGadu.GaduUserList.getListFromServer">
+            <summary>
+            Wysyla pakiet do servera, ktory sprawia ze ten przesle nam liste kontaktow
+            </summary>
+        </member>
+    </members>
+</doc>
