@@ -162,7 +162,7 @@ namespace Serwer
                     dict["login"] = "Mikel";
                     dict["status"] = "Dostepny";
                     qm.modifyClient(22, dict);*/
-                    qm.changeStatus(18, "Zaraz wracam");
+                    //qm.changeStatus(18, "Zaraz wracam");
                     Dispose();
                 }
                 else
