@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using Npgsql;
+using HAKGERSoft;
 
 namespace Serwer
 {
@@ -42,6 +43,7 @@ namespace Serwer
         /// </summary>
         public MainForm()
         {
+
             // Konfiguruję ustawienia okna.
             Size = new Size(1050, 600);
             Location = new Point(0, 0);
