@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 using HAKGERSoft;
 
 namespace Serwer
@@ -38,10 +40,9 @@ namespace Serwer
             sharpGG.GGNumber = numer.ToString();
             // hasło GG
             sharpGG.GGPassword = passwd;
-            sharpGG.GGStatus = GGStatusType.Available;
             // Szukam działającego serwera.
-            sharpGG.GGLogin(sharpGG.GGGetActiveServer());
-            sharpGG.GGDescription = "nowy opis";
+            sharpGG.GGStatus = GGStatusType.Available; // status na start
+            sharpGG.GGLogin(sharpGG.GGGetActiveServer()); // zalogowanie
             // Obsługa zdarzenia odebrania wiadomości.
             sharpGG.GGMessageReceive += new sHGG.GenericEventHandler<sHGG.MessageReceiveEventArgs>(gadu_GGMessageReceive);
         }
@@ -75,6 +76,40 @@ namespace Serwer
         {
             MessageBox.Show("Odebralem wiadomosc: " + args.Message + " od: " + args.Number);
             getMsg(args.Number, args.Message);
+        }
+
+        /// <summary>
+        /// Zmiana statusu.
+        /// </summary>
+        /// <param name="status"> Nowy status. </param>
+        /// <param name="opis"> Nowy opis. </param>
+        public void changeStatus(String status, String opis)
+        {
+            if (status.CompareTo("Dostepny") == 0)
+                sharpGG.GGStatus = GGStatusType.Available;
+            else if (status.CompareTo("Niedostepny") == 0)
+                sharpGG.GGStatus = GGStatusType.NotAvailable;
+            else if (status.CompareTo("Zajety") == 0)
+                sharpGG.GGStatus = GGStatusType.Busy;
+            else if (status.CompareTo("Niewidoczny") == 0)
+                sharpGG.GGStatus = GGStatusType.Invisible;
+
+            sharpGG.GGDescription = opis;      
+        }
+
+        /// <summary>
+        /// Wysyła obrazek z wiadmością tekstową.
+        /// </summary>
+        /// <param name="numer"> Numer adresata. </param>
+        /// <param name="pos"> Pozycja obrazka. </param>
+        /// <param name="img"> Obrazek. </param>
+        /// <param name="msg"> Wiadmość tekstowa. </param>
+        public void sendImage(Int32 numer, Int32 pos, Image img, String msg)
+        {
+            MemoryStream ms = new MemoryStream();
+            img.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+
+            sharpGG.GGSendImage(numer, msg, pos, ms);
         }
 
         /// <summary>
