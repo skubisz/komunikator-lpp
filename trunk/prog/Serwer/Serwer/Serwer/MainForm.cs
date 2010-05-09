@@ -19,7 +19,7 @@ namespace Serwer
     public class MainForm : Form
     {
         private MainMenu menu;
-        public MenuItem m1, m2, subm1, subm2;
+        public MenuItem m1, m2, m3, subm1, subm2;
         private StatusBarPanel sbPnlTime, menuTextProvider1, sbPnlDate;
         private LoginWindow lw;
         private ListenerWindow liw;
@@ -43,7 +43,11 @@ namespace Serwer
         /// </summary>
         public MainForm()
         {
-
+            //GaduGadu gg = new GaduGadu(23189422,"chelsea");
+            //gg.connect();
+            //Image img = Image.FromFile(@"C:\img.png");
+            //gg.sendImage(2196051, 1, img, "ddd");
+            //gg.disconnect();
             // Konfiguruję ustawienia okna.
             Size = new Size(1050, 600);
             Location = new Point(0, 0);
@@ -56,6 +60,10 @@ namespace Serwer
             // - komponenty menu głównego
             m1 = new MenuItem("Ustawienia");
             menu.MenuItems.Add(m1);
+
+            m3 = new MenuItem("O programie", new EventHandler(MMAboutClick), Shortcut.CtrlA);
+            m3.Select += new EventHandler(MMAboutSelect);
+            menu.MenuItems.Add(m3);
 
             m2 = new MenuItem("Wyjście", new EventHandler(MMWyjscieClick), Shortcut.CtrlW);
             m2.Select += new EventHandler(MMExitSelect);
@@ -109,6 +117,16 @@ namespace Serwer
         }
 
         /// <summary>
+        /// Metoda obsługująca wskazanie kursorem na przycisk informacji o programie.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void MMAboutSelect(object sender, EventArgs e)
+        {
+            menuTextProvider1.Text = "Informacje o programie i twórcach";
+        }
+
+        /// <summary>
         /// Metoda obsługująca wskazanie kursorem na przycisk nasłuchiwania.
         /// </summary>
         /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
@@ -142,6 +160,16 @@ namespace Serwer
         {
             lw = new LoginWindow(this, subm1);
             lw.ShowDialog();
+        }
+
+        /// <summary>
+        /// Metoda obsługująca wciśnięcie przycisku informacji o programie.
+        /// </summary>
+        /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
+        /// <param name="e"> Parametr zdarzenia. </param>
+        protected void MMAboutClick(object sender, EventArgs e)
+        {
+            new About().ShowDialog();
         }
 
         /// <summary>

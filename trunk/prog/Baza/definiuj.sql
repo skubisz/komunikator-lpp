@@ -47,6 +47,7 @@ CREATE TABLE znajomi
     znajomi_id integer NOT NULL DEFAULT NEXTVAL('znaj_gen'),
     numer1 integer NOT NULL,
     numer2 integer NOT NULL,
+    nick character varying(30) NOT NULL,
     CONSTRAINT znajomi_pkey PRIMARY KEY (znajomi_id),
     CONSTRAINT fk1_znajomi FOREIGN KEY (numer1)
         REFERENCES uzytkownik(numer) MATCH SIMPLE
