@@ -397,7 +397,8 @@ namespace Serwer
         /// </summary>
         /// <param name="numer1"> Numer 1. klienta. </param> 
         /// <param name="numer2"> Numer 2. klienta. </param>
-        public void makeFriends(Int32 numer1, Int32 numer2)
+        /// <param name="nick"> Nick dla 2. klienta </param>
+        public void makeFriends(Int32 numer1, Int32 numer2, String nick)
         {
             // Sprawdzam, czy już wcześniej nie zostali znajomymi.
             NpgsqlCommand command1 = new NpgsqlCommand("select * from znajomi where numer1 = :numer1 and numer2 = :numer2", conn);
@@ -427,14 +428,16 @@ namespace Serwer
                 else
                 {
                     // Dodajemy znajomych do bazy.
-                    NpgsqlCommand command2 = new NpgsqlCommand("insert into znajomi(numer1, numer2) values(:numer1, :numer2)", conn);
+                    NpgsqlCommand command2 = new NpgsqlCommand("insert into znajomi(numer1, numer2, nick) values(:numer1, :numer2, :nick)", conn);
 
                     // Typy parametrów w zapytaniu.
                     command2.Parameters.Add(new NpgsqlParameter("numer1", NpgsqlDbType.Integer));
                     command2.Parameters.Add(new NpgsqlParameter("numer2", NpgsqlDbType.Integer));
+                    command2.Parameters.Add(new NpgsqlParameter("nick", NpgsqlDbType.Varchar));
                     // Zapisywanie wartości parametrów.
                     command2.Parameters[0].Value = numer1;
                     command2.Parameters[1].Value = numer2;
+                    command2.Parameters[2].Value = nick;
 
                     Int32 rowsaffected2;
 
@@ -644,6 +647,42 @@ namespace Serwer
             {
                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Zwraca znajomych klienta.
+        /// </summary>
+        /// <param name="numer"> Numer klienta. </param>
+        /// <returns>Zwraca listę numerów klietów.</returns>
+        public List<Pair<Int32, String>> getFriends(Int32 numer1)
+        {
+            List<Pair<Int32, String>> list = new List<Pair<Int32, String>>();
+
+            NpgsqlCommand command1 = new NpgsqlCommand("select numer2, nick from znajomi where numer1 = :numer1", conn);
+            // Typy parametrów w zapytaniu.
+            command1.Parameters.Add(new NpgsqlParameter("numer1", NpgsqlDbType.Integer));
+            // Zapisywanie wartości parametrów.
+            command1.Parameters[0].Value = numer1;
+
+            try
+            {
+                // Wykonanie zapytania.
+                NpgsqlDataReader dr = command1.ExecuteReader();
+
+                while (dr.Read())
+                {
+
+                    list.Add(new Pair<Int32, String>(Int32.Parse(dr[0].ToString()), dr[1].ToString()));
+                }
+
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+            }
+
+            return list;
         }
     }
 }

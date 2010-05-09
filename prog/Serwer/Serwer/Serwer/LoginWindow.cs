@@ -142,10 +142,10 @@ namespace Serwer
 
                     //usunąć to !!!!!!!!
                     /*Dictionary<String, String> data = new Dictionary<String, String>();
-                    data["login"] = "Mike";
+                    data["login"] = "Mikolaj";
                     data["haslo"] = "Mikel66";
                     data["status"] = "Niedostepny";
-                    data["imie"] = "Mike";
+                    data["imie"] = "Mikel";
                     data["nazwisko"] = "Shinoda";
                     data["miasto"] = null;
                     data["kod"] = null;
@@ -157,7 +157,14 @@ namespace Serwer
                     else
                         MessageBox.Show("Err!");*/
                     //qm.deleteClient(21);
-                    //qm.makeFriends(18,22);
+                    /*qm.makeFriends(18,22,"nick1");
+                    qm.makeFriends(18, 23, "nick2");
+                    List<Pair<Int32, String>> list = new List<Pair<Int32, String>>();
+                    list = qm.getFriends(18);
+                    foreach (Pair<Int32, String> p in list)
+                    {
+                        MessageBox.Show(p.First.ToString()+ " " + p.Second);
+                    }*/
                     /*Dictionary<String, String> dict = new Dictionary<String, String>();
                     dict["login"] = "Mikel";
                     dict["status"] = "Dostepny";

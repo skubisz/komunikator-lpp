@@ -58,10 +58,10 @@
 <XPD:OBJ name="OwnedViews[0]" type="UMLClassView" guid="wp0QzBMrn0OAwED/xKc8cgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">444</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">440</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">124</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">107</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">77</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">85</XPD:ATTR>
 <XPD:ATTR name="ShowOperationSignature" type="boolean">False</XPD:ATTR>
 <XPD:ATTR name="ShowCompartmentStereotype" type="boolean">False</XPD:ATTR>
 <XPD:ATTR name="ShowCompartmentVisibility" type="boolean">False</XPD:ATTR>
@@ -128,7 +128,7 @@
 <XPD:OBJ name="OwnedViews[2]" type="UMLAssociationView" guid="+jjagri6mkydrmUxBt5JoAAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">496,296;497,200</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">495,296;494,208</XPD:ATTR>
 <XPD:REF name="Model">T9lXm6/axEaxAQSk4k2uSgAA</XPD:REF>
 <XPD:REF name="Head">wp0QzBMrn0OAwED/xKc8cgAA</XPD:REF>
 <XPD:REF name="Tail">6mQm5x60ZEOg+qhpz2TAvAAA</XPD:REF>
@@ -289,7 +289,7 @@
 <XPD:REF name="Associations[2]">MCkwX01ak0WE46EwiZKwyAAA</XPD:REF>
 <XPD:REF name="Associations[3]">DOUk/HjMGEyp4Hz4tXJuSAAA</XPD:REF>
 <XPD:REF name="Associations[4]">MUvF43O0MkuVgNkPGflDnAAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">3</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">4</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="d7Bmm8d5y0ufRxM094X7fQAA">
 <XPD:ATTR name="Name" type="string">numer {PK}</XPD:ATTR>
 <XPD:REF name="Owner">qsVO/0rWa0a4RGi0CZW4BAAA</XPD:REF>
@@ -300,6 +300,10 @@
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="UG5S+Z6MHk2sntiYsbdibwAA">
 <XPD:ATTR name="Name" type="string">haslo</XPD:ATTR>
+<XPD:REF name="Owner">qsVO/0rWa0a4RGi0CZW4BAAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="WfWZfp6p4kWwcxCGlr3TEgAA">
+<XPD:ATTR name="Name" type="string">status</XPD:ATTR>
 <XPD:REF name="Owner">qsVO/0rWa0a4RGi0CZW4BAAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
