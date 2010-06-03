@@ -11,9 +11,34 @@ namespace Klient
 {
     public partial class SelectProfile : Form
     {
-        public SelectProfile()
+        private Form mainForm;
+
+        public SelectProfile(Form mainForm)
         {
+            this.mainForm = mainForm;
             InitializeComponent();
+        }
+
+        private void actionLogin_Click(object sender, EventArgs e)
+        {
+            if (login.Text == "" || password.Text == "")
+            {
+                MessageBox.Show("Podaj numer i hasło");
+            }            
+            else
+            {
+                Communicator c = Communicator.getInstance();
+                if (c.login(login.Text, password.Text, mainForm))
+                {
+                    Close();
+
+                }
+            }
+        }
+
+        private void actionCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
