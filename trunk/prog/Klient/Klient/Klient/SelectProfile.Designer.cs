@@ -44,6 +44,7 @@
             this.actionLogin.TabIndex = 0;
             this.actionLogin.Text = "Wybierz";
             this.actionLogin.UseVisualStyleBackColor = true;
+            this.actionLogin.Click += new System.EventHandler(this.actionLogin_Click);
             // 
             // actionCancel
             // 
@@ -53,6 +54,7 @@
             this.actionCancel.TabIndex = 1;
             this.actionCancel.Text = "Anuluj";
             this.actionCancel.UseVisualStyleBackColor = true;
+            this.actionCancel.Click += new System.EventHandler(this.actionCancel_Click);
             // 
             // label1
             // 

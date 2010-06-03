@@ -28,7 +28,7 @@ namespace Klient
 
         private void selectProfileStripMenuItem_Click(object sender, EventArgs e)
         {
-            SelectProfile selectProfileForm = new SelectProfile();
+            SelectProfile selectProfileForm = new SelectProfile(this);
             selectProfileForm.ShowDialog();
         }
 

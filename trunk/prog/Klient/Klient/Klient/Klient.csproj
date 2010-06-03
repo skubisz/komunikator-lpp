@@ -35,6 +35,9 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -60,6 +63,12 @@
     <Compile Include="Archive.Designer.cs">
       <DependentUpon>Archive.cs</DependentUpon>
     </Compile>
+    <Compile Include="code\Communicator.cs" />
+    <Compile Include="code\Connection.cs" />
+    <Compile Include="code\MessageFactory.cs" />
+    <Compile Include="code\ServerResponse.cs" />
+    <Compile Include="code\Settings.cs" />
+    <Compile Include="code\User.cs" />
     <Compile Include="EditContact.cs">
       <SubType>Form</SubType>
     </Compile>
