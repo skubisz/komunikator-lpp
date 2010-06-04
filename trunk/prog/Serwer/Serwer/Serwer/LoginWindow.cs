@@ -24,6 +24,7 @@ namespace Serwer
         private Button bOk, bAn;
         private MainForm parent;
         private MenuItem mi;
+        public Serwer serwer;
 
         /// <summary>
         /// Konstruktor klasy LoginWindow.
@@ -171,6 +172,8 @@ namespace Serwer
                     qm.modifyClient(22, dict);*/
                     //qm.changeStatus(18, "Zaraz wracam");
                     Dispose();
+                    serwer = new Serwer("127.0.0.1", 7777);
+                    serwer.start();
                 }
                 else
                 {

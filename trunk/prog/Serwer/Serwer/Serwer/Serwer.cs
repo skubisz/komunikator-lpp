@@ -10,6 +10,8 @@ using System.Threading;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using Npgsql;
+using NpgsqlTypes;
 
 
 namespace Serwer
@@ -52,7 +54,7 @@ namespace Serwer
         public void start()
         {
             serverSocket = new TcpListener(ip, port);
-            TcpClient clientSocket = default(TcpClient);
+            TcpClient clientSocket;
 
             serverSocket.Start();
 
@@ -62,7 +64,6 @@ namespace Serwer
             {
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
-                MessageBox.Show("Klient numer:" + Convert.ToString(counter) + " połączył się!");
                 HandleClinet client = new HandleClinet();
                 client.startClient(clientSocket, Convert.ToString(counter));
             }
@@ -80,6 +81,11 @@ namespace Serwer
     {
         TcpClient clientSocket;
         string clNo;
+        private NetworkStream ns;
+        private StreamWriter sw;
+        private String request = "";
+        private String type;
+        private String response;
 
         /// <summary>
         /// Tworzymy nowy wątek dla klienta.
@@ -90,9 +96,51 @@ namespace Serwer
         {
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
-            Thread ctThread = new Thread(doChat);
+            Thread ctThread = new Thread(getMessage);
             ctThread.Start();
         }
+
+        private void getMessage()
+        {
+            ns = clientSocket.GetStream();
+            sw = new StreamWriter(ns);
+
+            StringBuilder stringBuilderResult = new StringBuilder();
+
+            byte[] buffer = new byte[(int)clientSocket.ReceiveBufferSize];
+
+            ns.Read(buffer, 0, (int)clientSocket.ReceiveBufferSize);
+
+            request = System.Text.ASCIIEncoding.ASCII.GetString(buffer);
+
+            //MessageBox.Show(request);
+
+            ClientRequest cr = new ClientRequest(request);
+            type = cr.getType();
+            ClientRequestParams param = cr.getParams();
+
+            NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=postgres;Password=przemek;Database=template1;");
+            conn.Open();
+            QueryMaker qm = new QueryMaker(conn);
+
+            if (type.CompareTo("login") == 0)
+            {
+                MessageFactory mf = MessageFactory.getInstance();
+                if (qm.login(param["number"], param["password"]))
+                    response = mf.loginMessage("success");
+                else
+                   response = mf.loginMessage("fail");
+
+                sendMessage(response);
+            }
+        }
+
+        private void sendMessage(String response)
+        {
+            byte[] byteMessage = Encoding.ASCII.GetBytes(response);
+            ns.Write(byteMessage, 0, byteMessage.Length);
+        }
+
         private void doChat()
         {
             //TODO

@@ -23,7 +23,7 @@ namespace Klient
         {
             if (login.Text == "" || password.Text == "")
             {
-                MessageBox.Show("Podaj numer i hasło");
+                MessageBox.Show("Podaj nazwę użytkownika i hasło");
             }            
             else
             {
@@ -39,6 +39,11 @@ namespace Klient
         private void actionCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

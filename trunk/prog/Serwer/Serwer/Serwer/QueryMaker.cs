@@ -650,6 +650,46 @@ namespace Serwer
         }
 
         /// <summary>
+        /// Uwierzytelnienie klienta.
+        /// </summary>
+        /// <param name="login"> Nazwa użytkownika. </param> 
+        /// <param name="haslo"> Hasło. </param>
+        public bool login(String login, String haslo)
+        {
+            // Zapytanie o podstawowe dane klienta.
+            NpgsqlCommand command = new NpgsqlCommand("select login, haslo, status from uzytkownik where login = :login and haslo = :haslo;", conn);
+            // Typ parametru w zapytaniu.
+            command.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
+            command.Parameters.Add(new NpgsqlParameter("haslo", NpgsqlDbType.Varchar));
+            // Zapisywanie wartości parametru.
+            command.Parameters[0].Value = login;
+            command.Parameters[1].Value = haslo;
+
+            try
+            {
+                // Wykonanie zapytania.
+                NpgsqlDataReader dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    if (dr[0].ToString().CompareTo(login) == 0)
+                    {
+                        dr.Close();
+                        return true;
+                    }
+                }
+
+                dr.Close();
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// Zwraca znajomych klienta.
         /// </summary>
         /// <param name="numer"> Numer klienta. </param>
