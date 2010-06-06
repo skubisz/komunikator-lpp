@@ -147,10 +147,10 @@ namespace Serwer
             {
                 if ((isIPAddress(txtB3.Text)) && (isPortNumber(txtB6.Text)))
                 {
-                    Serwer listener = new Serwer(IPAddress.Parse(txtB3.Text), Int32.Parse(txtB6.Text));
-                    listener.start();
                     parent.subm2.Visible = false;
                     Dispose();
+                    Serwer listener = new Serwer(IPAddress.Parse(txtB3.Text), Int32.Parse(txtB6.Text));
+                    listener.start();
                 }
                 else
                     MessageBox.Show("Wprowadzone dane nie są poprawne");

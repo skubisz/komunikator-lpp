@@ -172,8 +172,8 @@ namespace Serwer
                     qm.modifyClient(22, dict);*/
                     //qm.changeStatus(18, "Zaraz wracam");
                     Dispose();
-                    serwer = new Serwer("127.0.0.1", 7777);
-                    serwer.start();
+                    //serwer = new Serwer("127.0.0.1", 7777);
+                    //serwer.start();
                 }
                 else
                 {

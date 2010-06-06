@@ -64,8 +64,9 @@ namespace Serwer
             {
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
-                HandleClinet client = new HandleClinet();
-                client.startClient(clientSocket, Convert.ToString(counter));
+                HandleClient client = new HandleClient(clientSocket, Convert.ToString(counter));
+                Thread thread = new Thread(new ThreadStart(client.getMessage));
+                thread.Start();
             }
 
             clientSocket.Close();
@@ -77,7 +78,7 @@ namespace Serwer
     /// <summary>
     /// Klasa obsługująca każdego klienta oddzielnie jako osobny wątek.
     /// </summary>    
-    public class HandleClinet
+    public class HandleClient
     {
         TcpClient clientSocket;
         string clNo;
@@ -92,15 +93,13 @@ namespace Serwer
         /// </summary>
         /// <param name="inClientSocket"> Obiekt reprezentujący klienta. </param>  
         /// <param name="clientNo"> Numer klienta w kolejce. </param>
-        public void startClient(TcpClient inClientSocket, string clineNo)
+        public HandleClient(TcpClient inClientSocket, string clineNo)
         {
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
-            Thread ctThread = new Thread(getMessage);
-            ctThread.Start();
         }
 
-        private void getMessage()
+        public void getMessage()
         {
             ns = clientSocket.GetStream();
             sw = new StreamWriter(ns);

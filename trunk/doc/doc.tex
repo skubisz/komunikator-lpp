@@ -303,6 +303,13 @@ Priorytet: niski.\\
 Aplikacja E-Talk powinna zamieniać pewne określone ciągi znaków zapisane w tekście wiadomości na emotikony, które
 wyrażają w sposób symboliczny wyraz twarzy użytkownika.
 
+\section[Dokumentacja użytkownika]{Dokumentacja użytkownika}
+
+
+
+
+
+
 \section[Model konceptualny bazy danych]{Model konceptualny bazy danych}
 \subsection[Profil klienta]{Profil klienta}
 Do tej kategorii należą wszyscy klienci, zarejestrowani w systemie.
@@ -376,6 +383,138 @@ wszystkich relacji bazy danych.
 	      \end{center}
     \end{figure}
 \end{center}
+
+\section[Dokumentacja techniczna]{Dokumentacja techniczna}
+\subsection[Serwer eTalk]{Serwer eTalk}
+\subsubsection[Opis programu]{Opis programu}
+
+\subsubsection[Opis klasy About]{Opis klasy About}
+\texttt{About} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
+języka C\#. Formularz wyświetla informacje o programie i autorach.
+
+\subsubsection[Opis klasy ClientRequest]{Opis klasy ClientRequest}
+\texttt{ClientRequest} jest publiczną klasą odpowiedzialną za przetwarzanie żądań klienta, które są przesyłane w formacie XML.
+Format wiadomości powinien być zgodny z protokołem komunikacji opisanym w tym dokumencie.\\
+Metoda \texttt{getType} zwraca typ otrzymanej wiadomości.\\
+Metoda \texttt{getParams} zwraca główne parametry otrzymanej wiadomości i ewentualnie dodatkowe parametry, jeżeli zostały przesłane. Parametry są przechowywane w obiekcie klasy \texttt{ClientRequestParams}.
+
+\subsubsection[Opis klasy ClientRequestParams]{Opis klasy ClientRequestParams}
+\texttt{ClientRequestParams} stanowi opakowanie dla głównych i ewentualnie dodatkowych parametrów żądania klienta w formacie XML. Zwracanie i ustawianie parametrów jest możliwe dzięki mechanizmowi indekserów (indeksowanie tablicy nazwami parametrów).
+
+\subsubsection[Opis klasy GaduGadu]{Opis klasy GaduGadu}
+\texttt{GaduGadu} jest publiczną klasą odpowiedzialną za obsługę protokołu komunikatora Gadu-Gadu.
+Implementując klasę GaduGadu autorzy projektu wykorzystali możliwości darmowej biblioteki HAKGERSoft.
+Metody \texttt{connect} i \texttt{disconnect} służą odpowiednio do łączenia się i rozłączania się z serwerem.
+Operacja łącznia się z serwerem wiąże się z procesem uwierzytelniania klienta.\\
+Metoda \texttt{sendMessage} pozwala na wysłanie pod dany numer, danej w parametrze procedury wiadomości.
+Aby wysłać wiadomość użytkownik musi być uwierzytelniony.\\
+Metoda \texttt{gadu\_GGMessageReceive} realizuje funkcję nasłuchiwacza przychodzących wiadomości do uwierzytelnionego użytkownika.\\
+Metoda \texttt{changeStatus} zmienia status uwierzytelnionego użytkownika na status podany w pierwszym parametrze metody. Zmianie ulega również opis użytkownika. Nowy opis przekazywany jest jako drugi parametr metody.\\
+Metoda \texttt{sendImage} wysyła obrazki wraz z wiadomością tekstową do adresata. W trakcie przesyłania obrazek jest pamiętany w strumieniu pamięci (obiekt bibliotecznej klasy \texttt{MemoryStream}). Klient powinien określić zawartość wiadomości tekstowej, numer adresata, pozycję obrazka w tekście, oraz sam obrazek przechowywany w obiekcie bibliotecznej klasy \texttt{Image} i przekazać te dane jako parametry metody.
+
+\subsubsection[Opis klasy HandleClient]{Opis klasy HandleClient}
+\texttt{HandleClient} jest publiczną klasą odpowiedzialną za obsługę żądań Klienta eTalk. Metoda \texttt{getMessage}
+wykorzystując obiekt klasy bibliotecznej \texttt{NetworkStream} języka C\# pobiera żądanie klienta w formacie XML zgodne z opisanym w tym dokumencie poniżej protokołem komunikacji.\\
+Wykorzystując obiekty klas \texttt{ClientRequest} i \texttt{ClientRequestParams} klasa przetwarza żądanie i jego parametry. \\
+Po rozpoznaniu typu zapytania i jego parametrów klasa wykorzystując obiekt \texttt{QueryMaker} wykonuje zadaną operację w bazie danych. Po poprawnym wykonaniu zadania wysyła odpowiedź utworzoną przez obiekt klasy \texttt{MessageFactory}.\\
+Klasa \texttt{HandleClient} przesyła odpowiedź klientowi wykorzystując obiekty bibliotecznych klas \texttt{StreamWriter} i \texttt{NetworkStream}.\\
+Metoda \texttt{doChat} przesyła przekazaną w parametrze metody wiadomość do zadanego w parametrze metody użytkownika.
+
+\subsubsection[Opis klasy ListenerWindow]{Opis klasy ListenerWindow}
+\texttt{ListenerWindow} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
+języka C\#. Metoda wyświetla formularz zawierający dwa pole tekstowe przeznaczone na adres IP i numer portu.
+Podane informacje jednoznacznie określają gniazdo nasłuchujące Serwera eTalk. Po potwierdzeniu wprowadzonych danych
+program tworzy nowy obiekt klasy \texttt{Serwer} i rozpoczyna nasłuchiwanie na określonym porcie pod określonym adresem.
+
+\subsubsection[Opis klasy LoginWindow]{Opis klasy LoginWindow}
+\texttt{LoginWindow} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
+języka C\#. Metoda wyświetla formularz zawierający dwa pole tekstowe przeznaczone na nazwę użytkownika i hasło do bazy danych Serwera eTalk. Po potwierdzeniu danych następuje połączenie z bazą danych PostgreSQL.
+Program tworzy nowy obiekt klasy bibliotecznej \texttt{NpgsqlConnection} i nawiązuje połączenie z bazą, której namiary podawane są w parametrze konstruktora.
+
+\subsubsection[Opis klasy MainForm]{Opis klasy MainForm}
+\texttt{MainForm} jest publiczną klasą głównego formularza aplikacji Serwer eTalk dziedziczącą po klasie bibliotecznej \texttt{Form} języka C\#. Klasa jest odpowiedzialna za wyświetlanie i konfigurowanie głównego
+okna aplikacji, jego komponentów oraz obsługę wszystkich zdarzeń z nimi związanych.
+Menu główne aplikacji jest obiektem klasy \texttt{MainMenu} i zawiera przyciski, które są obiektami
+klasy \texttt{MenuItem}. Dolne menu jest obiektem klasy \texttt{StatusBar} i zawiera następujące komponenty -- obiekty
+klasy \texttt{StatusBarPanel}:
+\begin{itemize}
+    \item[--] panel informacji o komponencie, na który użytkownik wskazuje kursorem myszy
+(obsługa zdarzenia \texttt{Select});
+    \item[--] panel z dniem tygodnia i datą (informacje pobrane z obiektu klasy \texttt{DateTime});
+    \item[--] panel z godziną (informacje pobrane z obiektu klasy \texttt{Timer}, odświeżane co sekunda
+dzięki obsłudze zdarzenia \texttt{Tick}).
+\end{itemize}
+Klasy \texttt{MainForm} użyto również do składowania głównych obiektów Serwera eTalk,
+np. lista połączeń.\\
+W centrum głównego formularza znajduje się lista (obiekt bibliotecznej klasy \texttt{ListBox}) wszystkich użytkowników z bazy danych aplikacji.
+Poniżej opisanej listy znajduje się druga lista zawierająca rozszerzone informacje o użytkowniku wybranym z pierwszej listy (wykorzystano tutaj obsługę zdarzenia \texttt{SelectedIndexChanged} dla obiektu klasy \texttt{ListBox}). Obie listy można odświeżać.
+
+\subsubsection[Opis klasy MessageFactory]{Opis klasy MessageFactory}
+\texttt{MessageFactory} jest publiczną klasą służącą do wytwarzania odpowiedzi dla klienta.\\
+Każda kolejna metoda klasy potrafi zwrócić odpowiedź o ustalonym typie i zadanych parametrach.\\
+Wszystkie odpowiedzi są w formacie XML i są tworzone na podstawie protokołu komunikacyjnego, utworzonego specjalnie na potrzeby aplikacji eTalk. Dokładny opis protokołu znajduje się w dalszej części tego dokumentu.
+
+\subsubsection[Opis klasy Pair]{Opis klasy Pair}
+\texttt{Pair<T,U>} jest pomocniczą klasą generyczną przechowującą pary elementów.\\
+Pierwszy element jest typu T, drugi element jest typu U.
+
+\subsubsection[Opis klasy QueryMaker]{Opis klasy QueryMaker}
+\texttt{QueryMaker} jest główną klasą wykonującą operacje na bazie danych PostgreSQL Serwera eTalk.\\
+Do łączenia się bazą PostgreSQL autorzy projektu wykorzystali darmową bibliotekę \texttt{Npgsql} dla języka C\#.
+Klasa \texttt{QueryMaker} posiada następujące metody:
+\begin{itemize}
+    \item[--] \texttt{addClient}, która dodaje nowego klienta do bazy. Informacje o nowym kliencie są zapisane w słowniku (obiekt klasy bibliotecznej \texttt{Dictionary<String,String>}). Metoda obsługuje każdą poprawną kombinację danych klienta (pewne pola mogą pozostać niewypełnione, reszta jest obowiązkowa).
+              Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{INSERT} i zapytania \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{changeStatus}, która zmienia stary status uwierzytelnionego klienta na nowy, zadany w drugim parametrze metody. Możliwe statusy to: \texttt{Dostepny}, \texttt{Niedostepny}, \texttt{Niewidoczny} i \texttt{Zaraz wracam}. Metoda przetwarza relację \texttt{uzytkownik} i wykorzystuje polecenie \texttt{UPDATE} w języku SQL;
+    \item[--] \texttt{deleteClient}, która usuwa z bazy danych informacje o zadanym w parameterze kliencie.
+              Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{DELETE} w języku SQL;
+    \item[--] \texttt{getClients}, która zwraca listę wszystkich użytkowników znalezionych w bazie Serwera eTalk.
+              Metoda przeszukuje relację \texttt{uzytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{getClientDetail}, która zwraca dodatkowe dane klienta zadanego przez parametr metody.
+              Metoda przeszukuje relację \texttt{dane} i wykorzytuje proste zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{getFriends}, która zwraca listę znajomych klienta zadanego jako parametr metody. Lista zawiera pary postaci (numer\_klienta, pseudonim).
+        Metoda przeszukuje relację \texttt{znajomi} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{login}, która sprawdza, czy podczas uwierzytelniania klient podał poprawną nazwę użytkownika i hasło. Metoda przeszukuje relację \texttt{uzytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{makeFriends}, która łączy dwóch nowych znajomych zadanych jako pierwsze dwa parametry metody oraz zapisuje drugiego klienta pod pseudonimem przekazanym do metody jako trzeci parametr. W efekcie drugi klient trafia na listę znajomych pierwszego klienta pod wybranym pseudonimem.  
+        Metoda przetwarza relację \texttt{znajomi} i wykorzystuje polecenie \texttt{INSERT} i zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{modifyClient}, która modyfikuje podstawowe i dodatkowe informacje o kliencie. Lista modyfikacji przekazywana jest w postaci słownika jako parametr metody.   
+        Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{UPDATE} i zapytania \texttt{SELECT} w języku SQL.
+\end{itemize}
+
+\subsubsection[Opis klasy Serwer]{Opis klasy Serwer}
+\texttt{Serwer} jest publiczną klasą, która tworzy nowy obiekt klasy bibliotecznej \texttt{TcpListener} języka C\#, nasłuchuje w oczekiwaniu na klientów na gnieździe nasłuchującym i zwraca gniazdo połączone, gdy dojdzie do połączenia.
+Klasa \texttt{Serwer} tworzy nowy obiekt klasy \texttt{HandleClient} przekazując jej w parametrze konstruktora gniazdo połączone -- obiekt bibliotecznej klasy \texttt{Socket} języka C\# oraz numer porządkowy klienta (liczy się kolejność połączeń). Serwer jest aplikacja wielowątkową. Proces macierzysty tworzy wątki do obsługi każdego klienta z osobna. Dzięki zrównoleglonej obsłudze poszczególnych klientów, Serwer eTalk działa szybciej.
+
+
+\subsection[Klient eTalk]{Klient eTalk}
+\subsubsection[Opis programu]{Opis programu}
+
+\subsubsection[Opis klasy About]{Opis klasy About}
+\texttt{About} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
+języka C\#. Formularz wyświetla informacje o programie i autorach.
+
+\subsubsection[Opis klasy MessageFactory]{Opis klasy MessageFactory}
+\texttt{MessageFactory} jest publiczną klasą służącą do wytwarzania żądań dla klienta.\\
+Każda kolejna metoda klasy potrafi zwrócić żądanie o ustalonym typie i zadanych parametrach.\\
+Wszystkie żądania są w formacie XML i są tworzone na podstawie protokołu komunikacyjnego, utworzonego specjalnie na potrzeby aplikacji eTalk. Dokładny opis protokołu znajduje się w dalszej części tego dokumentu.
+
+\subsubsection[Opis klasy ServerResponse]{Opis klasy ServerResponse}
+\texttt{SerwerResponse} jest publiczną klasą odpowiedzialną za przetwarzanie odpowiedzi serwera, które są przesyłane w formacie XML.
+Format wiadomości powinien być zgodny z protokołem komunikacji opisanym w tym dokumencie.\\
+Metoda \texttt{getType} zwraca typ otrzymanej wiadomości.\\
+Metoda \texttt{getParams} zwraca główne parametry otrzymanej wiadomości i ewentualnie dodatkowe parametry, jeżeli zostały przesłane. Parametry są przechowywane w obiekcie klasy \texttt{SerwerResponseParams}.
+
+\subsubsection[Opis klasy ServerResponseParams]{Opis klasy ServerResponseParams}
+\texttt{SerwerResponseParams} stanowi opakowanie dla głównych i ewentualnie dodatkowych parametrów odpowiedzi klienta w formacie XML. Zwracanie i ustawianie parametrów jest możliwe dzięki mechanizmowi indekserów (indeksowanie tablicy nazwami parametrów).
+
+\subsection[Opis protokołu komunikacyjnego aplikacji eTalk]{Opis protokołu komunikacyjnego aplikacji eTalk}
+
+\section[Raport z przeprowadzonych testów]{Raport z przeprowadzonych testów}
+\subsection[Test 1.]{Test 1.}
+
+
+\section[Przyszły rozwój aplikacji]{Przyszły rozwój aplikacji}
+\subsection[Obsługa protokołu Gadu-Gadu]{Obsługa protokołu Gadu-Gadu}
 
 
 \begin{thebibliography}{9}
