@@ -304,8 +304,26 @@ Aplikacja E-Talk powinna zamieniać pewne określone ciągi znaków zapisane w t
 wyrażają w sposób symboliczny wyraz twarzy użytkownika.
 
 \section[Dokumentacja użytkownika]{Dokumentacja użytkownika}
+\subsection[Serwer eTalk]{Serwer eTalk}
 
 
+
+
+
+\subsubsection[Uwagi odnośnie kompilacji i uruchamiania programu]{Uwagi odnośnie kompilacji i uruchamiania programu}
+Program został napisany w całości w języku C\# przy użyciu zestawu narzędzi programistycznych
+Microsoft Visual Studio 2008. Wykorzystano następujące biblioteki spoza standardu języka:
+\begin{itemize}
+    \item[--] \texttt{Npgsql} -- darmowa biblioteka do obsługi połączenia z bazą danych PostgreSQL. Wszystkie potrzebne do uruchomienia Serwera eTalk pliki \texttt{.DLL} znajdują się w katalogu \texttt{bin} aplikacji;
+    \item[--] \texttt{HAKGERSoft} -- darmowa biblioteka do obsługi protokołu komunikatora Gadu-Gadu. Wszystkie potrzebne do uruchomienia Serwera eTalk pliki \texttt{.DLL} znajdują się w katalogu \texttt{bin} aplikacji.
+\end{itemize}
+Nie gwarantujemy jednak, że przy innej wersji zintegrowanego środowiska programistycznego, a w szczególności innej wersji kompilatora języka C\# Serwer eTalk będzie działał poprawnie.
+Aplikacja była testowana pod systemem Windows XP Professional z zainstalowanym
+dodatkiem Service Pack 2 i jest przeznaczona wyłącznie dla systemów operacyjnych Microsoft Windows.
+
+
+
+\subsection[Klient eTalk]{Klient eTalk}
 
 
 
@@ -387,6 +405,36 @@ wszystkich relacji bazy danych.
 \section[Dokumentacja techniczna]{Dokumentacja techniczna}
 \subsection[Serwer eTalk]{Serwer eTalk}
 \subsubsection[Opis programu]{Opis programu}
+Kod źródłówy programu znajduje się w następujących plikach:
+\begin{itemize}
+    \item[--] \texttt{About.cs},
+    \item[--] \texttt{ClientRequest.cs},
+    \item[--] \texttt{GaduGadu.cs},
+    \item[--] \texttt{ListenerWindow.cs},
+    \item[--] \texttt{LoginWindow.cs},
+    \item[--] \texttt{MainForm.cs},
+    \item[--] \texttt{MessageFactory.cs},
+    \item[--] \texttt{QueryMaker.cs},
+    \item[--] \texttt{Serwer.cs}.
+\end{itemize}
+Serwer eTalk jest napisany w języku C\#, wykorzystuje paradygmat programowania obiektowego i składa
+się z następujących klas:
+\begin{itemize}
+    \item[--] \texttt{About},
+    \item[--] \texttt{ClientRequest},
+    \item[--] \texttt{ClientRequestParams},
+    \item[--] \texttt{GaduGadu},
+    \item[--] \texttt{HandleClient},
+    \item[--] \texttt{ListenerWindow},
+    \item[--] \texttt{LoginWindow},
+    \item[--] \texttt{MainForm},
+    \item[--] \texttt{MessageFactory},
+    \item[--] \texttt{Pair},
+    \item[--] \texttt{QueryMaker},
+    \item[--] \texttt{Serwer}.
+\end{itemize}
+Dokładny opis wszystkich metod zawartych we wszystkich klasach znajduje się w dokumentacji
+MSDN wygenerowanej programem NDoc.
 
 \subsubsection[Opis klasy About]{Opis klasy About}
 \texttt{About} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
@@ -475,9 +523,9 @@ Klasa \texttt{QueryMaker} posiada następujące metody:
     \item[--] \texttt{getFriends}, która zwraca listę znajomych klienta zadanego jako parametr metody. Lista zawiera pary postaci (numer\_klienta, pseudonim).
         Metoda przeszukuje relację \texttt{znajomi} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
     \item[--] \texttt{login}, która sprawdza, czy podczas uwierzytelniania klient podał poprawną nazwę użytkownika i hasło. Metoda przeszukuje relację \texttt{uzytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
-    \item[--] \texttt{makeFriends}, która łączy dwóch nowych znajomych zadanych jako pierwsze dwa parametry metody oraz zapisuje drugiego klienta pod pseudonimem przekazanym do metody jako trzeci parametr. W efekcie drugi klient trafia na listę znajomych pierwszego klienta pod wybranym pseudonimem.  
+    \item[--] \texttt{makeFriends}, która łączy dwóch nowych znajomych zadanych jako pierwsze dwa parametry metody oraz zapisuje drugiego klienta pod pseudonimem przekazanym do metody jako trzeci parametr. W efekcie drugi klient trafia na listę znajomych pierwszego klienta pod wybranym pseudonimem.
         Metoda przetwarza relację \texttt{znajomi} i wykorzystuje polecenie \texttt{INSERT} i zapytanie \texttt{SELECT} w języku SQL;
-    \item[--] \texttt{modifyClient}, która modyfikuje podstawowe i dodatkowe informacje o kliencie. Lista modyfikacji przekazywana jest w postaci słownika jako parametr metody.   
+    \item[--] \texttt{modifyClient}, która modyfikuje podstawowe i dodatkowe informacje o kliencie. Lista modyfikacji przekazywana jest w postaci słownika jako parametr metody.
         Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{UPDATE} i zapytania \texttt{SELECT} w języku SQL.
 \end{itemize}
 
