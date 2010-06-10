@@ -23,8 +23,8 @@ namespace Serwer
         private StatusBarPanel sbPnlTime, menuTextProvider1, sbPnlDate;
         private LoginWindow lw;
         private ListenerWindow liw;
-        public Label lab1, lab2;
-        public ListBox lb1, lb2;
+        public Label lab1, lab2, lab3;
+        public ListBox lb1, lb2, lb3;
         public QueryMaker qm;
         public Button but1;
         public Serwer listener;
@@ -212,7 +212,14 @@ namespace Serwer
             lb2.Items.AddRange((String[])new String[] { "numer: " + numer, "imię: " + data[0], "nazwisko: " + data[1],
                                                          "miasto: " + data[2], "kod_pocztowy: " + data[3],
                                                          "e_mail: " + data[4], "data_ur: " + data[5], 
-                                                         "zainteresowania: " + data[6]});       
+                                                         "zainteresowania: " + data[6]});
+
+            List<Pair<Int32, String>> friends = qm.getFriends(Int32.Parse(numer));
+            lb3.Items.Clear();
+            for (int i = 0; i < friends.Count; i++)
+            {
+                lb3.Items.Add(friends.ElementAt(i).Second + " (" + friends.ElementAt(i).First.ToString() + ")");
+            }
         }
 
 
@@ -283,6 +290,11 @@ namespace Serwer
             lab2.Size = new Size(250, 20);
             lab2.Text = "Szczegółowe dane wybranego użytkownika:";
 
+            lab3 = new Label();
+            lab3.Location = new Point(360, 50);
+            lab3.Size = new Size(250, 20);
+            lab3.Text = "Lista kontaktów wybranego użytkownika:";
+
             // Dodaję ListBoxy.
             lb1 = new ListBox();
             lb1.Location = new Point(50, 70);
@@ -292,7 +304,7 @@ namespace Serwer
             but1 = new Button();
             but1.Location = new Point(50, 170);
             but1.Size = new Size(100, 25);
-            but1.Text = "Odświerz";
+            but1.Text = "Odśwież";
             but1.Click += new EventHandler(bRef_Click);
             but1.Enabled = false;
 
@@ -300,13 +312,20 @@ namespace Serwer
             lb2.Location = new Point(50, 220);
             lb2.Width = 300;
 
-            Controls.AddRange((Control[])new Control[] {lab1, lab2, lb1, lb2, but1});
+            lb3 = new ListBox();
+            lb3.Location = new Point(360, 70);
+            lb3.Width = 300;
+
+            Controls.AddRange((Control[])new Control[] {lab1, lab2, lab3, lb1, lb2, lb3, but1});
 
             lab1.Visible = false;
             lab2.Visible = false;
+            lab3.Visible = false;
             lb1.Visible = false;
             but1.Visible = false;
             lb2.Visible = false;
+            lb3.Visible = false;
+
         }
     }
 }
