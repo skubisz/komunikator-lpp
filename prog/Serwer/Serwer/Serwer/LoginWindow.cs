@@ -128,8 +128,10 @@ namespace Serwer
                     parent.subm2.Visible = true;
                     parent.lab1.Visible = true;
                     parent.lab2.Visible = true;
+                    parent.lab3.Visible = true;
                     parent.lb1.Visible = true;
                     parent.lb2.Visible = true;
+                    parent.lb3.Visible = true;
                     parent.but1.Visible = true;
                     QueryMaker qm = new QueryMaker(conn);
                     String[] users = qm.getClients();

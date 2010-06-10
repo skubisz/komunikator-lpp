@@ -306,9 +306,54 @@ wyrażają w sposób symboliczny wyraz twarzy użytkownika.
 \section[Dokumentacja użytkownika]{Dokumentacja użytkownika}
 \subsection[Serwer eTalk]{Serwer eTalk}
 
+\subsubsection[Informacje ogólne]{Informacje ogólne}
+Program umożliwia wymianę danych między użytkownikami podłączonymi do sieci Internet.
+Aplikacja Serwer eTalk powinna być uruchomiona na komputerze o dużej mocy obliczeniowej, aby móc przetwarzać wiele zapytań od klientów naraz.\\
+Program umożliwia połączenie z bazą PostgreSQL, co wiąże się z uwierzytelnieniem. Osoba obsługująca serwer powinna być jednocześnie administratorem bazy i znać odpowiednią nazwę użytkownika i hasło dostępu do bazy.\\
+Baza PostgreSQL, z której korzysta Serwer eTalk może działać na localhost (pętla lokalna). W przypadku, gdy baza jest na innym komputerze należy zmienić ustawienia domyślne serwera, podając odpowiedni adres IP i numer portu.\\
+Po połączeniu z bazą w centralnej części okna głównego aplikacji, serwer udostępnia dane odnośnie zarejestrowanych użytkowników, które są odczytywane na bieżąco z bazy. Dostępne dane można w dowolnym momencie odświeżać, monitorując aktualny stan bazy danych.\\
+Właściwa praca serwera rozpoczyna się po połączeniu z bazą i rozpoczęciu nasłuchiwania na wybranym porcie.
+Od tej pory serwer powinien poprawnie obsługiwać żądania klienta i poprawnie na nie odpowiadać.
 
+\subsubsection[Łączenie się bazą danych PostgreSQL]{Łączenie się bazą danych PostgreSQL}
+Okno łączenia się z bazą danych PostgreSQL można wyświetlić na dwa sposoby:
+\begin{itemize}
+\item[--] wybierając przycisk ,,Ustawiania'' w lewym górnym rogu głównego okna aplikacji,
+a następnie wybierając przycisk ,,Połącz z bazą'' z wyświetlonego menu;
+\item[--] korzystając ze skrótu klawiszowego Ctrl+L.
+\end{itemize}
+W modyfikowalnych polach tekstowych wyświetlonego okna należy podać odpowiednio nazwę użytkownika, hasło dostępu do bazy danych PostgreSQL i zatwierdzić swój wybór przyciskiem ,,OK''.
+Wybranie przycisku ,,Anuluj'' spowoduje zamknięcie okna i nie dojdzie do nawiązania
+połączenia z bazą danych PostgreSQL.
+W przypadku próby podania niepoprawnej nazwy użytkownika lub hasła dostępu do bazy danych, program nie pozwoli na jego
+zatwierdzenie i nie dojdzie do połączenia z bazą danych.\\
+Lista podstawowych danych zarejestrowanych klientów eTalk wyświetla się w głównym oknie aplikacji.
+Wybranie przycisku ,,Odśwież'' spowoduje pobranie aktualnej listy podstawowych danych zarejestrowanych użytkowników i wyświetlenie jej.
+Wybranie z listy zarejestrowanego użytkownika spowoduje wyświetlenie jego dokładnych danych osobowych na liście poniżej i wyświetlenie jego kontaktów na liście po prawej stronie. 
 
+\subsubsection[Włączanie serwera]{Włączanie serwera}
+Warunkiem koniecznym, aby móc włączyć serwer jest wcześniejsze połączenie się z bazą danych PostgreSQL.
+Okno konfiguracyjne połączenia serwera można wyświetlić na dwa sposoby:
+\begin{itemize}
+\item[--] wybierając przycisk ,,Ustawiania'' w lewym górnym rogu głównego okna aplikacji,
+a następnie wybierając przycisk ,,Nasłuchuj'' z wyświetlonego menu;
+\item[--] korzystając ze skrótu klawiszowego Ctrl+N.
+\end{itemize}
+W modyfikowalnych polach tekstowych wyświetlonego okna należy podać odpowiednio adres IP oraz numer portu,
+na którym serwer ma nasłuchiwać i zatwierdzić swój wybór przyciskiem ,,OK''.
+Istnieje możliwość skorzystania z jednego z dwóch przycisków:
+\begin{itemize}
+\item[--] wybierając przycisk ,,Moje IP'' w pierwszym polu tekstowym pojawia się aktualny adres sieciowy komputera,
+\item[--] wybierając przycisk ,,Localhost'' w pierwszym polu tekstowym pojawia się adres \texttt{127.0.0.1}.
+\end{itemize}
+Po włączeniu wielowątkowego serwera, aplikacja jest gotowa obsługiwać żądania klientów.
+Wybranie przycisku ,,Anuluj'' spowoduje zamknięcie okna i nie dojdzie do nawiązania
+połączenia.
 
+\subsubsection[Wyjście z programu]{Wyjście z programu}
+Użytkownik może wyjść z programu bezpośrednio, zamykając główne okno aplikacji za
+pomocą przycisku w prawym górnym rogu lub wybierając przycisk „Wyjście” z menu
+głównego programu.
 
 \subsubsection[Uwagi odnośnie kompilacji i uruchamiania programu]{Uwagi odnośnie kompilacji i uruchamiania programu}
 Program został napisany w całości w języku C\# przy użyciu zestawu narzędzi programistycznych
