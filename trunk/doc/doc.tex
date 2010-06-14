@@ -329,7 +329,7 @@ W przypadku próby podania niepoprawnej nazwy użytkownika lub hasła dostępu d
 zatwierdzenie i nie dojdzie do połączenia z bazą danych.\\
 Lista podstawowych danych zarejestrowanych klientów eTalk wyświetla się w głównym oknie aplikacji.
 Wybranie przycisku ,,Odśwież'' spowoduje pobranie aktualnej listy podstawowych danych zarejestrowanych użytkowników i wyświetlenie jej.
-Wybranie z listy zarejestrowanego użytkownika spowoduje wyświetlenie jego dokładnych danych osobowych na liście poniżej i wyświetlenie jego kontaktów na liście po prawej stronie. 
+Wybranie z listy zarejestrowanego użytkownika spowoduje wyświetlenie jego dokładnych danych osobowych na liście poniżej i wyświetlenie jego kontaktów na liście po prawej stronie.
 
 \subsubsection[Włączanie serwera]{Włączanie serwera}
 Warunkiem koniecznym, aby móc włączyć serwer jest wcześniejsze połączenie się z bazą danych PostgreSQL.
@@ -608,7 +608,9 @@ Metoda \texttt{getParams} zwraca główne parametry otrzymanej wiadomości i ewe
 
 \section[Przyszły rozwój aplikacji]{Przyszły rozwój aplikacji}
 \subsection[Obsługa protokołu Gadu-Gadu]{Obsługa protokołu Gadu-Gadu}
-
+Serwer eTalk posiada klasę \texttt{GaduGadu}, która działa na bazie darmowej biblioteki HAKGERSoft.
+Napisana klasa teoretycznie powinna w pełni wykorzystywać protokół komunikatora Gadu-Gadu i umożliwiać klientowi pełny dostęp do konta na tym serwerze. Niestety w trakcie testowania aplikacji serwera okazało się, że biblioteka jest niestabilna i nie potrafi obsługiwać niektórych serwerów Gadu-Gadu. Problemy wynikają z faktu, że twórcy od 2008 roku (rok premiery) zaprzestali prac nad uaktualnianiem biblioteki. W związku z zawodnością i brakiem alternatywy w postaci innej, nowszej biblioteki obsługującej protokół komunikatora Gadu-Gadu, twórcy komunikatora eTalk zawiesili prace nad obsługą protokołu i usunęli z aplikacji klienta eTalk możliwość obsługi konta Gadu-Gadu.
+Wraz z pojawieniem się nowej wersji, którejś ze starych bibliotek lub zupełnie nowej, twórcy aplikacji planują wznowienie prac nad obsługą najpopularniejszego protokołu komunikacyjnego w Polsce.
 
 \begin{thebibliography}{9}
 \bibitem{OU} http://www.seoteka.pl/a85.php (ostatni dostęp do strony 2010-04-12)
