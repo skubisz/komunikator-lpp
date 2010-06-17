@@ -1,10 +1,12 @@
 ﻿
+using System.Web;
+
 class MessageFactory
 {
-    static MessageFactory instance = null;
+    static MessageFactory instance = null;    
 
     private MessageFactory()
-    {
+    {            
     }
 
     static public MessageFactory getInstance()
@@ -26,8 +28,23 @@ class MessageFactory
             "       <param name=\"password\" value=\"{1}\" />" + 
             "   </params>" + 
             "</request>",
-            number, 
-            password
+            HttpUtility.HtmlEncode(number), 
+            HttpUtility.HtmlEncode(password)
+        );
+    }
+
+    public string createAccountMessage(string login, string password)
+    {
+        return string.Format(
+            "<request>" +
+            "   <type>createAccount</type>" +
+            "   <params>" +
+            "       <param name=\"username\" value=\"{0}\" />" +
+            "       <param name=\"password\" value=\"{1}\" />" +
+            "   </params>" +
+            "</request>",
+            HttpUtility.HtmlEncode(login),
+            HttpUtility.HtmlEncode(password)
         );
     }
 }

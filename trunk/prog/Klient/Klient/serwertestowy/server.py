@@ -24,18 +24,34 @@ class RequestHandler(SocketServer.BaseRequestHandler):
 
     def handle(self):
         data = self.request.recv(1024).strip()
-        print data
+        print "OTRZYMANY KOMUNIKAT: " + data
                         
         toSendData = ""
         
-        response = "LOGIN_FAIL"
+        #response = "CREATE_ACCOUNT_SUCCESS"
+                
         
-        if response == "LOGIN_OK":
-            toSendData = "<response><type>login</type><params><param name=\"result\" value=\"success\" /></params></response>"                        
-        elif response == "LOGIN_FAIL":
-            toSendData = "<response><type>login</type><params><param name=\"result\" value=\"fail\" /></params></response>"        
-                                                
-        self.request.send(toSendData)                
+        while True:
+            response = sys.stdin.readline().strip()                                     
+                   
+            if response == "LOGIN_OK":
+                toSendData = "<response><type>login</type><params><param name=\"result\" value=\"success\" /></params></response>"                        
+            elif response == "LOGIN_FAIL":
+                toSendData = "<response><type>login</type><params><param name=\"result\" value=\"fail\" /></params></response>"        
+            elif response == "CREATE_ACCOUNT_FAIL":
+                toSendData = "<response><type>createAccount</type><params><param name=\"result\" value=\"fail\" /></params></response>"
+            elif response == "CREATE_ACCOUNT_EXISTS":
+                toSendData = "<response><type>createAccount</type><params><param name=\"result\" value=\"usernameExists\" /></params></response>"
+            elif response == "CREATE_ACCOUNT_SUCCESS":
+                toSendData = "<response><type>createAccount</type><params><param name=\"result\" value=\"success\" /></params></response>"
+            else:
+                toSendData = ""
+                
+            if toSendData == "":
+                print "Nieprawidłowe polecenie"
+            else:                                                                          
+                self.request.send(toSendData) 
+                break               
 
 server = SocketServer.TCPServer(("localhost", PORT), RequestHandler)
 server.serve_forever()    

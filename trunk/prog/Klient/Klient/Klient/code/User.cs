@@ -40,4 +40,22 @@ class User
             return false;
         }
     }
+
+    public string createAccount(string number, string password)
+    {
+        Connection conn = Connection.getInstance();
+        MessageFactory messageFactory = MessageFactory.getInstance();
+        string message = messageFactory.createAccountMessage(number, password);
+        string response = conn.sendMessage(message);
+
+        ServerResponse serverResponse = new ServerResponse(response);
+        if (serverResponse.getType() == "createAccount")
+        {
+            return serverResponse.getParams()["result"];            
+        }
+        else
+        {
+            return "fail";
+        }
+    }
 }
