@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("aaa");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("bbb");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.komunikatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectProfileStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewProfileStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.oProgramieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kontaktyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addContactStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +58,6 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.edytujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuńZListyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oProgramieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStatus)).BeginInit();
@@ -104,6 +102,7 @@
             this.createNewProfileStripMenuItem.Name = "createNewProfileStripMenuItem";
             this.createNewProfileStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.createNewProfileStripMenuItem.Text = "Załóż nowy profil";
+            this.createNewProfileStripMenuItem.Click += new System.EventHandler(this.createNewProfileStripMenuItem_Click);
             // 
             // changePasswordStripMenuItem
             // 
@@ -115,6 +114,13 @@
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(162, 6);
+            // 
+            // oProgramieToolStripMenuItem
+            // 
+            this.oProgramieToolStripMenuItem.Name = "oProgramieToolStripMenuItem";
+            this.oProgramieToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.oProgramieToolStripMenuItem.Text = "O programie";
+            this.oProgramieToolStripMenuItem.Click += new System.EventHandler(this.oProgramieToolStripMenuItem_Click);
             // 
             // closeStripMenuItem
             // 
@@ -240,11 +246,6 @@
             this.contactList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contactList.FullRowSelect = true;
             this.contactList.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem2.StateImageIndex = 0;
-            this.contactList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
             this.contactList.Location = new System.Drawing.Point(0, 0);
             this.contactList.Name = "contactList";
             this.contactList.Size = new System.Drawing.Size(275, 484);
@@ -273,7 +274,7 @@
             this.edytujToolStripMenuItem,
             this.usuńZListyToolStripMenuItem});
             this.contactActions.Name = "contactActions";
-            this.contactActions.Size = new System.Drawing.Size(184, 98);
+            this.contactActions.Size = new System.Drawing.Size(184, 76);
             this.contactActions.Opening += new System.ComponentModel.CancelEventHandler(this.contactActions_Opening);
             // 
             // rozpocznijRozmowęToolStripMenuItem
@@ -301,13 +302,7 @@
             this.usuńZListyToolStripMenuItem.Name = "usuńZListyToolStripMenuItem";
             this.usuńZListyToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.usuńZListyToolStripMenuItem.Text = "Usuń z listy";
-            // 
-            // oProgramieToolStripMenuItem
-            // 
-            this.oProgramieToolStripMenuItem.Name = "oProgramieToolStripMenuItem";
-            this.oProgramieToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.oProgramieToolStripMenuItem.Text = "O programie";
-            this.oProgramieToolStripMenuItem.Click += new System.EventHandler(this.oProgramieToolStripMenuItem_Click);
+            this.usuńZListyToolStripMenuItem.Click += new System.EventHandler(this.usuńZListyToolStripMenuItem_Click);
             // 
             // MainForm
             // 

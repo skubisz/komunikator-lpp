@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.contactName = new System.Windows.Forms.TextBox();
-            this.contactNumber = new System.Windows.Forms.TextBox();
+            this.contactLogin = new System.Windows.Forms.TextBox();
             this.confirmButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -51,9 +51,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Numer:";
+            this.label2.Text = "Login:";
             // 
             // contactName
             // 
@@ -62,12 +62,12 @@
             this.contactName.Size = new System.Drawing.Size(181, 20);
             this.contactName.TabIndex = 2;
             // 
-            // contactNumber
+            // contactLogin
             // 
-            this.contactNumber.Location = new System.Drawing.Point(74, 38);
-            this.contactNumber.Name = "contactNumber";
-            this.contactNumber.Size = new System.Drawing.Size(181, 20);
-            this.contactNumber.TabIndex = 3;
+            this.contactLogin.Location = new System.Drawing.Point(74, 38);
+            this.contactLogin.Name = "contactLogin";
+            this.contactLogin.Size = new System.Drawing.Size(181, 20);
+            this.contactLogin.TabIndex = 3;
             // 
             // confirmButton
             // 
@@ -77,6 +77,7 @@
             this.confirmButton.TabIndex = 4;
             this.confirmButton.Text = "Zmień";
             this.confirmButton.UseVisualStyleBackColor = true;
+            this.confirmButton.Click += new System.EventHandler(this.confirmButton_Click);
             // 
             // cancelButton
             // 
@@ -95,7 +96,7 @@
             this.ClientSize = new System.Drawing.Size(271, 93);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.confirmButton);
-            this.Controls.Add(this.contactNumber);
+            this.Controls.Add(this.contactLogin);
             this.Controls.Add(this.contactName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -111,7 +112,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox contactName;
-        private System.Windows.Forms.TextBox contactNumber;
+        private System.Windows.Forms.TextBox contactLogin;
         private System.Windows.Forms.Button confirmButton;
         private System.Windows.Forms.Button cancelButton;
     }
