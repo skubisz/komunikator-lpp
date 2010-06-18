@@ -11,17 +11,4 @@ C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.Archive.resources
 C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.About.resources
 C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.EditContact.resources
 C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.Talk.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.exe
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.pdb
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\bin\Debug\Klient.exe
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\bin\Debug\Klient.pdb
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\ResolveAssemblyReference.cache
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.About.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.Archive.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.EditContact.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.MainForm.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.Properties.Resources.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.SelectProfile.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.Talk.resources
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.csproj.GenerateResource.Cache
-E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.CreateAccount.resources
+C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.CreateAccount.resources

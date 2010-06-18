@@ -34,11 +34,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.login = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.name = new System.Windows.Forms.TextBox();
+            this.surname = new System.Windows.Forms.TextBox();
+            this.email = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(39, 62);
+            this.buttonSave.Location = new System.Drawing.Point(39, 140);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 0;
@@ -48,7 +54,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(120, 62);
+            this.buttonCancel.Location = new System.Drawing.Point(120, 140);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -76,23 +82,78 @@
             // 
             // login
             // 
-            this.login.Location = new System.Drawing.Point(54, 9);
+            this.login.Location = new System.Drawing.Point(74, 9);
             this.login.Name = "login";
-            this.login.Size = new System.Drawing.Size(162, 20);
+            this.login.Size = new System.Drawing.Size(142, 20);
             this.login.TabIndex = 4;
             // 
             // password
             // 
-            this.password.Location = new System.Drawing.Point(54, 36);
+            this.password.Location = new System.Drawing.Point(74, 36);
             this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(162, 20);
+            this.password.Size = new System.Drawing.Size(142, 20);
             this.password.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Imię:";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 91);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Nazwisko:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 117);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Email:";
+            // 
+            // name
+            // 
+            this.name.Location = new System.Drawing.Point(74, 62);
+            this.name.Name = "name";
+            this.name.Size = new System.Drawing.Size(142, 20);
+            this.name.TabIndex = 9;
+            // 
+            // surname
+            // 
+            this.surname.Location = new System.Drawing.Point(74, 88);
+            this.surname.Name = "surname";
+            this.surname.Size = new System.Drawing.Size(142, 20);
+            this.surname.TabIndex = 10;
+            // 
+            // email
+            // 
+            this.email.Location = new System.Drawing.Point(74, 114);
+            this.email.Name = "email";
+            this.email.Size = new System.Drawing.Size(142, 20);
+            this.email.TabIndex = 11;
             // 
             // CreateAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(229, 96);
+            this.ClientSize = new System.Drawing.Size(229, 171);
+            this.Controls.Add(this.email);
+            this.Controls.Add(this.surname);
+            this.Controls.Add(this.name);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.password);
             this.Controls.Add(this.login);
             this.Controls.Add(this.label2);
@@ -114,5 +175,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox login;
         private System.Windows.Forms.TextBox password;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox name;
+        private System.Windows.Forms.TextBox surname;
+        private System.Windows.Forms.TextBox email;
     }
 }

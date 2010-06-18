@@ -80,6 +80,14 @@ namespace Klient
             {
                 MessageBox.Show("Wypełnij wszystkie pola", "Niepoprawne dane", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            else if (login.Contains(';'))
+            {
+                MessageBox.Show("Login nie może zawierać średnika.", "Niepoprawne dane", MessageBoxButtons.OK, MessageBoxIcon.Warning);                
+            }
+            else if (name.Contains(';'))
+            {
+                MessageBox.Show("Nazwa nie może zawierać średnika.", "Niepoprawne dane", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             else if (currentMode == "edit")
             {
                 if (contacts.updateContact(name, login, oldLogin))

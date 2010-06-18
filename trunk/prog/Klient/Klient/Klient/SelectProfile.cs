@@ -11,9 +11,9 @@ namespace Klient
 {
     public partial class SelectProfile : Form
     {
-        private Form mainForm;
+        private MainForm mainForm;
 
-        public SelectProfile(Form mainForm)
+        public SelectProfile(MainForm mainForm)
         {
             this.mainForm = mainForm;
             InitializeComponent();

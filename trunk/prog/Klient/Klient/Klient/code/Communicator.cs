@@ -1,9 +1,11 @@
 ﻿using System.Windows.Forms;
+using Klient;
 
 class Communicator
 {
     private User _user;
     private Contacts _contacts;
+    private Archive _archive;
 
     static Communicator instance = null;    
 
@@ -12,6 +14,12 @@ class Communicator
         _user = new User();
         _contacts = new Contacts();
         _contacts.loadFromFile(contactFile);
+
+        _archive = new Archive();
+
+        //_archive.createNewTalk("a", 3);
+        _archive.addMessage(3, "a", "a", "A", new System.DateTime(), "nowa wiadomo<b>a</b>sc\n\ndef");
+        _archive.addMessage(3, "a", "x", "X", new System.DateTime(), "nowa wiadomo<b>a</b>sc\n\ndef");
     }
 
     public static Communicator getInstance()
@@ -24,7 +32,7 @@ class Communicator
         return instance;
     }
 
-    public bool login(string login, string password, Form form)
+    public bool login(string login, string password, MainForm form)
     {                
         try
         {
@@ -33,10 +41,13 @@ class Communicator
                 form.Text = string.Format("{0} - E-Talk", _user.logedUser);
 
                 _contacts.loadFromFile(contactFile);
+                form.enableMenuItems();
+                _archive.createNewArchive(login);
                 return true;
             }
             else
             {
+                form.disableMenuItems();
                 MessageBox.Show("Podałeś nieprawidłowe dane");
             }
         }
@@ -49,11 +60,11 @@ class Communicator
         return false;
     }
 
-    public bool createAccount(string login, string password, Form form)
+    public bool createAccount(string login, string password, string name, string surname, string email, MainForm form)
     {        
         try
         {
-            string result = _user.createAccount(login, password);
+            string result = _user.createAccount(login, password, name, surname, email);
             if (result == "usernameExists")
             {
                 MessageBox.Show("Ta nazwa użytkownika jest już zarezerwowana.");

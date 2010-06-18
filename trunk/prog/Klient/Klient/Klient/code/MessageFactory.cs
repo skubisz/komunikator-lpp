@@ -33,7 +33,7 @@ class MessageFactory
         );
     }
 
-    public string createAccountMessage(string login, string password)
+    public string createAccountMessage(string login, string password, string name, string surname, string email)
     {
         return string.Format(
             "<request>" +
@@ -41,10 +41,16 @@ class MessageFactory
             "   <params>" +
             "       <param name=\"username\" value=\"{0}\" />" +
             "       <param name=\"password\" value=\"{1}\" />" +
+            "       <param name=\"name\" value=\"{2}\" />" +
+            "       <param name=\"surname\" value=\"{3}\" />" +
+            "       <param name=\"email\" value=\"{4}\" />" +
             "   </params>" +
             "</request>",
             HttpUtility.HtmlEncode(login),
-            HttpUtility.HtmlEncode(password)
+            HttpUtility.HtmlEncode(password),
+            HttpUtility.HtmlEncode(name),
+            HttpUtility.HtmlEncode(surname),
+            HttpUtility.HtmlEncode(email)
         );
     }
 }

@@ -41,11 +41,11 @@ class User
         }
     }
 
-    public string createAccount(string number, string password)
+    public string createAccount(string number, string password, string name, string surname, string email)
     {
         Connection conn = Connection.getInstance();
         MessageFactory messageFactory = MessageFactory.getInstance();
-        string message = messageFactory.createAccountMessage(number, password);
+        string message = messageFactory.createAccountMessage(number, password, name, surname, email);
         string response = conn.sendMessage(message);
 
         ServerResponse serverResponse = new ServerResponse(response);

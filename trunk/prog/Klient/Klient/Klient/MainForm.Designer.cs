@@ -76,6 +76,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(275, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // komunikatorToolStripMenuItem
             // 
@@ -106,6 +107,7 @@
             // 
             // changePasswordStripMenuItem
             // 
+            this.changePasswordStripMenuItem.Enabled = false;
             this.changePasswordStripMenuItem.Name = "changePasswordStripMenuItem";
             this.changePasswordStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.changePasswordStripMenuItem.Text = "Zmień hasło";
@@ -141,6 +143,7 @@
             // 
             // addContactStripMenuItem
             // 
+            this.addContactStripMenuItem.Enabled = false;
             this.addContactStripMenuItem.Name = "addContactStripMenuItem";
             this.addContactStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addContactStripMenuItem.Text = "Dodaj kontakt";
@@ -149,10 +152,11 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(145, 6);
             // 
             // archiveStripMenuItem
             // 
+            this.archiveStripMenuItem.Enabled = false;
             this.archiveStripMenuItem.Name = "archiveStripMenuItem";
             this.archiveStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.archiveStripMenuItem.Text = "Archiwum";

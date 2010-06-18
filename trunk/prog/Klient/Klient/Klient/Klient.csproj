@@ -64,6 +64,7 @@
     <Compile Include="Archive.Designer.cs">
       <DependentUpon>Archive.cs</DependentUpon>
     </Compile>
+    <Compile Include="code\Archive.cs" />
     <Compile Include="code\Communicator.cs" />
     <Compile Include="code\Connection.cs" />
     <Compile Include="code\Contacts.cs" />
