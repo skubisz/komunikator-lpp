@@ -43,11 +43,6 @@ namespace Serwer
         /// </summary>
         public MainForm()
         {
-            //GaduGadu gg = new GaduGadu(23189422,"chelsea");
-            //gg.connect();
-            //Image img = Image.FromFile(@"C:\img.png");
-            //gg.sendImage(2196051, 1, img, "ddd");
-            //gg.disconnect();
             // Konfiguruję ustawienia okna.
             Size = new Size(1050, 600);
             Location = new Point(0, 0);
@@ -173,7 +168,7 @@ namespace Serwer
         }
 
         /// <summary>
-        /// Metoda obsługująca wciśnięcie przycisku odświerzenia listboxa.
+        /// Metoda obsługująca wciśnięcie przycisku odświeżenia listboxa.
         /// </summary>
         /// <param name="sender"> Obiekt będący źródłem zdarzenia. </param>
         /// <param name="e"> Parametr zdarzenia. </param>
@@ -181,7 +176,7 @@ namespace Serwer
         {
             String[] users = qm.getClients();
             lb1.Items.Clear();
-            for (int i = 0; i < users.Length; i += 2)
+            for (int i = 0; i < users.Length; i += 3)
             {
                 if (users[i] != null)
                    lb1.Items.Add(users[i + 1] + " (" + users[i] + ")");

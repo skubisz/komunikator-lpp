@@ -24,3 +24,4 @@ E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Pro
 E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.SelectProfile.resources
 E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.Talk.resources
 E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.csproj.GenerateResource.Cache
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.CreateAccount.resources

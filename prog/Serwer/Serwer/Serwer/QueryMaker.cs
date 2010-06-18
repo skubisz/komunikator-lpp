@@ -104,12 +104,11 @@ namespace Serwer
         /// Dodaje klienta do bazy.
         /// </summary>
         /// <param name="data"> Słownik z danymi klienta. </param>  
-        /// <returns>Zwraca prawdę, gdy operacja przebiegnie poprawnie i fałsz w przeciwnym przypadku.</returns>
-        public bool addClient(Dictionary<String, String> data)
+        public byte addClient(Dictionary<String, String> data)
         {
             if (data["login"] == null || data["haslo"] == null || data["status"] == null || data["imie"] == null || data["nazwisko"] == null ||
                 data["email"] == null)
-                return false;
+                return 1;
 
             // Komenda dodająca klienta do bazy.
             NpgsqlCommand command = new NpgsqlCommand("insert into uzytkownik(login, haslo, status) values(:login, :haslo, :status)", conn);
@@ -132,6 +131,7 @@ namespace Serwer
             catch (Exception ex)
             {
                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                return 2;
             }
 
             NpgsqlCommand command2 = null;
@@ -340,7 +340,7 @@ namespace Serwer
                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
             }
 
-            return true;
+            return 0;
         }
 
         /// <summary>
