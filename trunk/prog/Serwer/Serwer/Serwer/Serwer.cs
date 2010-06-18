@@ -132,6 +132,31 @@ namespace Serwer
 
                 sendMessage(response);
             }
+            else if (type.CompareTo("createAccount") == 0)
+            {
+                MessageFactory mf = MessageFactory.getInstance();
+                Dictionary<String, String> d = new Dictionary<String, String>();
+                d.Add("login", param["username"]);
+                d.Add("haslo", param["password"]);
+                d.Add("email", "magnificop@gmail.pl");
+                d.Add("imie", "Przemek");
+                d.Add("nazwisko", "Gospodarczyk");
+                d.Add("status", "Niedostepny");
+                d.Add("zainteresowania", null);
+                d.Add("data", null);
+                d.Add("kod", null);
+                d.Add("miasto", null);
+                int result = qm.addClient(d);
+
+                if (result == 0)
+                    response = mf.createAccountMessage("success");
+                else if (result == 1)
+                    response = mf.createAccountMessage("fail");
+                else if (result == 2)
+                    response = mf.createAccountMessage("usernameExists");
+
+                sendMessage(response);
+            }
         }
 
         private void sendMessage(String response)

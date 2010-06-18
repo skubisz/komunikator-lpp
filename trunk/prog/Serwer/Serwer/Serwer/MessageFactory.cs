@@ -27,4 +27,17 @@
             result
         );
     }
+
+    public string createAccountMessage(string response)
+    {
+        return string.Format(
+            "<response>" +
+            "   <type>createAccount</type>" +
+            "   <params>" +
+            "       <param name=\"result\" value=\"{0}\" />" +
+            "   </params>" +
+            "</response>",
+            response
+        );
+    }
 }

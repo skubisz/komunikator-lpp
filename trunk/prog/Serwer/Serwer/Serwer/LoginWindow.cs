@@ -137,7 +137,7 @@ namespace Serwer
                     String[] users = qm.getClients();
                     parent.qm = qm;
                     parent.but1.Enabled = true;
-                    for (int i = 0; i < users.Length; i+=2)
+                    for (int i = 0; i < users.Length; i+=3)
                     {
                         if (users[i]!=null)
                             parent.lb1.Items.Add(users[i+1]+" ("+ users[i]+")");
