@@ -159,7 +159,24 @@ namespace Klient
             refreschContacts();
         }
 
-        
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        public void enableMenuItems()
+        {
+            changePasswordStripMenuItem.Enabled = true;
+            archiveStripMenuItem.Enabled = true;
+            addContactStripMenuItem.Enabled = true;
+        }
+
+        public void disableMenuItems()
+        {
+            changePasswordStripMenuItem.Enabled = false;
+            archiveStripMenuItem.Enabled = false;
+            addContactStripMenuItem.Enabled = false;
+        }
 
     }
 }

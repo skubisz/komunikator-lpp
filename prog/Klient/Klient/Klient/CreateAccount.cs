@@ -11,9 +11,9 @@ namespace Klient
 {
     public partial class CreateAccount : Form
     {
-        private Form mainForm;
+        private MainForm mainForm;
 
-        public CreateAccount(Form mainForm)
+        public CreateAccount(MainForm mainForm)
         {
             this.mainForm = mainForm;
             InitializeComponent();
@@ -26,18 +26,28 @@ namespace Klient
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (login.Text == "" || password.Text == "")
+            if (login.Text == "" || password.Text == "" || name.Text == ""
+                || surname.Text == "" || email.Text == "")
             {
-                MessageBox.Show("Podaj nazwę użytkownika i hasło");
+                MessageBox.Show("Wypełnij wszystkie pola.");
+            }
+            else if (login.Text.Contains(';'))
+            {
+                MessageBox.Show("Login nie może zawierać średnika.");
             }
             else
             {
                 Communicator c = Communicator.getInstance();
-                if (c.createAccount(login.Text, password.Text, mainForm))
+                if (c.createAccount(login.Text, password.Text, name.Text, surname.Text, email.Text, mainForm))
                 {
                     Close();
                 }
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
