@@ -12,3 +12,5 @@ C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.About.resources
 C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.EditContact.resources
 C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.Talk.resources
 C:\komunikator\prog\Klient\Klient\Klient\obj\Debug\Klient.CreateAccount.resources
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.exe
+E:\Documents and Settings\przemek\Pulpit\Licencjacki projekt programistyczny\Projekt\prog\Klient\Klient\Klient\obj\Debug\Klient.pdb
