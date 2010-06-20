@@ -5,6 +5,8 @@
 CREATE SEQUENCE num_gen;
 -- sekwencja wyznaczaj¹ca kolejne identyfikatory dla kolejnych pary znajomych
 CREATE SEQUENCE znaj_gen;
+-- sekwencja wyznaczaj¹ca kolejne identyfikatory dla kolejnych wiadomosci
+CREATE SEQUENCE wiad_gen;
 
 -- typ dla pola e_mail
 CREATE DOMAIN email_type AS character varying(30) CHECK (VALUE like '%@%\.%');
@@ -58,14 +60,32 @@ CREATE TABLE znajomi
         ON UPDATE NO ACTION ON DELETE NO ACTION    
 );
 
+-- tabela wiadomosci
+CREATE TABLE wiadomosci
+(
+    id integer NOT NULL DEFAULT NEXTVAL('wiad_gen'),
+    numer1 integer NOT NULL,
+    numer2 integer NOT NULL,
+    tresc TEXT NOT NULL,
+    CONSTRAINT wiadomosc_pkey PRIMARY KEY (id),
+    CONSTRAINT fk1_wiadomosc FOREIGN KEY (numer1)
+        REFERENCES uzytkownik(numer) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT fk2_wiadomosc FOREIGN KEY (numer2)
+        REFERENCES uzytkownik(numer) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION    
+);
+
 -- Indeks: nazwisko u¿ytkownika (przyda siê przy sortowaniu i wyszukiwaniu)
 CREATE INDEX ix_nazw_uzyt ON dane(nazwisko);
 -- Indeks: nazwa u¿ytkownika (przyda siê przy sortowaniu i wyszukiwaniu)
 CREATE INDEX ix_login_uzyt ON uzytkownik(login);
 -- Indeks: numer (przyda siê przy wyszukiwaniu znajomych)
 CREATE INDEX ix_num1_uzyt ON znajomi(numer1);
--- Indeks: nazwa u¿ytkownika (przyda siê przy wyszukiwaniu znajomych)
+-- Indeks: numer (przyda siê przy wyszukiwaniu znajomych)
 CREATE INDEX ix_num2_uzyt ON znajomi(numer2);
+-- Indeks: numer (przyda siê przy wysylaniu starych, niedostarczonych wiadomosci)
+CREATE INDEX ix_num2_wiad ON wiadomosci(numer2);
 
 -- tworzymy u¿ytkowników bazy opisanych wczeœniej w modelu konceptualnym
 -- klientów mo¿e byæ dowolnie du¿o, ale zdefiniujemy tylko jednego

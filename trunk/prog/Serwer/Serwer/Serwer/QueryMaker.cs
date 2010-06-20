@@ -103,7 +103,8 @@ namespace Serwer
         /// <summary>
         /// Dodaje klienta do bazy.
         /// </summary>
-        /// <param name="data"> Słownik z danymi klienta. </param>  
+        /// <param name="data"> Słownik z danymi klienta. </param>
+        /// /// <returns>1 - brak danych, 0 - poprawne wykonanie, 2 - login zajęty.</returns>
         public byte addClient(Dictionary<String, String> data)
         {
             if (data["login"] == null || data["haslo"] == null || data["status"] == null || data["imie"] == null || data["nazwisko"] == null ||
@@ -444,7 +445,6 @@ namespace Serwer
                     try
                     {
                         rowsaffected2 = command2.ExecuteNonQuery();
-                        MessageBox.Show("OK!");
                     }
                     catch (Exception ex)
                     {
@@ -457,6 +457,92 @@ namespace Serwer
                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
             }
         }
+
+        /// <summary>
+        /// Dodaje wiadomość do bazy.
+        /// </summary>
+        /// <param name="numer1"> Numer 1. klienta. </param> 
+        /// <param name="numer2"> Numer 2. klienta. </param>
+        /// <param name="msg"> Wiadomość od 1. klienta dla 2. klienta</param>
+        public void saveMessage(Int32 numer1, Int32 numer2, String msg)
+        {
+            NpgsqlCommand command2 = new NpgsqlCommand("insert into wiadomosci(numer1, numer2, tresc) values(:numer1, :numer2, :msg)", conn);
+
+            // Typy parametrów w zapytaniu.
+            command2.Parameters.Add(new NpgsqlParameter("numer1", NpgsqlDbType.Integer));
+            command2.Parameters.Add(new NpgsqlParameter("numer2", NpgsqlDbType.Integer));
+            command2.Parameters.Add(new NpgsqlParameter("msg", NpgsqlDbType.Text));
+            // Zapisywanie wartości parametrów.
+            command2.Parameters[0].Value = numer1;
+            command2.Parameters[1].Value = numer2;
+            command2.Parameters[2].Value = msg;
+
+            Int32 rowsaffected2;
+
+            try
+            {
+                rowsaffected2 = command2.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Zwraca i usuwa wiadomości z bazy.
+        /// </summary>
+        /// <param name="numer"> Numer adresata. </param> 
+        /// <returns>Zwraca słownik par (nadawca, wiadomosc) dla zadanego numeru.</returns>
+        public Dictionary<String, String> getMessage(Int32 numer)
+        {
+            NpgsqlCommand command2 = new NpgsqlCommand("select numer1, tresc from wiadomosci where numer2 = :numer", conn);
+            // Typ parametru w zapytaniu.
+            command2.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            // Zapisywanie wartości parametru.
+            command2.Parameters[0].Value = numer;
+
+            Dictionary<String, String> dict = new Dictionary<String,String>();  
+
+            try
+            {
+                // Wykonanie zapytania.
+                NpgsqlDataReader dr2 = command2.ExecuteReader();
+                while (dr2.Read())
+                {
+                    if (dr2.FieldCount > 0)
+                    {
+                        dict.Add(dr2[0].ToString(), dr2[1].ToString());
+                    }
+                }
+                dr2.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+            }
+
+            NpgsqlCommand command = new NpgsqlCommand("delete from wiadomosci where numer2 = :numer", conn);
+
+            // Typy parametrów w zapytaniu.
+            command.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            // Zapisywanie wartości parametrów.
+            command.Parameters[0].Value = numer;
+
+            Int32 rowsaffected;
+
+            try
+            {
+                rowsaffected = command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+            }
+
+            return dict;
+        }
+
 
         /// <summary>
         /// Modyfikuje dane klienta.
@@ -648,6 +734,8 @@ namespace Serwer
                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
             }
         }
+
+
 
         /// <summary>
         /// Uwierzytelnienie klienta.

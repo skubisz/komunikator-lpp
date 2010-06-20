@@ -28,7 +28,7 @@ namespace Serwer
         public QueryMaker qm;
         public Button but1;
         public Serwer listener;
-
+ 
         /// <summary>
         /// Metoda główna.
         /// </summary>
