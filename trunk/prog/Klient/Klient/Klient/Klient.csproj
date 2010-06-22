@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="code\Archive.cs" />
     <Compile Include="code\Communicator.cs" />
+    <Compile Include="code\CommunicatorMessage.cs" />
     <Compile Include="code\Connection.cs" />
     <Compile Include="code\Contacts.cs" />
     <Compile Include="code\MessageFactory.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Klient;
+using System.Collections.Generic;
 
 class Communicator
 {
@@ -18,8 +19,8 @@ class Communicator
         _archive = new Archive();
 
         //_archive.createNewTalk("a", 3);
-        _archive.addMessage(3, "a", "a", "A", new System.DateTime(), "nowa wiadomo<b>a</b>sc\n\ndef");
-        _archive.addMessage(3, "a", "x", "X", new System.DateTime(), "nowa wiadomo<b>a</b>sc\n\ndef");
+        //_archive.addMessage(3, "a", "a", "A", new System.DateTime(), "nowa wiadomo<b>a</b>sc\n\ndef");
+        //_archive.addMessage(3, "a", "x", "X", new System.DateTime(), "nowa wiadomo<b>a</b>sc\n\ndef");
     }
 
     public static Communicator getInstance()
@@ -110,5 +111,44 @@ class Communicator
         {
             return string.Format("contacts_{0}.txt", _user.logedUser);
         }
+    }
+
+    public List<CommunicatorMessage> readMessages()
+    {
+        Connection conn = Connection.getInstance();
+        MessageFactory messageFactory = MessageFactory.getInstance();
+        string message = messageFactory.getMessagesMessage(_user.logedUser);
+        string response = conn.sendMessage(message);
+
+        ServerResponse serverResponse = new ServerResponse(response);
+
+        ServerResponseParams par = serverResponse.getParams();        
+        int n = int.Parse(par["messages"]);
+
+        List<CommunicatorMessage> result = new List<CommunicatorMessage>();
+
+        for (int i = 1; i <= n; i++)
+        {
+            result.Add(new CommunicatorMessage(par.getExtraData(i), par[i]));
+        }
+
+        return result;
+    }
+
+    public Archive archive
+    {
+        get { return _archive; }
+    }
+
+    public string getLogedUser()
+    {
+        return _user.logedUser;
+    }
+
+    public string getBasePath()
+    {
+        string path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+        path = path.Substring(0, path.Length - 10);
+        return path;
     }
 }

@@ -58,6 +58,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.edytujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuńZListyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStatus)).BeginInit();
@@ -145,7 +146,7 @@
             // 
             this.addContactStripMenuItem.Enabled = false;
             this.addContactStripMenuItem.Name = "addContactStripMenuItem";
-            this.addContactStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addContactStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.addContactStripMenuItem.Text = "Dodaj kontakt";
             this.addContactStripMenuItem.Click += new System.EventHandler(this.addContactStripMenuItem_Click);
             // 
@@ -158,7 +159,7 @@
             // 
             this.archiveStripMenuItem.Enabled = false;
             this.archiveStripMenuItem.Name = "archiveStripMenuItem";
-            this.archiveStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.archiveStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.archiveStripMenuItem.Text = "Archiwum";
             this.archiveStripMenuItem.Click += new System.EventHandler(this.archiveStripMenuItem_Click);
             // 
@@ -308,6 +309,11 @@
             this.usuńZListyToolStripMenuItem.Text = "Usuń z listy";
             this.usuńZListyToolStripMenuItem.Click += new System.EventHandler(this.usuńZListyToolStripMenuItem_Click);
             // 
+            // timer
+            // 
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -364,6 +370,7 @@
         private System.Windows.Forms.ToolStripMenuItem niewidocznyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem niedostępnyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oProgramieToolStripMenuItem;
+        private System.Windows.Forms.Timer timer;
     }
 }
 
