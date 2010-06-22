@@ -12,13 +12,17 @@ namespace Klient
     public partial class MainForm : Form
     {
         private Communicator _communicator;
+
+        private List<Talk> _activeTalks;
         
 
         public MainForm()
         {
-            InitializeComponent();
-            
-            _communicator = Communicator.getInstance();                        
+            InitializeComponent();            
+
+            _communicator = Communicator.getInstance();
+
+            _activeTalks = new List<Talk>();            
         }
 
         private void refreschContacts()
@@ -131,8 +135,21 @@ namespace Klient
         {
             if (contactList.SelectedItems.Count == 1)
             {
-                Talk talk = new Talk();
-                talk.Show();
+                Contact contact = _communicator.contacts.getList()[contactList.SelectedItems[0].Index];
+                
+                foreach (Talk talk in _activeTalks)
+                {
+                    if (talk.contactLogin == contact.login)
+                    {
+                        talk.Focus();
+                        return;
+                    }
+                }
+
+                int talkId = _communicator.archive.getNextId();
+                Talk newTalk = new Talk(this, _communicator.getLogedUser(), talkId, contact.login, contact.name);
+                _activeTalks.Add(newTalk);
+                newTalk.Show();                
             }
             else if (contactList.SelectedItems.Count > 1) 
             {
@@ -169,6 +186,8 @@ namespace Klient
             changePasswordStripMenuItem.Enabled = true;
             archiveStripMenuItem.Enabled = true;
             addContactStripMenuItem.Enabled = true;
+
+            timer.Enabled = true;
         }
 
         public void disableMenuItems()
@@ -176,7 +195,47 @@ namespace Klient
             changePasswordStripMenuItem.Enabled = false;
             archiveStripMenuItem.Enabled = false;
             addContactStripMenuItem.Enabled = false;
+
+            timer.Enabled = false;
         }
 
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+
+            List<CommunicatorMessage> messages = _communicator.readMessages();
+
+            foreach (CommunicatorMessage message in messages)
+            {
+                bool exists = false;
+                foreach (Talk talk in _activeTalks)
+                {                    
+                    if (talk.addMessage(message.from, talk.contactName, message.message))
+                    {
+                        exists = true;
+                        return;
+                    }
+                }
+
+                if (!exists)
+                {
+                    Contact contact = _communicator.contacts.findContact(message.from);
+                    string contactName = contact != null ? contact.name : message.from;
+
+                    int talkId = _communicator.archive.getNextId();
+                    Talk newTalk = new Talk(this, _communicator.getLogedUser(), talkId, message.from, contactName);
+                    _activeTalks.Add(newTalk);
+                    newTalk.Show();
+                    newTalk.addMessage(message.from, contactName, message.message);
+                }
+            }
+
+            
+        }
+
+        public void closeTalk(Talk talk)
+        {
+            _activeTalks.Remove(talk);            
+        }
     }
 }

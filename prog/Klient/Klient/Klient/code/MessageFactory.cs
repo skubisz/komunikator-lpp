@@ -53,4 +53,17 @@ class MessageFactory
             HttpUtility.HtmlEncode(email)
         );
     }
+
+    public string getMessagesMessage(string login)
+    {
+        return string.Format(
+            "<request>" +
+            "   <type>getMessages</type>" +
+            "   <params>" +
+            "       <param name=\"username\" value=\"{0}\" />" +            
+            "   </params>" +
+            "</request>",
+            HttpUtility.HtmlEncode(login)            
+        );
+    }
 }

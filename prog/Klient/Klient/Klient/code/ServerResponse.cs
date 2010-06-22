@@ -46,6 +46,14 @@ class ServerResponseParams
         this.paramNode = paramNode;
     }
 
+    public string this[int name]
+    {
+        get
+        {
+            return this[name.ToString()];
+        }
+    }
+
     public string this[string name]
     {        
         get 
@@ -65,6 +73,11 @@ class ServerResponseParams
         }
     }
 
+    public string getExtraData(int name)
+    {
+        return getExtraData(name.ToString());
+    }
+
     public string getExtraData(string name)
     {
         
@@ -80,5 +93,5 @@ class ServerResponseParams
         }
 
         throw new Exception();
-    }       
+    }          
 }

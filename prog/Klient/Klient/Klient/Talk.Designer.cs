@@ -94,6 +94,8 @@
             this.Controls.Add(this.talkBox);
             this.Name = "Talk";
             this.Text = "Rozmowa z ";
+            this.Load += new System.EventHandler(this.Talk_Load);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Talk_FormClosed);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
