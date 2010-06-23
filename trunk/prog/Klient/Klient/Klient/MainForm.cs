@@ -213,7 +213,7 @@ namespace Klient
                     if (talk.addMessage(message.from, talk.contactName, message.message))
                     {
                         exists = true;
-                        return;
+                        break;
                     }
                 }
 
@@ -230,12 +230,18 @@ namespace Klient
                 }
             }
 
+            timer.Enabled = true;
             
         }
 
         public void closeTalk(Talk talk)
         {
             _activeTalks.Remove(talk);            
+        }
+
+        private void changePasswordStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ChangePassword().ShowDialog();
         }
     }
 }

@@ -66,4 +66,38 @@ class MessageFactory
             HttpUtility.HtmlEncode(login)            
         );
     }
+
+    public string sendMessageMessage(string login, string message, string to)
+    {
+        return string.Format(
+            "<request>" +
+            "   <type>sendMessage</type>" +
+            "   <params>" +
+            "       <param name=\"username\" value=\"{0}\" />" +
+            "       <param name=\"message\" value=\"{1}\" />" +
+            "       <param name=\"to\" value=\"{2}\" />" +
+            "   </params>" +
+            "</request>",
+            HttpUtility.HtmlEncode(login),
+            HttpUtility.HtmlEncode(message),
+            HttpUtility.HtmlEncode(to)
+        );
+    }
+
+    public string changePasswordMessage(string login, string newPassword)
+    {
+        return string.Format(
+            "<request>" +
+            "   <type>changePassword</type>" +
+            "   <params>" +
+            "       <param name=\"username\" value=\"{0}\" />" +
+            "       <param name=\"newPassword\" value=\"{1}\" />" +            
+            "   </params>" +
+            "</request>",
+            HttpUtility.HtmlEncode(login),
+            HttpUtility.HtmlEncode(newPassword)            
+        );
+    }
+
+    
 }
