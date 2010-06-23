@@ -44,6 +44,8 @@ class RequestHandler(SocketServer.BaseRequestHandler):
                 toSendData = "<response><type>createAccount</type><params><param name=\"result\" value=\"usernameExists\" /></params></response>"
             elif response == "CREATE_ACCOUNT_SUCCESS":
                 toSendData = "<response><type>createAccount</type><params><param name=\"result\" value=\"success\" /></params></response>"
+            elif response == "MESSAGES_0":
+                toSendData = "<response><type>getMessages</type><params><param name=\"messages\" value=\"0\" /></params></response>"
             elif response == "MESSAGES_1":
                 toSendData = "<response><type>getMessages</type><params><param name=\"messages\" value=\"3\" /><param name=\"1\" value=\"test 1\" extra=\"przemek\" /><param name=\"2\" value=\"test 2\" extra=\"tomek\" /><param name=\"3\" value=\"test 3\" extra=\"przemek\" /></params></response>"
             else:

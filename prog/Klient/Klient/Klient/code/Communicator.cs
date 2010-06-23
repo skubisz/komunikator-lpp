@@ -151,4 +151,21 @@ class Communicator
         path = path.Substring(0, path.Length - 10);
         return path;
     }
+
+    public void sendMessage(string message, string to)
+    {
+        Connection conn = Connection.getInstance();
+        MessageFactory messageFactory = MessageFactory.getInstance();
+        string messageToServer = messageFactory.sendMessageMessage(_user.logedUser, message, to);
+        string response = conn.sendMessage(messageToServer);                
+    }
+
+    public void changePassword(string newPassword)
+    {
+        Connection conn = Connection.getInstance();
+        MessageFactory messageFactory = MessageFactory.getInstance();
+        string messageToServer = messageFactory.changePasswordMessage(_user.logedUser, newPassword);
+        string response = conn.sendMessage(messageToServer);
+        
+    }
 }

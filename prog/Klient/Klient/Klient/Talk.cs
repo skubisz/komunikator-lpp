@@ -72,5 +72,26 @@ namespace Klient
         {
             get { return _contactName; }
         }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            if (message.Text != "")
+            {
+                Communicator communicator = Communicator.getInstance();
+                communicator.archive.addMessage(_talkId, _login, _login, "Ja", DateTime.Now, message.Text);
+
+                string url = string.Format(Communicator.getInstance().getBasePath() + "archive/{0}/{1}.html", _login, _talkId);
+                talkBox.Navigate(url);
+                
+                communicator.sendMessage(message.Text, _contactLogin);
+                
+                message.Text = "";
+            }
+        }
+
+        private void message_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           
+        }
     }
 }
