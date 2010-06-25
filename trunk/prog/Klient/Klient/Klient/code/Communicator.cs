@@ -168,4 +168,43 @@ class Communicator
         string response = conn.sendMessage(messageToServer);
         
     }
+
+    public void refreshContactsStatus(MainForm main)
+    {
+        List<Contact> list = contacts.getList();
+        List<string> usernames = new List<string>();
+
+        foreach (Contact user in list)
+        {
+            usernames.Add(user.login);
+        }
+
+        Connection conn = Connection.getInstance();
+        MessageFactory messageFactory = MessageFactory.getInstance();
+        string message = messageFactory.refreshContactsStatusMessage(usernames);
+        string response = conn.sendMessage(message);
+
+        ServerResponse serverResponse = new ServerResponse(response);
+
+        ServerResponseParams par = serverResponse.getParams();
+
+        int index = 0;
+        foreach (string login in usernames)
+        {
+
+            main.updateStatus(login, index, par[login]);
+            index++;
+        }        
+    }
+
+    public void changeStatus(string newStatus)
+    {
+        if (newStatus == "dostepny" || newStatus == "niedostepny" || newStatus == "niewidoczny")
+        {
+            Connection conn = Connection.getInstance();
+            MessageFactory messageFactory = MessageFactory.getInstance();
+            string message = messageFactory.changeStatusMessage(_user.logedUser, newStatus);
+            string response = conn.sendMessage(message);
+        }
+    }
 }

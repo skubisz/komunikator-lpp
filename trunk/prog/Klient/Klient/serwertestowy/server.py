@@ -48,6 +48,8 @@ class RequestHandler(SocketServer.BaseRequestHandler):
                 toSendData = "<response><type>getMessages</type><params><param name=\"messages\" value=\"0\" /></params></response>"
             elif response == "MESSAGES_1":
                 toSendData = "<response><type>getMessages</type><params><param name=\"messages\" value=\"3\" /><param name=\"1\" value=\"test 1\" extra=\"przemek\" /><param name=\"2\" value=\"test 2\" extra=\"tomek\" /><param name=\"3\" value=\"test 3\" extra=\"przemek\" /></params></response>"
+            elif response == "STATUS_1":
+                toSendData = "<response><type>refreshContactsStatus</type><params><param name=\"przemek\" value=\"dostepny\" /><param name=\"a\" value=\"niedostepny\"  /><param name=\"b\" value=\"niedostepny\"  /></params></response>"            
             else:
                 toSendData = ""
                 

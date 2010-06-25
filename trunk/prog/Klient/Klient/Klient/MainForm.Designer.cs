@@ -59,6 +59,7 @@
             this.edytujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuńZListyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.contactTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStatus)).BeginInit();
@@ -180,15 +181,16 @@
             this.currentStatusDescription.AutoSize = true;
             this.currentStatusDescription.Location = new System.Drawing.Point(107, 8);
             this.currentStatusDescription.Name = "currentStatusDescription";
-            this.currentStatusDescription.Size = new System.Drawing.Size(50, 13);
+            this.currentStatusDescription.Size = new System.Drawing.Size(64, 13);
             this.currentStatusDescription.TabIndex = 2;
-            this.currentStatusDescription.Text = "dostępny";
+            this.currentStatusDescription.Text = "niedostępny";
             // 
             // currentStatus
             // 
-            this.currentStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.currentStatus.BackColor = System.Drawing.Color.Red;
             this.currentStatus.ContextMenuStrip = this.setStatus;
             this.currentStatus.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.currentStatus.Enabled = false;
             this.currentStatus.Location = new System.Drawing.Point(81, 5);
             this.currentStatus.Name = "currentStatus";
             this.currentStatus.Size = new System.Drawing.Size(20, 20);
@@ -210,20 +212,23 @@
             this.dostępnyToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dostępnyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.dostępnyToolStripMenuItem.Name = "dostępnyToolStripMenuItem";
-            this.dostępnyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.dostępnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.dostępnyToolStripMenuItem.Text = "Dostępny";
+            this.dostępnyToolStripMenuItem.Click += new System.EventHandler(this.dostępnyToolStripMenuItem_Click);
             // 
             // niewidocznyToolStripMenuItem
             // 
             this.niewidocznyToolStripMenuItem.Name = "niewidocznyToolStripMenuItem";
-            this.niewidocznyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.niewidocznyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.niewidocznyToolStripMenuItem.Text = "Niewidoczny";
+            this.niewidocznyToolStripMenuItem.Click += new System.EventHandler(this.niewidocznyToolStripMenuItem_Click);
             // 
             // niedostępnyToolStripMenuItem
             // 
             this.niedostępnyToolStripMenuItem.Name = "niedostępnyToolStripMenuItem";
-            this.niedostępnyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.niedostępnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.niedostępnyToolStripMenuItem.Text = "Niedostępny";
+            this.niedostępnyToolStripMenuItem.Click += new System.EventHandler(this.niedostępnyToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -315,6 +320,11 @@
             this.timer.Interval = 3000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // contactTimer
+            // 
+            this.contactTimer.Interval = 3000;
+            this.contactTimer.Tick += new System.EventHandler(this.contactTimer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -372,6 +382,7 @@
         private System.Windows.Forms.ToolStripMenuItem niedostępnyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oProgramieToolStripMenuItem;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer contactTimer;
     }
 }
 
