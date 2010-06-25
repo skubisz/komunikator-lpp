@@ -39,3 +39,4 @@ c;49;przemek
 c;50;tomek
 c;51;przemek
 c;52;tomek
+loginek;53;jakislogin

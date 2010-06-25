@@ -138,9 +138,9 @@ namespace Serwer
                 Dictionary<String, String> d = new Dictionary<String, String>();
                 d.Add("login", param["username"]);
                 d.Add("haslo", param["password"]);
-                d.Add("email", "magnificop@gmail.pl");
-                d.Add("imie", "Przemek");
-                d.Add("nazwisko", "Gospodarczyk");
+                d.Add("email", param["email"]);
+                d.Add("imie", param["name"]);
+                d.Add("nazwisko", param["surname"]);
                 d.Add("status", "Niedostepny");
                 d.Add("zainteresowania", null);
                 d.Add("data", null);
@@ -157,6 +157,23 @@ namespace Serwer
 
                 sendMessage(response);
             }
+            else if (type.CompareTo("sendMessage") == 0)
+            {
+                qm.saveMessage(param["username"], param["to"], param["message"]);
+                MessageFactory mf = MessageFactory.getInstance();
+                response = mf.sendMessageMessage();
+                sendMessage(response);
+            }
+            else if (type.CompareTo("changePassword") == 0)
+            {
+                Dictionary<String, String> d = new Dictionary<String, String>();
+                d.Add("haslo", param["newPassword"]);
+                qm.modifyClient(param["username"], d);
+                MessageFactory mf = MessageFactory.getInstance();
+                response = mf.changePasswordMessage();
+                sendMessage(response);
+            }
+
         }
 
         private void sendMessage(String response)

@@ -64,15 +64,15 @@ CREATE TABLE znajomi
 CREATE TABLE wiadomosci
 (
     id integer NOT NULL DEFAULT NEXTVAL('wiad_gen'),
-    numer1 integer NOT NULL,
-    numer2 integer NOT NULL,
+    login1 character varying(15) NOT NULL,
+    login2 character varying(15) NOT NULL,
     tresc TEXT NOT NULL,
     CONSTRAINT wiadomosc_pkey PRIMARY KEY (id),
-    CONSTRAINT fk1_wiadomosc FOREIGN KEY (numer1)
-        REFERENCES uzytkownik(numer) MATCH SIMPLE
+    CONSTRAINT fk1_wiadomosc FOREIGN KEY (login1)
+        REFERENCES uzytkownik(login) MATCH SIMPLE
         ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT fk2_wiadomosc FOREIGN KEY (numer2)
-        REFERENCES uzytkownik(numer) MATCH SIMPLE
+    CONSTRAINT fk2_wiadomosc FOREIGN KEY (login2)
+        REFERENCES uzytkownik(login) MATCH SIMPLE
         ON UPDATE NO ACTION ON DELETE NO ACTION    
 );
 
