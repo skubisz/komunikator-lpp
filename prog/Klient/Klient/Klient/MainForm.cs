@@ -201,6 +201,7 @@ namespace Klient
 
         private void timer_Tick(object sender, EventArgs e)
         {
+            return;
             timer.Enabled = false;
 
             List<CommunicatorMessage> messages = _communicator.readMessages();
