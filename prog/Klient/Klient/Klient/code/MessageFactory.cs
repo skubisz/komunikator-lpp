@@ -1,5 +1,6 @@
 ﻿
 using System.Web;
+using System.Collections.Generic;
 
 class MessageFactory
 {
@@ -99,5 +100,44 @@ class MessageFactory
         );
     }
 
-    
+    public string refreshContactsStatusMessage(List<string> friends)
+    {
+        string result = "<request>" +
+            "   <type>refreshContactsStatus</type>" +
+            "   <params>\n";
+
+        result += string.Format("       <param name=\"users\" value=\"{0}\" />\n",
+                HttpUtility.HtmlEncode(friends.Count.ToString())
+            );    
+
+        int index = 1;
+        foreach (string username in friends)
+        {
+            result += string.Format("       <param name=\"username{0}\" value=\"{1}\" />\n",
+                index,
+                HttpUtility.HtmlEncode(username)
+            );
+            index++;
+        }
+
+        result += "   </params>" +
+            "</request>";
+
+        return result;        
+    }
+
+    public string changeStatusMessage(string login, string newStatus)
+    {
+        return string.Format(
+            "<request>" +
+            "   <type>changeStatus</type>" +
+            "   <params>" +
+            "       <param name=\"username\" value=\"{0}\" />" +
+            "       <param name=\"newStatus\" value=\"{1}\" />" +
+            "   </params>" +
+            "</request>",
+            HttpUtility.HtmlEncode(login),
+            HttpUtility.HtmlEncode(newStatus)
+        );
+    }
 }

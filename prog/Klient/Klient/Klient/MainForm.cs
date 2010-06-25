@@ -33,7 +33,7 @@ namespace Klient
 
             foreach (Contact contact in list)
             {                
-                contactList.Items.Add(new ListViewItem(new String[] {"dostepny", contact.name} ));                
+                contactList.Items.Add(new ListViewItem(new String[] {"niedostepny", contact.name} ));                
             }            
         }
 
@@ -52,7 +52,7 @@ namespace Klient
             SelectProfile selectProfileForm = new SelectProfile(this);
             selectProfileForm.ShowDialog();
                         
-            refreschContacts();
+            refreschContacts();            
         }
 
         private void closeStripMenuItem_Click(object sender, EventArgs e)
@@ -188,6 +188,11 @@ namespace Klient
             addContactStripMenuItem.Enabled = true;
 
             timer.Enabled = true;
+            contactTimer.Enabled = true;
+
+            setStatus.Enabled = true;
+            currentStatus.Enabled = true;
+            dostępnyToolStripMenuItem_Click(null, null);
         }
 
         public void disableMenuItems()
@@ -197,13 +202,18 @@ namespace Klient
             addContactStripMenuItem.Enabled = false;
 
             timer.Enabled = false;
+            contactTimer.Enabled = false;
+
+            setStatus.Enabled = false;
+            currentStatus.Enabled = false;
+            niedostępnyToolStripMenuItem_Click(null, null);
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             return;
             timer.Enabled = false;
-
+            
             List<CommunicatorMessage> messages = _communicator.readMessages();
 
             foreach (CommunicatorMessage message in messages)
@@ -231,7 +241,7 @@ namespace Klient
                 }
             }
 
-            timer.Enabled = true;
+            timer.Enabled = true;            
             
         }
 
@@ -244,5 +254,50 @@ namespace Klient
         {
             new ChangePassword().ShowDialog();
         }
+
+        private void contactTimer_Tick(object sender, EventArgs e)
+        {
+            return;
+            contactTimer.Enabled = false;
+
+            _communicator.refreshContactsStatus(this);
+            
+            contactTimer.Enabled = true;
+        }
+
+        public void updateStatus(string login, int index, string status)
+        {
+            string newStatus;
+            if (status == "dostepny")
+            {
+                newStatus = "dostępny";
+            }
+            else
+            {
+                newStatus = "niedostępny";
+            }
+            contactList.Items[index].SubItems[0].Text = newStatus;
+        }
+
+        private void dostępnyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _communicator.changeStatus("dostepny");
+            currentStatusDescription.Text = "dostępny";
+            currentStatus.BackColor = Color.PaleGreen;
+        }
+
+        private void niewidocznyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _communicator.changeStatus("niewidoczny");
+            currentStatusDescription.Text = "niewidoczny";
+            currentStatus.BackColor = Color.Gray;
+        }
+
+        private void niedostępnyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _communicator.changeStatus("niedostepny");
+            currentStatusDescription.Text = "niedostępny";
+            currentStatus.BackColor = Color.Red;
+        }       
     }
 }
