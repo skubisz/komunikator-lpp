@@ -53,6 +53,10 @@ namespace Serwer
         /// </summary>
         public void start()
         {
+            NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=postgres;Password=przemek;Database=template1;");
+            conn.Open();
+            QueryMaker qm = new QueryMaker(conn);
+
             serverSocket = new TcpListener(ip, port);
             TcpClient clientSocket;
 
@@ -64,11 +68,11 @@ namespace Serwer
             {
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
-                HandleClient client = new HandleClient(clientSocket, Convert.ToString(counter));
+                HandleClient client = new HandleClient(clientSocket, Convert.ToString(counter), qm);
                 Thread thread = new Thread(new ThreadStart(client.getMessage));
                 thread.Start();
             }
-
+            //conn.Close();
             clientSocket.Close();
             serverSocket.Stop();
 
@@ -87,16 +91,18 @@ namespace Serwer
         private String request = "";
         private String type;
         private String response;
+        private QueryMaker qm;
 
         /// <summary>
         /// Tworzymy nowy wątek dla klienta.
         /// </summary>
         /// <param name="inClientSocket"> Obiekt reprezentujący klienta. </param>  
         /// <param name="clientNo"> Numer klienta w kolejce. </param>
-        public HandleClient(TcpClient inClientSocket, string clineNo)
+        public HandleClient(TcpClient inClientSocket, string clineNo, QueryMaker qm)
         {
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
+            this.qm = qm;
         }
 
         public void getMessage()
@@ -117,10 +123,6 @@ namespace Serwer
             ClientRequest cr = new ClientRequest(request);
             type = cr.getType();
             ClientRequestParams param = cr.getParams();
-
-            NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=postgres;Password=przemek;Database=template1;");
-            conn.Open();
-            QueryMaker qm = new QueryMaker(conn);
 
             if (type.CompareTo("login") == 0)
             {
@@ -164,6 +166,20 @@ namespace Serwer
                 response = mf.sendMessageMessage();
                 sendMessage(response);
             }
+            else if (type.CompareTo("getMessages") == 0)
+            {
+                List<Pair<String, String>> list = qm.getMessage(param["username"]);
+                MessageFactory mf = MessageFactory.getInstance();
+                response = mf.getMessagesMessage(list.Count,list);
+                sendMessage(response);
+            }
+            else if (type.CompareTo("changeStatus") == 0)
+            {
+                qm.changeStatus(param["username"], param["newStatus"]);
+                MessageFactory mf = MessageFactory.getInstance();
+                response = mf.changeStatusMessage();
+                sendMessage(response);
+            }
             else if (type.CompareTo("changePassword") == 0)
             {
                 Dictionary<String, String> d = new Dictionary<String, String>();
@@ -173,7 +189,6 @@ namespace Serwer
                 response = mf.changePasswordMessage();
                 sendMessage(response);
             }
-
         }
 
         private void sendMessage(String response)

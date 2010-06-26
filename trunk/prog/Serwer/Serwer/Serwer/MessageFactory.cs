@@ -58,6 +58,7 @@ namespace Serwer
 
             for (int i = 1; i <= messages; i++)
             {
+                Console.WriteLine("{0} --> {1}", HttpUtility.HtmlEncode(list[i - 1].Second), HttpUtility.HtmlEncode(list[i - 1].First));
                 msg += string.Format("<param name=\"{0}\" value=\"{1}\" extra=\"{2}\" />", HttpUtility.HtmlEncode(i.ToString()), HttpUtility.HtmlEncode(list[i-1].Second), HttpUtility.HtmlEncode(list[i-1].First));
             }
 
@@ -79,10 +80,20 @@ namespace Serwer
         public string changePasswordMessage()
         {
             return string.Format(
-                "<request>" +
+                "<response>" +
                 "   <type>changePassword</type>" +
-                "</request>"
+                "</response>"
             );
         }
+
+        public string changeStatusMessage()
+        {
+            return string.Format(
+                "<response>" +
+                "   <type>changeStatus</type>" +
+                "</response>"
+            );
+        }
+
     }
 }

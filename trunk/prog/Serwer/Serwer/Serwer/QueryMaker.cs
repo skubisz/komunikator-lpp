@@ -394,71 +394,6 @@ namespace Serwer
         }
 
         /// <summary>
-        /// Dodaje do znajomych dwóch klientów z bazy.
-        /// </summary>
-        /// <param name="numer1"> Numer 1. klienta. </param> 
-        /// <param name="numer2"> Numer 2. klienta. </param>
-        /// <param name="nick"> Nick dla 2. klienta </param>
-        public void makeFriends(Int32 numer1, Int32 numer2, String nick)
-        {
-            // Sprawdzam, czy już wcześniej nie zostali znajomymi.
-            NpgsqlCommand command1 = new NpgsqlCommand("select * from znajomi where numer1 = :numer1 and numer2 = :numer2", conn);
-            // Typy parametrów w zapytaniu.
-            command1.Parameters.Add(new NpgsqlParameter("numer1", NpgsqlDbType.Integer));
-            command1.Parameters.Add(new NpgsqlParameter("numer2", NpgsqlDbType.Integer));
-            // Zapisywanie wartości parametrów.
-            command1.Parameters[0].Value = numer1;
-            command1.Parameters[1].Value = numer2;
-
-            int i = 0;
-            try
-            {
-                // Wykonanie zapytania.
-                NpgsqlDataReader dr = command1.ExecuteReader();
-
-                while (dr.Read())
-                {
-                    i++;
-                }
-                dr.Close();
-
-                if (i != 0)
-                {
-                    MessageBox.Show("Podani klienci już są znajomymi");
-                }
-                else
-                {
-                    // Dodajemy znajomych do bazy.
-                    NpgsqlCommand command2 = new NpgsqlCommand("insert into znajomi(numer1, numer2, nick) values(:numer1, :numer2, :nick)", conn);
-
-                    // Typy parametrów w zapytaniu.
-                    command2.Parameters.Add(new NpgsqlParameter("numer1", NpgsqlDbType.Integer));
-                    command2.Parameters.Add(new NpgsqlParameter("numer2", NpgsqlDbType.Integer));
-                    command2.Parameters.Add(new NpgsqlParameter("nick", NpgsqlDbType.Varchar));
-                    // Zapisywanie wartości parametrów.
-                    command2.Parameters[0].Value = numer1;
-                    command2.Parameters[1].Value = numer2;
-                    command2.Parameters[2].Value = nick;
-
-                    Int32 rowsaffected2;
-
-                    try
-                    {
-                        rowsaffected2 = command2.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Dodaje wiadomość do bazy.
         /// </summary>
         /// <param name="login1"> Login 1. klienta. </param> 
@@ -485,7 +420,7 @@ namespace Serwer
             }
             catch (Exception ex)
             {
-                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
             }
         }
 
@@ -502,7 +437,7 @@ namespace Serwer
             // Zapisywanie wartości parametru.
             command2.Parameters[0].Value = login;
 
-            List<Pair<String, String>> list = new List<Pair<String, String>>();  
+            List<Pair<String, String>> list = new List<Pair<String, String>>();
 
             try
             {
@@ -582,18 +517,24 @@ namespace Serwer
         /// <summary>
         /// Zmienia status klienta.
         /// </summary>
-        /// <param name="numer"> Numer klienta. </param> 
+        /// <param name="login"> Login klienta. </param> 
         /// <param name="status"> Nowy status. </param>
-        public void changeStatus(Int32 numer, String status)
+        public void changeStatus(String login, String status)
         {
             // Komenda modyfikująca wpis o kliencie w tabeli uzytkownik.
-            NpgsqlCommand command4 = new NpgsqlCommand("update uzytkownik set status = :status where numer = :numer", conn);
+            NpgsqlCommand command4 = new NpgsqlCommand("update uzytkownik set status = :status where login = :login", conn);
 
             // Typy parametrów w zapytaniu.
-            command4.Parameters.Add(new NpgsqlParameter("numer", NpgsqlDbType.Integer));
+            command4.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
             command4.Parameters.Add(new NpgsqlParameter("status", NpgsqlDbType.Varchar));
             // Zapisywanie wartości parametrów.
-            command4.Parameters[0].Value = numer;
+            command4.Parameters[0].Value = login;
+            if (status.CompareTo("dostepny") == 0)
+                status = "Dostepny";
+            else if (status.CompareTo("niedostepny") == 0)
+                status = "Niedostepny";
+            else
+                status = "Niewidoczny";
             command4.Parameters[1].Value = status;
 
             Int32 rowsaffected4;
@@ -647,43 +588,6 @@ namespace Serwer
                 MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
                 return false;
             }
-        }
-
-
-        /// <summary>
-        /// Zwraca znajomych klienta.
-        /// </summary>
-        /// <param name="numer"> Numer klienta. </param>
-        /// <returns>Zwraca listę numerów klietów.</returns>
-        public List<Pair<Int32, String>> getFriends(Int32 numer1)
-        {
-            List<Pair<Int32, String>> list = new List<Pair<Int32, String>>();
-
-            NpgsqlCommand command1 = new NpgsqlCommand("select numer2, nick from znajomi where numer1 = :numer1", conn);
-            // Typy parametrów w zapytaniu.
-            command1.Parameters.Add(new NpgsqlParameter("numer1", NpgsqlDbType.Integer));
-            // Zapisywanie wartości parametrów.
-            command1.Parameters[0].Value = numer1;
-
-            try
-            {
-                // Wykonanie zapytania.
-                NpgsqlDataReader dr = command1.ExecuteReader();
-
-                while (dr.Read())
-                {
-
-                    list.Add(new Pair<Int32, String>(Int32.Parse(dr[0].ToString()), dr[1].ToString()));
-                }
-
-                dr.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
-            }
-
-            return list;
         }
     }
 }
