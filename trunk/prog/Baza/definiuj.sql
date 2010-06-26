@@ -19,7 +19,7 @@ CREATE TABLE uzytkownik
     numer integer NOT NULL DEFAULT NEXTVAL('num_gen'),
     login character varying(15) NOT NULL UNIQUE,
     haslo character varying(15) NOT NULL,
-    ostatnieZapytanie date,
+    ostatnieZapytanie timestamp,
     status status_type NOT NULL,
     CONSTRAINT uzytkownik_pkey PRIMARY KEY (numer),
     CONSTRAINT uzytkownik_haslo CHECK (LENGTH(haslo) > 5)    

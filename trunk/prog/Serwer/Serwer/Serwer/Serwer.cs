@@ -131,7 +131,6 @@ namespace Serwer
                     response = mf.loginMessage("success");
                 else
                    response = mf.loginMessage("fail");
-
                 sendMessage(response);
             }
             else if (type.CompareTo("createAccount") == 0)
@@ -162,6 +161,7 @@ namespace Serwer
             else if (type.CompareTo("sendMessage") == 0)
             {
                 qm.saveMessage(param["username"], param["to"], param["message"]);
+                qm.changeDate(param["username"]);
                 MessageFactory mf = MessageFactory.getInstance();
                 response = mf.sendMessageMessage();
                 sendMessage(response);
@@ -169,6 +169,7 @@ namespace Serwer
             else if (type.CompareTo("getMessages") == 0)
             {
                 List<Pair<String, String>> list = qm.getMessage(param["username"]);
+                qm.changeDate(param["username"]);
                 MessageFactory mf = MessageFactory.getInstance();
                 response = mf.getMessagesMessage(list.Count,list);
                 sendMessage(response);
@@ -176,6 +177,7 @@ namespace Serwer
             else if (type.CompareTo("changeStatus") == 0)
             {
                 qm.changeStatus(param["username"], param["newStatus"]);
+                qm.changeDate(param["username"]);
                 MessageFactory mf = MessageFactory.getInstance();
                 response = mf.changeStatusMessage();
                 sendMessage(response);
@@ -200,6 +202,7 @@ namespace Serwer
                 Dictionary<String, String> d = new Dictionary<String, String>();
                 d.Add("haslo", param["newPassword"]);
                 qm.modifyClient(param["username"], d);
+                qm.changeDate(param["username"]);
                 MessageFactory mf = MessageFactory.getInstance();
                 response = mf.changePasswordMessage();
                 sendMessage(response);
@@ -210,11 +213,6 @@ namespace Serwer
         {
             byte[] byteMessage = Encoding.ASCII.GetBytes(response);
             ns.Write(byteMessage, 0, byteMessage.Length);
-        }
-
-        private void doChat()
-        {
-            //TODO
         }
     } 
 

@@ -216,7 +216,7 @@
 <XPD:ATTR name="Left" type="integer">216</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">324</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">97</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">72</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">85</XPD:ATTR>
 <XPD:ATTR name="ShowOperationSignature" type="boolean">False</XPD:ATTR>
 <XPD:ATTR name="ShowCompartmentStereotype" type="boolean">False</XPD:ATTR>
 <XPD:ATTR name="ShowCompartmentVisibility" type="boolean">False</XPD:ATTR>
@@ -779,7 +779,7 @@
 <XPD:ATTR name="#Associations" type="integer">2</XPD:ATTR>
 <XPD:REF name="Associations[0]">QXpHdrd5CUydA6HmL+fqEAAA</XPD:REF>
 <XPD:REF name="Associations[1]">fHnouc0fm0GM77DDUrsfCQAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">3</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">4</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="j1yKkkD7+U6hk9DpPwB1xAAA">
 <XPD:ATTR name="Name" type="string">znajomi_id {PK}</XPD:ATTR>
 <XPD:REF name="Owner">1O/CygQV60mRjqAdmlB7+wAA</XPD:REF>
@@ -790,6 +790,10 @@
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="HyYsuLKQOEeapPJninpYOQAA">
 <XPD:ATTR name="Name" type="string">numer2</XPD:ATTR>
+<XPD:REF name="Owner">1O/CygQV60mRjqAdmlB7+wAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="0UREOMxQ3ku42RN0HJBiGwAA">
+<XPD:ATTR name="Name" type="string">nick</XPD:ATTR>
 <XPD:REF name="Owner">1O/CygQV60mRjqAdmlB7+wAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>

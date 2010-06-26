@@ -107,7 +107,7 @@ namespace Serwer
             for (int i = 0; i <= list1.Count-1; i++)
             {
                 // Zapytanie o detale klienta.
-                NpgsqlCommand command = new NpgsqlCommand("select status from uzytkownik where login = :login", conn);
+                NpgsqlCommand command = new NpgsqlCommand("select status, ostatnieZapytanie from uzytkownik where login = :login", conn);
                 // Typ parametru w zapytaniu.
                 command.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
                 // Zapisywanie wartości parametru.
@@ -119,12 +119,30 @@ namespace Serwer
                     NpgsqlDataReader dr = command.ExecuteReader();
                     string status = "niedostepny";
 
+                    bool j = false;
                     while (dr.Read())
                     {
+                        j = true;
                         if (dr[0].ToString().CompareTo("Dostepny") == 0)
                             status = "dostepny";
 
+                        DateTime temp;
+                        if (DateTime.TryParse(dr[1].ToString(), out temp))
+                        {
+                            DateTime basedate = DateTime.Parse(dr[1].ToString()).AddMinutes(5);
+                            DateTime nowdate = DateTime.Now;
+
+                            if (nowdate.CompareTo(basedate) > 0)
+                                status = "niedostepny";
+                        }
+
                         Pair<String, String> p = new Pair<String, String>(list1[i], status);
+                        list2.Add(p);
+                    }
+
+                    if (!j)
+                    {
+                        Pair<String, String> p = new Pair<String, String>(list1[i], "niedostepny");
                         list2.Add(p);
                     }
 
@@ -552,6 +570,34 @@ namespace Serwer
             }
 
             return true;
+        }
+
+
+        public void changeDate(String login)
+        {
+
+            // Komenda modyfikująca wpis o kliencie w tabeli uzytkownik.
+            NpgsqlCommand command4 = new NpgsqlCommand("update uzytkownik set ostatnieZapytanie = :date where login = :login", conn);
+
+            // Typy parametrów w zapytaniu.
+            command4.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
+            command4.Parameters.Add(new NpgsqlParameter("date", NpgsqlDbType.Timestamp));
+            // Zapisywanie wartości parametrów.
+            command4.Parameters[0].Value = login;
+            DateTime t = DateTime.Now;
+            command4.Parameters[1].Value = new DateTime(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second);
+
+
+            Int32 rowsaffected4;
+
+            try
+            {
+                rowsaffected4 = command4.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+            }
         }
 
         /// <summary>
