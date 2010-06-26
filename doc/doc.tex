@@ -556,16 +556,24 @@ Klasa \texttt{QueryMaker} posiada następujące metody:
 \begin{itemize}
     \item[--] \texttt{addClient}, która dodaje nowego klienta do bazy. Informacje o nowym kliencie są zapisane w słowniku (obiekt klasy bibliotecznej \texttt{Dictionary<String,String>}). Metoda obsługuje każdą poprawną kombinację danych klienta (pewne pola mogą pozostać niewypełnione, reszta jest obowiązkowa).
         Metoda przetwarza relacje \texttt{użytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{INSERT} i zapytania \texttt{SELECT} w języku SQL. Metoda zwraca 1 jeżeli brakuje obowiązkowych danych, 2 jeżeli dochodzi do błędu połączenia z bazą i 0 jeżeli operacja przebiegnie pomyślnie;
+    \item[--] \texttt{changeDate}, zmienia datę i godzinę ostatniej operacji użytkownika zadanego jako parametr metody na obecną.
+              Metoda wykorzystuje obiekt klasy bibliotecznej \texttt{DateTime} języka C\# i polecenie \texttt{INSERT} w języku SQL;
     \item[--] \texttt{changeStatus}, która zmienia stary status uwierzytelnionego klienta na nowy, zadany w drugim parametrze metody. Możliwe statusy to: \texttt{Dostepny}, \texttt{Niedostepny}, \texttt{Niewidoczny} i \texttt{Zaraz wracam}. Metoda przetwarza relację \texttt{użytkownik} i wykorzystuje polecenie \texttt{UPDATE} w języku SQL;
     \item[--] \texttt{deleteClient}, która usuwa z bazy danych informacje o zadanym w parameterze kliencie.
-              Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{DELETE} w języku SQL;
+              Metoda przetwarza relacje \texttt{użytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{DELETE} w języku SQL;
     \item[--] \texttt{getClients}, która zwraca listę wszystkich użytkowników znalezionych w bazie serwera eTalk.
               Metoda przeszukuje relację \texttt{użytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
     \item[--] \texttt{getClientDetail}, która zwraca dodatkowe dane klienta zadanego przez parametr metody.
-              Metoda przeszukuje relację \texttt{dane} i wykorzytuje proste zapytanie \texttt{SELECT} w języku SQL;
+              Metoda przeszukuje relację \texttt{dane} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{getMessage}, która zwraca wszystkie nieodebrane wiadomości użytkownika o zadanej nazwie w parametrze metody.
+              Metoda wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL, a następnie kasuje odebrane wiadomości poleceniem \texttt{DELETE} w języku SQL.
+    \item[--] \texttt{getStatus}, która przyjmuje jako parametr listę użytkowników i zwraca listę par postaci (użytkownik, status).
+              Metoda wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
     \item[--] \texttt{login}, która sprawdza, czy podczas uwierzytelniania klient podał poprawną nazwę użytkownika i hasło. Metoda przeszukuje relację \texttt{użytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
     \item[--] \texttt{modifyClient}, która modyfikuje podstawowe i dodatkowe informacje o kliencie. Lista modyfikacji przekazywana jest w postaci słownika jako parametr metody.
-        Metoda przetwarza relacje \texttt{użytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{UPDATE} i zapytania \texttt{SELECT} w języku SQL.
+        Metoda przetwarza relacje \texttt{użytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{UPDATE} i zapytania \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{saveMessage}, która zapisuje wiadomość do bazy danych wykorzystując polecenie \texttt{INSERT} w języku SQL.
+              Pierwszym argumentem jest nazwa nadawcy, drugim nazwa odbiorcy, a trzecim treść wysłanej wiadomości.
 \end{itemize}
 
 \subsubsection[Opis klasy Serwer]{Opis klasy Serwer}
@@ -599,7 +607,97 @@ Metoda \texttt{getExtraData} zwraca dodatkowe parametry, jeżeli zapytanie takie
 
 \section[Raport z przeprowadzonych testów]{Raport z przeprowadzonych testów}
 \subsection[Test 1.]{Test 1.}
+\textbf{Opis:}\\
+Uruchamiamy program serwera eTalk, łączymy się z bazą. Serwer wyświetla w centralnej części głównego okna zawartość relacji \texttt{użytkownik} i \texttt{dane}.\\
+Uruchamiamy bazę danych PostgreSQL i wykorzystując proste zapytania \texttt{SELECT} języka SQL pobieramy dane z wyżej wymienionych relacji sprawdzając, czy rezultaty obu operacji się zgadzają.\\
+Następnie zmieniamy zawartość obu relacji poprzez dodanie, odjęcie i zmodyfikowanie kilku krotek.\\
+Wybieramy przycisk ,,Odśwież'' i sprawdzamy, czy serwer poprawnie wyświetla w centralnej części głównego okna zmienioną zawartość relacji \texttt{użytkownik} i \texttt{dane}.\\
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności komunikacji serwera eTalk z bazą danych PostgreSQL, poprawności wyświetlania pobranych danych i ich odświeżania.\\
+\textbf{Wynik:}\\
+Serwer eTalk prawidłowo pobiera, wyświetla i odświeża dane z bazy PostgreSQL.
 
+\subsection[Test 2.]{Test 2.}
+\textbf{Opis:}\\
+Uruchamiamy program serwera eTalk.
+Przy próbie połączenia z bazą celowo podajemy niepoprawną nazwę użytkownika i hasło. Serwer poprawnie wyświetla komunikat o błędzie i prosi o weryfikację wprowadzonych danych. Po zamianie danych na poprawne następuje połączenie z bazą PostgreSQL.
+Serwer wyświetla w centralnej części głównego okna zawartość relacji \texttt{użytkownik} i \texttt{dane}.\\
+Następnie włączamy właściwą część aplikacji serwera eTalk rozpoczynając nasłuchiwanie pod adresem \texttt{localhost}, na porcie nr 7777.
+Staramy się nawiązać i sprawdzić połączenie poleceniem systemowym \texttt{telnet}.
+Powyższy test powtarzamy dwa razy. Za 1. razem wykorzystujemy przyciski w górnym menu aplikacji, a za 2. razem zdefiniowane skróty klawiszowe. \\
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności komunikacji serwera eTalk z bazą danych PostgreSQL, zabezpieczenie przed podaniem błędnych danych i nawiązywanie połączenia z danym gniazdem.\\
+\textbf{Wynik:}\\
+Serwer eTalk prawidłowo reaguje na błędne dane, poprawkę błędnych danych i nawiązuje połączenie na określonym gnieździe.
+
+\subsection[Test 3.]{Test 3.}
+\textbf{Opis:}\\
+Zakładamy, że serwer eTalk został poprawnie uruchomiony, połączony z bazą danych PostgreSQL i nasłuchuje pod zadanym adresem.
+Uruchamiamy program klienta eTalk. Zakładamy nowe konto zostawiając luki w wypełnionych danych. Klient eTalk informuje o braku wymaganych przy rejestracji danych. Dopisujemy brakujące dane i wysyłamy je na serwer, który dodaje je do bazy danych i wysyła klientowi potwierdzenie udanej rejestracji.\\
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności komunikacji serwera eTalk z klientem eTalk przy rejestracji nowego konta i sprawdzenie zabezpieczenia przed brakiem niezbędnych przy rejestracji danych.\\
+\textbf{Wynik:}\\
+Klient eTalk prawidłowo przesyła dane, serwer eTalk prawidłowo dodaje dane do bazy. Rejestracja przebiegła pomyślnie. 
+
+\subsection[Test 4.]{Test 4.}
+\textbf{Opis:}\\
+Wykonując ten test zakładamy, że wykonaliśmy test 3.\\
+Uwierzytelniamy się podając błędne dane nieistniejącego konta.
+Klient przesyła podaną nazwę użytkownika i hasło do serwera, który porównuje te dane z wpisami z bazy danych.
+Odpowiedź serwera jest negatywna i klient eTalk prosi o ponowne podanie danych.\\
+Uwierzytelniamy się podając dane konta założonego w teście 3. 
+Klient przesyła podaną nazwę użytkownika i hasło do serwera, który sprawdza te dane z wpisami z bazy danych.
+Odpowiedź serwera jest tym razem pozytywna i klient eTalk wyświetla w centralnej części głównego okna aplikacji poprawną listę kontaktów i odpowiadających im statusów.\\
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności komunikacji serwera eTalk z klientem eTalk przy uwierzytelnianiu użytkownika i sprawdzenie zabezpieczenia przed podaniem błędnych danych. Ponadto test sprawdza, czy wyświetlają się wszystkie kontakty użytkownika i czy statusy tych kontaktów są zgodne z wpisami w bazie danych PostgreSQL serwera eTalk.\\
+\textbf{Wynik:}\\
+Uwierzytelnienie przebiegło pomyślnie, wyświetlona lista kontaktów wraz ze statusami jest poprawna.
+
+\subsection[Test 5.]{Test 5.}
+\textbf{Opis:}\\
+Wykonując ten test zakładamy, że wykonaliśmy testy 3. i 4.\\
+Zmieniamy hasło, wylogowujemy się i uwierzytelniamy się ponownie. Za pierwszym razem podajemy stare hasło, które powoduje zgłoszenie błędu przez klienta eTalk i prośbę o zmianę wprowadzonych danych. Podajemy nowe, poprawne hasło. Tym razem proces uwierzytelnienia przebiega poprawnie.\\
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności zmiany hasła dla danego konta i poprawności operacji wylogowania.\\
+\textbf{Wynik:}\\
+Klient eTalk poprawnie zmienia hasło i poprawnie wylogowuje użytkownika.
+
+\subsection[Test 6.]{Test 6.}
+\textbf{Opis:}\\
+Wykonując ten test zakładamy, że wykonaliśmy dwukrotnie testy 3. i 4., tzn. mamy założone 2 konta i uwierzytelniliśmy się 2 razy.\\
+Dodajemy nowy kontakt dla 1. konta, jest nim 2. konto. Analogiczną operację przeprowadzamy dla 2. konta. 
+Kilkakrotnie zmieniamy statusy obu kont sprawdzając, czy obie listy kontaktów wraz ze statusami są poprawnie odświeżane.\\
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności dodawania nowych kontaktów i automatycznego odświeżania statusów.\\
+\textbf{Wynik:}\\
+Klient eTalk poprawnie dodaje nowe kontakty i automatycznie odświeża statusy.
+
+\subsection[Test 7.]{Test 7.}
+\textbf{Opis:}\\
+Wykonując ten test zakładamy, że wykonaliśmy test 6.\\
+Wybieramy 1. konto. Dwukrotnie klikamy lewym przyciskiem myszy na dodany w teście 6. kontakt.\\
+Klient eTalk poprawnie wyświetla okno rozmowy, które jest na początku puste.
+Wpisujemy treść wiadomości i potwierdzamy przyciskiem ,,Wyślij''. W oknie pojawia się zatwierdzona treść wiadomości.\\
+Jednocześnie 2. konto wyświetla okno rozmowy, a w nim wiadomość i nadawcę. Odpowiadamy wpisują treść 2. wiadomości i zatwierdzając przyciskiem ,,Wyślij''.
+Wymieniamy około 50 wiadomości pomiędzy dwoma uwierzytelnionymi użytkownikami.\\ 
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności przesyłania i automatycznego odbierania wiadomości.\\
+\textbf{Wynik:}\\
+Klient eTalk poprawnie przesyła i odbiera wiadomości w czasie rzeczywistym.
+
+\subsection[Test 8.]{Test 8.}
+\textbf{Opis:}\\
+Wykonując ten test zakładamy, że wykonaliśmy test 6.\\
+Wylogowujemy się z 2. konta.
+Wybieramy 1. konto. Dwukrotnie klikamy lewym przyciskiem myszy na dodany w teście 6. kontakt.\\
+Klient eTalk poprawnie wyświetla okno rozmowy, które jest na początku puste.
+Wpisujemy treść wiadomości i potwierdzamy przyciskiem ,,Wyślij''. W oknie pojawia się zatwierdzona treść wiadomości.\\
+Wysyłamy około 10 wiadomości do tego samego użytkownika.\\
+Uwierzytelniamy się używając danych z 2. konta. Serwer poprawnie przesyła wszystkie zaległe, nieodebrane wiadomości, we właściwej kolejności.\\
+\textbf{Cel:}\\
+Test ma na celu sprawdzenie poprawności przesyłania i odbierania zaległych wiadomości.\\
+\textbf{Wynik:}\\
+Klient eTalk poprawnie przesyła i odbiera zaległe wiadomości.
 
 \section[Przyszły rozwój aplikacji]{Przyszły rozwój aplikacji}
 \subsection[Obsługa protokołu Gadu-Gadu]{Obsługa protokołu Gadu-Gadu}
