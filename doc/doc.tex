@@ -179,7 +179,7 @@ Poniżej przeanalizowano najpopularniejsze komunikatory internetowe w naszym kra
 Gadu-Gadu jest najpopularniejszym komunikatorem internetowym w Polsce. Pierwsza wersja programu pojawiła się 15 sierpnia 2000 roku i jest to pierwszy polski komunikator internetowy. Premiera spotkała się ze stosunkowo dużym zainteresowaniem -- już pierwszego dnia konta założyło ponad 10 tysięcy użytkowników. Od dnia premiery użytkowników przybywa w szybkim tempie. Po roku od premiery Gadu-Gadu miało ćwierć miliona użytkowników.
 Obecnie Gadu-Gadu posiada ponad 6 milionów zarejestrowanych kont. Każdego dnia, użytkownicy Gadu-Gadu wymieniają między sobą ok. 300 milionów wiadomości.\\
 Na przykładzie programu Gadu-Gadu można z łatwością zauważyć, że najważniejszą cechą komunikatora internetowego jest jego masowość. Duża liczba zarejestrowanych użytkowników przyciąga innych użytkowników, którzy chcą mieć kontakt z jak największą liczbą ludzi (tzw. efekt kuli śnieżnej). Polski rynek komunikatorów internetowych rozwija się wraz z rozwojem Internetu w Polsce.\\
-Drugą istotną cechą, która stawia Gadu-Gadu na 1. miejscu wśród komunikatorów internetowych w Polsce jest łatwość instalacji, konfiguracji i użytkowania. Jeżeli program ma być masowy, to używać go będą również mniej zaawansowani użytkownicy, dla których ta cecha może okazać się najistotniejsza przy wyborze komunikatora.\\
+Drugą istotną cechą, która stawia Gadu-Gadu na 1. miejscu wśród komunikatorów internetowych w Polsce jest łatwość instalacji, konfiguracji i użytkowania. Jeżeli program ma być masowy, to będą go używać również mniej zaawansowani użytkownicy, dla których ta cecha może okazać się najistotniejsza przy wyborze komunikatora.\\
 Ciekawym pomysłem twórców było uruchomienie serwisu społecznościowego \textbf{MojaGeneracja.pl}, który stał się serwisem integracyjnym dla użytkowników chcących poznać i wymieniać wiadomości z nieznanymi im dotąd osobami. Ponadto istnieje publiczny katalog użytkowników Gadu-Gadu oraz wyszukiwarka wykorzystująca dane osobowe podawane podczas rejestracji konta. Twórcy Gadu-Gadu na oficjalnej stronie chwalą się rolą, jaką odgrywa ich komunikator w życiu wielu ludzi:
 ,,Coraz więcej osób poznaje się dzięki Gadu-Gadu. Zawierane są pierwsze małżeństwa, ale też i pierwsze rozwody.''\cite{GG}\\
 Gadu-Gadu posiada jednak pewne wady, które ze względu na wyżej wymienione zalety są marginalizowane przez mniej wymagających użytkowników lub niedostrzegane przez mniej zaawansowanych użytkowników.\\
@@ -308,9 +308,9 @@ wyrażają w sposób symboliczny wyraz twarzy użytkownika.
 
 \subsubsection[Informacje ogólne]{Informacje ogólne}
 Program umożliwia wymianę danych między użytkownikami podłączonymi do sieci Internet.
-Aplikacja Serwer eTalk powinna być uruchomiona na komputerze o dużej mocy obliczeniowej, aby móc przetwarzać wiele zapytań od klientów naraz.\\
+Aplikacja serwer eTalk powinna być uruchomiona na komputerze o dużej mocy obliczeniowej, aby móc przetwarzać wiele zapytań od klientów naraz.\\
 Program umożliwia połączenie z bazą PostgreSQL, co wiąże się z uwierzytelnieniem. Osoba obsługująca serwer powinna być jednocześnie administratorem bazy i znać odpowiednią nazwę użytkownika i hasło dostępu do bazy.\\
-Baza PostgreSQL, z której korzysta Serwer eTalk może działać na localhost (pętla lokalna). W przypadku, gdy baza jest na innym komputerze należy zmienić ustawienia domyślne serwera, podając odpowiedni adres IP i numer portu.\\
+Baza PostgreSQL, z której korzysta serwer eTalk może działać na localhost (pętla lokalna). W przypadku, gdy baza jest na innym komputerze należy zmienić ustawienia domyślne serwera, podając odpowiedni adres IP i numer portu.\\
 Po połączeniu z bazą w centralnej części okna głównego aplikacji, serwer udostępnia dane odnośnie zarejestrowanych użytkowników, które są odczytywane na bieżąco z bazy. Dostępne dane można w dowolnym momencie odświeżać, monitorując aktualny stan bazy danych.\\
 Właściwa praca serwera rozpoczyna się po połączeniu z bazą i rozpoczęciu nasłuchiwania na wybranym porcie.
 Od tej pory serwer powinien poprawnie obsługiwać żądania klienta i poprawnie na nie odpowiadać.
@@ -329,7 +329,7 @@ W przypadku próby podania niepoprawnej nazwy użytkownika lub hasła dostępu d
 zatwierdzenie i nie dojdzie do połączenia z bazą danych.\\
 Lista podstawowych danych zarejestrowanych klientów eTalk wyświetla się w głównym oknie aplikacji.
 Wybranie przycisku ,,Odśwież'' spowoduje pobranie aktualnej listy podstawowych danych zarejestrowanych użytkowników i wyświetlenie jej.
-Wybranie z listy zarejestrowanego użytkownika spowoduje wyświetlenie jego dokładnych danych osobowych na liście poniżej i wyświetlenie jego kontaktów na liście po prawej stronie.
+Wybranie z listy zarejestrowanego użytkownika spowoduje wyświetlenie jego dokładnych danych osobowych na liście poniżej.
 
 \subsubsection[Włączanie serwera]{Włączanie serwera}
 Warunkiem koniecznym, aby móc włączyć serwer jest wcześniejsze połączenie się z bazą danych PostgreSQL.
@@ -352,24 +352,23 @@ połączenia.
 
 \subsubsection[Wyjście z programu]{Wyjście z programu}
 Użytkownik może wyjść z programu bezpośrednio, zamykając główne okno aplikacji za
-pomocą przycisku w prawym górnym rogu lub wybierając przycisk „Wyjście” z menu
+pomocą przycisku w prawym górnym rogu lub wybierając przycisk ,,Wyjście'' z menu
 głównego programu.
 
 \subsubsection[Uwagi odnośnie kompilacji i uruchamiania programu]{Uwagi odnośnie kompilacji i uruchamiania programu}
 Program został napisany w całości w języku C\# przy użyciu zestawu narzędzi programistycznych
 Microsoft Visual Studio 2008. Wykorzystano następujące biblioteki spoza standardu języka:
 \begin{itemize}
-    \item[--] \texttt{Npgsql} -- darmowa biblioteka do obsługi połączenia z bazą danych PostgreSQL. Wszystkie potrzebne do uruchomienia Serwera eTalk pliki \texttt{.DLL} znajdują się w katalogu \texttt{bin} aplikacji;
-    \item[--] \texttt{HAKGERSoft} -- darmowa biblioteka do obsługi protokołu komunikatora Gadu-Gadu. Wszystkie potrzebne do uruchomienia Serwera eTalk pliki \texttt{.DLL} znajdują się w katalogu \texttt{bin} aplikacji.
+    \item[--] \texttt{Npgsql} -- darmowa biblioteka do obsługi połączenia z bazą danych PostgreSQL. Wszystkie potrzebne do uruchomienia serwera eTalk pliki \texttt{.DLL} znajdują się w katalogu \texttt{bin} aplikacji;
+    \item[--] \texttt{HAKGERSoft} -- darmowa biblioteka do obsługi protokołu komunikatora Gadu-Gadu. Wszystkie potrzebne do uruchomienia serwera eTalk pliki \texttt{.DLL} znajdują się w katalogu \texttt{bin} aplikacji.
 \end{itemize}
-Nie gwarantujemy jednak, że przy innej wersji zintegrowanego środowiska programistycznego, a w szczególności innej wersji kompilatora języka C\# Serwer eTalk będzie działał poprawnie.
+Nie gwarantujemy, że przy innej wersji zintegrowanego środowiska programistycznego, a w szczególności innej wersji kompilatora języka C\# serwer eTalk będzie działał poprawnie.
 Aplikacja była testowana pod systemem Windows XP Professional z zainstalowanym
 dodatkiem Service Pack 2 i jest przeznaczona wyłącznie dla systemów operacyjnych Microsoft Windows.
 
 
 
 \subsection[Klient eTalk]{Klient eTalk}
-
 
 
 
@@ -386,10 +385,10 @@ Ważne jest, aby opis był zrozumiały nawet dla bardzo niedoświadczonych użyt
 Administratorzy, to osoby odpowiedzialne za prawidłowe działanie systemu i zarządzanie bazą danych.
 Administratorzy powinni zostać gruntownie przeszkoleni tak, aby mogli sprawnie
 zarzadzać systemem.\\
-Administratorzy mają dostęp do wszystkich danych związanych z działaniem systemu i nieograniczone uprawnienia związane
+Administratorzy mają dostęp do większości danych związanych z działaniem systemu i nieograniczone uprawnienia związane
 z modyfikowaniem zawartości bazy danych.
 Informacje o klientach powinni otrzymywać jedynie w sytuacjach, w których
-jest to niezbędne.
+jest to niezbędne. Aby dochować tajemnicy korespondencji, nawet administratorzy nie mają dostępu do realcji \texttt{wiadomości}.  
 
 \subsection[Opis encji]{Opis encji}
 \subsubsection[Użytkownik]{Użytkownik}
@@ -397,16 +396,17 @@ Relacja \texttt{użytkownik} przechowuje podstawowe informacje o klientach, któ
 \begin{itemize}
     \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownik} i jest automatycznie generowany przez sekwencję \texttt{num\_gen} po rejestracji klienta;
     \item[--] unikatową nazwę użytkownika, która jednoznacznie określa klienta w bazie danych;
-    \item[--] hasło, które użytkownik podaje podczas rejestracji składające się z co najmniej 6 znaków alfanumerycznych;
-    \item[--] status, możliwe wartości: ,,Dostepny'', ,,Niedostepny'', ,,Zaraz wracam'' i ,,Niewidoczny''.
+    \item[--] hasło, które użytkownik podaje podczas rejestracji, składające się z co najmniej 6 znaków alfanumerycznych;
+    \item[--] data ostatniego zapytania;
+    \item[--] status, możliwe wartości: ,,Dostepny'', ,,Niedostepny'' i ,,Niewidoczny''.
 \end{itemize}
 
 \subsubsection[Dane]{Dane}
 Relacja \texttt{dane} przechowuje dodatkowe informacje o kliencie, które nie są konieczne do prawidłowego działania systemu. Dane mogą okazać się jednak pomocne przy wyszukiwaniu użytkowników systemu e-Talk. Relacja zawiera kolejno następujące atrybuty:
 \begin{itemize}
-    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{użytkownik} i jest kluczem obcym z relacji \texttt{użytkownik};
+    \item[--] numer konta, który jest kluczem publicznym relacji \texttt{dane} i jest kluczem obcym z relacji \texttt{użytkownik};
+    \item[--] imię, które jest polem wymaganym do wypełnienia podczas rejestracji;    
     \item[--] nazwisko, które jest polem wymaganym do wypełnienia podczas rejestracji;
-    \item[--] imię, które jest polem wymaganym do wypełnienia podczas rejestracji;
     \item[--] kod pocztowy, który nie jest wymaganym polem do wypełnienia podczas rejestracji. Poprawność
               tego pola jest sprawdzana na podstawie domeny \texttt{kod\_type} opartej na prostym wyrażeniu
               regularnym;
@@ -417,28 +417,27 @@ Relacja \texttt{dane} przechowuje dodatkowe informacje o kliencie, które nie s�
     \item[--] zainteresowania, które użytkownik wypełnia dowolnie, według własnego uznania.
 \end{itemize}
 
-\subsubsection[Znajomi]{Znajomi}
-Relacja \texttt{znajomi} przechowuje informacje o użytkownikach, którzy się znają. Dane potrzebne są podczas pobierania z serwera listy kontaktów dla danego użytkownika. Relacja zawiera kolejno następujące atrybuty:
+\subsubsection[Wiadomości]{Wiadomości}
+Relacja \texttt{wiadomości} przechowuje informacje o nieodebranych wiadomościach. Dane potrzebne są podczas pobierania z serwera listy nowych wiadomości dla klienta. Relacja zawiera kolejno następujące atrybuty:
 \begin{itemize}
-    \item[--] identyfikator pary znajomych, który jest kluczem publicznym relacji \texttt{znajomi} i jest automatycznie generowany przez sekwencję \texttt{znaj\_gen} po dodaniu nowego użytkownika do listy znajomych;
-    \item[--] numer pierwszego konta, który jest kluczem obcym z relacji \texttt{użytkownik};
-    \item[--] numer drugiego konta, który jest kluczem obcym z relacji \texttt{użytkownik};
-    \item[--] nazwa kontaktu w profilu 1. klienta.
+    \item[--] identyfikator wiadomości, który jest kluczem publicznym relacji \texttt{wiadomości} i jest automatycznie generowany przez sekwencję \texttt{wiad\_gen} po wysłaniu przez klienta nowej wiadomości;
+    \item[--] nazwa nadawcy;
+    \item[--] nazwa odbiorcy;
+    \item[--] treść wiadomości.
 \end{itemize}
 
 \subsection[Dodatkowe elementy bazy danych]{Dodatkowe elementy bazy danych}
 W celu przyspieszenia procesu wyszukiwania i sortowania założono indeksy na następujących atrybutach:
 \begin{itemize}
-    \item[--] nazwisko w relacji \texttt{dane};
-    \item[--] login w relacji \texttt{użytkownik};
-    \item[--] numery użytkowników w relacji \texttt{znajomi}.
+    \item[--] nazwisko w relacji \texttt{dane},
+    \item[--] login w relacji \texttt{użytkownik},
+    \item[--] nazwa odbiorcy w relacji \texttt{wiadomości}.
 \end{itemize}
 Oprócz powyżej opisanych indeksów, system zarządzania bazą danych założył automatycznie indeksy na kluczach publicznych
 wszystkich relacji bazy danych.
-
-\subsection[Diagram UML]{Diagram UML}
+\newpage
 \begin{center}
-	\begin{figure}[!hbp]
+	\begin{figure}
 	  \caption{Diagram UML}
 	    \label{fig:Diagram}
 	      \begin{center}
@@ -478,11 +477,9 @@ się z następujących klas:
     \item[--] \texttt{QueryMaker},
     \item[--] \texttt{Serwer}.
 \end{itemize}
-Dokładny opis wszystkich metod zawartych we wszystkich klasach znajduje się w dokumentacji
-MSDN wygenerowanej programem NDoc.
 
 \subsubsection[Opis klasy About]{Opis klasy About}
-\texttt{About} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
+\texttt{About} jest publiczną klasą formularza dziedziczącą po bibliotecznej klasie \texttt{Form}
 języka C\#. Formularz wyświetla informacje o programie i autorach.
 
 \subsubsection[Opis klasy ClientRequest]{Opis klasy ClientRequest}
@@ -492,7 +489,8 @@ Metoda \texttt{getType} zwraca typ otrzymanej wiadomości.\\
 Metoda \texttt{getParams} zwraca główne parametry otrzymanej wiadomości i ewentualnie dodatkowe parametry, jeżeli zostały przesłane. Parametry są przechowywane w obiekcie klasy \texttt{ClientRequestParams}.
 
 \subsubsection[Opis klasy ClientRequestParams]{Opis klasy ClientRequestParams}
-\texttt{ClientRequestParams} stanowi opakowanie dla głównych i ewentualnie dodatkowych parametrów żądania klienta w formacie XML. Zwracanie i ustawianie parametrów jest możliwe dzięki mechanizmowi indekserów (indeksowanie tablicy nazwami parametrów).
+\texttt{ClientRequestParams} stanowi opakowanie dla głównych i ewentualnie dodatkowych parametrów żądania klienta w formacie XML. Zwracanie i ustawianie parametrów jest możliwe dzięki mechanizmowi indekserów (indeksowanie tablicy nazwami parametrów).\\
+Metoda \texttt{getExtraData} zwraca dodatkowe parametry, jeżeli zapytanie takie zawiera.
 
 \subsubsection[Opis klasy GaduGadu]{Opis klasy GaduGadu}
 \texttt{GaduGadu} jest publiczną klasą odpowiedzialną za obsługę protokołu komunikatora Gadu-Gadu.
@@ -501,31 +499,31 @@ Metody \texttt{connect} i \texttt{disconnect} służą odpowiednio do łączenia
 Operacja łącznia się z serwerem wiąże się z procesem uwierzytelniania klienta.\\
 Metoda \texttt{sendMessage} pozwala na wysłanie pod dany numer, danej w parametrze procedury wiadomości.
 Aby wysłać wiadomość użytkownik musi być uwierzytelniony.\\
-Metoda \texttt{gadu\_GGMessageReceive} realizuje funkcję nasłuchiwacza przychodzących wiadomości do uwierzytelnionego użytkownika.\\
+Metoda \texttt{gadu\_GGMessageReceive} realizuje funkcję nasłuchiwacza wiadomości przychodzących do uwierzytelnionego użytkownika.\\
 Metoda \texttt{changeStatus} zmienia status uwierzytelnionego użytkownika na status podany w pierwszym parametrze metody. Zmianie ulega również opis użytkownika. Nowy opis przekazywany jest jako drugi parametr metody.\\
 Metoda \texttt{sendImage} wysyła obrazki wraz z wiadomością tekstową do adresata. W trakcie przesyłania obrazek jest pamiętany w strumieniu pamięci (obiekt bibliotecznej klasy \texttt{MemoryStream}). Klient powinien określić zawartość wiadomości tekstowej, numer adresata, pozycję obrazka w tekście, oraz sam obrazek przechowywany w obiekcie bibliotecznej klasy \texttt{Image} i przekazać te dane jako parametry metody.
+Metoda \texttt{getMsg} zwraca parę (nadawca, treść wiadomości) i jest wywoływana przez metodę nasłuchiwacza \texttt{gadu\_GGMessageReceive}.
 
 \subsubsection[Opis klasy HandleClient]{Opis klasy HandleClient}
-\texttt{HandleClient} jest publiczną klasą odpowiedzialną za obsługę żądań Klienta eTalk. Metoda \texttt{getMessage}
-wykorzystując obiekt klasy bibliotecznej \texttt{NetworkStream} języka C\# pobiera żądanie klienta w formacie XML zgodne z opisanym w tym dokumencie poniżej protokołem komunikacji.\\
+\texttt{HandleClient} jest publiczną klasą odpowiedzialną za obsługę żądań klienta eTalk. Metoda \texttt{getMessage}
+wykorzystując obiekt klasy bibliotecznej \texttt{NetworkStream} języka C\# pobiera żądanie klienta w formacie XML zgodne z opisanym w tym dokumencie protokołem komunikacji.\\
 Wykorzystując obiekty klas \texttt{ClientRequest} i \texttt{ClientRequestParams} klasa przetwarza żądanie i jego parametry. \\
-Po rozpoznaniu typu zapytania i jego parametrów klasa wykorzystując obiekt \texttt{QueryMaker} wykonuje zadaną operację w bazie danych. Po poprawnym wykonaniu zadania wysyła odpowiedź utworzoną przez obiekt klasy \texttt{MessageFactory}.\\
-Klasa \texttt{HandleClient} przesyła odpowiedź klientowi wykorzystując obiekty bibliotecznych klas \texttt{StreamWriter} i \texttt{NetworkStream}.\\
-Metoda \texttt{doChat} przesyła przekazaną w parametrze metody wiadomość do zadanego w parametrze metody użytkownika.
+Po rozpoznaniu typu zapytania i jego parametrów klasa wykorzystując obiekt \texttt{QueryMaker} wykonuje zadaną operację w bazie danych. Po poprawnym wykonaniu zadania, wysyła odpowiedź utworzoną przez obiekt klasy \texttt{MessageFactory}.\\
+Metoda \texttt{sendMessage} przesyła odpowiedź klientowi wykorzystując obiekty bibliotecznych klas \texttt{StreamWriter} i \texttt{NetworkStream}.\\
 
 \subsubsection[Opis klasy ListenerWindow]{Opis klasy ListenerWindow}
 \texttt{ListenerWindow} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
 języka C\#. Metoda wyświetla formularz zawierający dwa pole tekstowe przeznaczone na adres IP i numer portu.
-Podane informacje jednoznacznie określają gniazdo nasłuchujące Serwera eTalk. Po potwierdzeniu wprowadzonych danych
+Podane informacje jednoznacznie określają gniazdo nasłuchujące serwera eTalk. Po potwierdzeniu wprowadzonych danych
 program tworzy nowy obiekt klasy \texttt{Serwer} i rozpoczyna nasłuchiwanie na określonym porcie pod określonym adresem.
 
 \subsubsection[Opis klasy LoginWindow]{Opis klasy LoginWindow}
 \texttt{LoginWindow} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
-języka C\#. Metoda wyświetla formularz zawierający dwa pole tekstowe przeznaczone na nazwę użytkownika i hasło do bazy danych Serwera eTalk. Po potwierdzeniu danych następuje połączenie z bazą danych PostgreSQL.
+języka C\#. Metoda wyświetla formularz zawierający dwa pole tekstowe przeznaczone na nazwę użytkownika i hasło do bazy danych serwera eTalk. Po potwierdzeniu danych następuje połączenie z bazą danych PostgreSQL.
 Program tworzy nowy obiekt klasy bibliotecznej \texttt{NpgsqlConnection} i nawiązuje połączenie z bazą, której namiary podawane są w parametrze konstruktora.
 
 \subsubsection[Opis klasy MainForm]{Opis klasy MainForm}
-\texttt{MainForm} jest publiczną klasą głównego formularza aplikacji Serwer eTalk dziedziczącą po klasie bibliotecznej \texttt{Form} języka C\#. Klasa jest odpowiedzialna za wyświetlanie i konfigurowanie głównego
+\texttt{MainForm} jest publiczną klasą głównego formularza aplikacji serwer eTalk dziedziczącą po klasie bibliotecznej \texttt{Form} języka C\#. Klasa jest odpowiedzialna za wyświetlanie i konfigurowanie głównego
 okna aplikacji, jego komponentów oraz obsługę wszystkich zdarzeń z nimi związanych.
 Menu główne aplikacji jest obiektem klasy \texttt{MainMenu} i zawiera przyciski, które są obiektami
 klasy \texttt{MenuItem}. Dolne menu jest obiektem klasy \texttt{StatusBar} i zawiera następujące komponenty -- obiekty
@@ -537,46 +535,42 @@ klasy \texttt{StatusBarPanel}:
     \item[--] panel z godziną (informacje pobrane z obiektu klasy \texttt{Timer}, odświeżane co sekunda
 dzięki obsłudze zdarzenia \texttt{Tick}).
 \end{itemize}
-Klasy \texttt{MainForm} użyto również do składowania głównych obiektów Serwera eTalk,
-np. lista połączeń.\\
+Klasy \texttt{MainForm} użyto również do składowania głównych obiektów serwera eTalk,
+np. listy połączeń.\\
 W centrum głównego formularza znajduje się lista (obiekt bibliotecznej klasy \texttt{ListBox}) wszystkich użytkowników z bazy danych aplikacji.
 Poniżej opisanej listy znajduje się druga lista zawierająca rozszerzone informacje o użytkowniku wybranym z pierwszej listy (wykorzystano tutaj obsługę zdarzenia \texttt{SelectedIndexChanged} dla obiektu klasy \texttt{ListBox}). Obie listy można odświeżać.
 
 \subsubsection[Opis klasy MessageFactory]{Opis klasy MessageFactory}
 \texttt{MessageFactory} jest publiczną klasą służącą do wytwarzania odpowiedzi dla klienta.\\
 Każda kolejna metoda klasy potrafi zwrócić odpowiedź o ustalonym typie i zadanych parametrach.\\
-Wszystkie odpowiedzi są w formacie XML i są tworzone na podstawie protokołu komunikacyjnego, utworzonego specjalnie na potrzeby aplikacji eTalk. Dokładny opis protokołu znajduje się w dalszej części tego dokumentu.
+Wszystkie odpowiedzi są w formacie XML i są tworzone na podstawie protokołu komunikacyjnego napisanego specjalnie na potrzeby aplikacji eTalk. Dokładny opis protokołu znajduje się w dalszej części tego dokumentu.
 
 \subsubsection[Opis klasy Pair]{Opis klasy Pair}
 \texttt{Pair<T,U>} jest pomocniczą klasą generyczną przechowującą pary elementów.\\
-Pierwszy element jest typu T, drugi element jest typu U.
+Pierwszy element jest typu T, drugi element jest typu U. Dostęp do poszczególnych elementów jest możliwy dzięki własnościom \texttt{set} i \texttt{get} zaimplementowanym w języku C\#.
 
 \subsubsection[Opis klasy QueryMaker]{Opis klasy QueryMaker}
-\texttt{QueryMaker} jest główną klasą wykonującą operacje na bazie danych PostgreSQL Serwera eTalk.\\
-Do łączenia się bazą PostgreSQL autorzy projektu wykorzystali darmową bibliotekę \texttt{Npgsql} dla języka C\#.
+\texttt{QueryMaker} jest główną klasą wykonującą operacje na bazie danych PostgreSQL serwera eTalk.\\
+Do łączenia się z bazą PostgreSQL autorzy projektu wykorzystali darmową bibliotekę \texttt{Npgsql} dla języka C\#.
 Klasa \texttt{QueryMaker} posiada następujące metody:
 \begin{itemize}
     \item[--] \texttt{addClient}, która dodaje nowego klienta do bazy. Informacje o nowym kliencie są zapisane w słowniku (obiekt klasy bibliotecznej \texttt{Dictionary<String,String>}). Metoda obsługuje każdą poprawną kombinację danych klienta (pewne pola mogą pozostać niewypełnione, reszta jest obowiązkowa).
-              Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{INSERT} i zapytania \texttt{SELECT} w języku SQL;
-    \item[--] \texttt{changeStatus}, która zmienia stary status uwierzytelnionego klienta na nowy, zadany w drugim parametrze metody. Możliwe statusy to: \texttt{Dostepny}, \texttt{Niedostepny}, \texttt{Niewidoczny} i \texttt{Zaraz wracam}. Metoda przetwarza relację \texttt{uzytkownik} i wykorzystuje polecenie \texttt{UPDATE} w języku SQL;
+        Metoda przetwarza relacje \texttt{użytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{INSERT} i zapytania \texttt{SELECT} w języku SQL. Metoda zwraca 1 jeżeli brakuje obowiązkowych danych, 2 jeżeli dochodzi do błędu połączenia z bazą i 0 jeżeli operacja przebiegnie pomyślnie;
+    \item[--] \texttt{changeStatus}, która zmienia stary status uwierzytelnionego klienta na nowy, zadany w drugim parametrze metody. Możliwe statusy to: \texttt{Dostepny}, \texttt{Niedostepny}, \texttt{Niewidoczny} i \texttt{Zaraz wracam}. Metoda przetwarza relację \texttt{użytkownik} i wykorzystuje polecenie \texttt{UPDATE} w języku SQL;
     \item[--] \texttt{deleteClient}, która usuwa z bazy danych informacje o zadanym w parameterze kliencie.
               Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{DELETE} w języku SQL;
-    \item[--] \texttt{getClients}, która zwraca listę wszystkich użytkowników znalezionych w bazie Serwera eTalk.
-              Metoda przeszukuje relację \texttt{uzytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{getClients}, która zwraca listę wszystkich użytkowników znalezionych w bazie serwera eTalk.
+              Metoda przeszukuje relację \texttt{użytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
     \item[--] \texttt{getClientDetail}, która zwraca dodatkowe dane klienta zadanego przez parametr metody.
               Metoda przeszukuje relację \texttt{dane} i wykorzytuje proste zapytanie \texttt{SELECT} w języku SQL;
-    \item[--] \texttt{getFriends}, która zwraca listę znajomych klienta zadanego jako parametr metody. Lista zawiera pary postaci (numer\_klienta, pseudonim).
-        Metoda przeszukuje relację \texttt{znajomi} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
-    \item[--] \texttt{login}, która sprawdza, czy podczas uwierzytelniania klient podał poprawną nazwę użytkownika i hasło. Metoda przeszukuje relację \texttt{uzytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
-    \item[--] \texttt{makeFriends}, która łączy dwóch nowych znajomych zadanych jako pierwsze dwa parametry metody oraz zapisuje drugiego klienta pod pseudonimem przekazanym do metody jako trzeci parametr. W efekcie drugi klient trafia na listę znajomych pierwszego klienta pod wybranym pseudonimem.
-        Metoda przetwarza relację \texttt{znajomi} i wykorzystuje polecenie \texttt{INSERT} i zapytanie \texttt{SELECT} w języku SQL;
+    \item[--] \texttt{login}, która sprawdza, czy podczas uwierzytelniania klient podał poprawną nazwę użytkownika i hasło. Metoda przeszukuje relację \texttt{użytkownik} i wykorzystuje proste zapytanie \texttt{SELECT} w języku SQL;
     \item[--] \texttt{modifyClient}, która modyfikuje podstawowe i dodatkowe informacje o kliencie. Lista modyfikacji przekazywana jest w postaci słownika jako parametr metody.
-        Metoda przetwarza relacje \texttt{uzytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{UPDATE} i zapytania \texttt{SELECT} w języku SQL.
+        Metoda przetwarza relacje \texttt{użytkownik} oraz \texttt{dane} i wykorzystuje polecenia \texttt{UPDATE} i zapytania \texttt{SELECT} w języku SQL.
 \end{itemize}
 
 \subsubsection[Opis klasy Serwer]{Opis klasy Serwer}
 \texttt{Serwer} jest publiczną klasą, która tworzy nowy obiekt klasy bibliotecznej \texttt{TcpListener} języka C\#, nasłuchuje w oczekiwaniu na klientów na gnieździe nasłuchującym i zwraca gniazdo połączone, gdy dojdzie do połączenia.
-Klasa \texttt{Serwer} tworzy nowy obiekt klasy \texttt{HandleClient} przekazując jej w parametrze konstruktora gniazdo połączone -- obiekt bibliotecznej klasy \texttt{Socket} języka C\# oraz numer porządkowy klienta (liczy się kolejność połączeń). Serwer jest aplikacja wielowątkową. Proces macierzysty tworzy wątki do obsługi każdego klienta z osobna. Dzięki zrównoleglonej obsłudze poszczególnych klientów, Serwer eTalk działa szybciej.
+Klasa \texttt{Serwer} tworzy nowy obiekt klasy \texttt{HandleClient} przekazując jej w parametrze konstruktora, gniazdo połączone -- obiekt bibliotecznej klasy \texttt{Socket} języka C\# oraz numer porządkowy klienta (liczy się kolejność połączeń). Serwer jest aplikacją wielowątkową. Proces macierzysty tworzy wątki do obsługi każdego klienta z osobna. Dzięki zrównoleglonej obsłudze poszczególnych klientów, serwer eTalk działa szybciej. Metoda \texttt{start} rozpoczyna pracę serwera, a następnie ją kontroluje i ostatecznie kończy.
 
 
 \subsection[Klient eTalk]{Klient eTalk}
@@ -589,7 +583,7 @@ języka C\#. Formularz wyświetla informacje o programie i autorach.
 \subsubsection[Opis klasy MessageFactory]{Opis klasy MessageFactory}
 \texttt{MessageFactory} jest publiczną klasą służącą do wytwarzania żądań dla klienta.\\
 Każda kolejna metoda klasy potrafi zwrócić żądanie o ustalonym typie i zadanych parametrach.\\
-Wszystkie żądania są w formacie XML i są tworzone na podstawie protokołu komunikacyjnego, utworzonego specjalnie na potrzeby aplikacji eTalk. Dokładny opis protokołu znajduje się w dalszej części tego dokumentu.
+Wszystkie żądania są w formacie XML i są tworzone na podstawie protokołu komunikacyjnego, napisanego specjalnie na potrzeby aplikacji eTalk. Dokładny opis protokołu znajduje się w dalszej części tego dokumentu.
 
 \subsubsection[Opis klasy ServerResponse]{Opis klasy ServerResponse}
 \texttt{SerwerResponse} jest publiczną klasą odpowiedzialną za przetwarzanie odpowiedzi serwera, które są przesyłane w formacie XML.
@@ -599,6 +593,7 @@ Metoda \texttt{getParams} zwraca główne parametry otrzymanej wiadomości i ewe
 
 \subsubsection[Opis klasy ServerResponseParams]{Opis klasy ServerResponseParams}
 \texttt{SerwerResponseParams} stanowi opakowanie dla głównych i ewentualnie dodatkowych parametrów odpowiedzi klienta w formacie XML. Zwracanie i ustawianie parametrów jest możliwe dzięki mechanizmowi indekserów (indeksowanie tablicy nazwami parametrów).
+Metoda \texttt{getExtraData} zwraca dodatkowe parametry, jeżeli zapytanie takie zawiera.
 
 \subsection[Opis protokołu komunikacyjnego aplikacji eTalk]{Opis protokołu komunikacyjnego aplikacji eTalk}
 

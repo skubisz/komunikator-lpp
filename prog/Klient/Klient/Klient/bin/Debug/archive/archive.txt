@@ -55,3 +55,5 @@ loginek;65;ssssssss
 loginek;66;jakislogin
 loginek;67;jakislogin
 jakislogin;68;loginek
+jakislogin;69;loginek
+loginek;70;jakislogin
