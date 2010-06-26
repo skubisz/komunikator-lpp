@@ -100,6 +100,46 @@ namespace Serwer
 
         }
 
+        public List<Pair<String, String>> getStatus(List<String> list1)
+        {
+            List<Pair<String, String>> list2 = new List<Pair<String, String>>();
+
+            for (int i = 0; i <= list1.Count-1; i++)
+            {
+                // Zapytanie o detale klienta.
+                NpgsqlCommand command = new NpgsqlCommand("select status from uzytkownik where login = :login", conn);
+                // Typ parametru w zapytaniu.
+                command.Parameters.Add(new NpgsqlParameter("login", NpgsqlDbType.Varchar));
+                // Zapisywanie wartości parametru.
+                command.Parameters[0].Value = list1[i];
+
+                try
+                {
+                    // Wykonanie zapytania.
+                    NpgsqlDataReader dr = command.ExecuteReader();
+                    string status = "niedostepny";
+
+                    while (dr.Read())
+                    {
+                        if (dr[0].ToString().CompareTo("Dostepny") == 0)
+                            status = "dostepny";
+
+                        Pair<String, String> p = new Pair<String, String>(list1[i], status);
+                        list2.Add(p);
+                    }
+
+                    dr.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Błąd połączenia z bazą danych!\n" + ex.Message);
+                }
+            }
+
+            return list2;
+
+        }
+
         /// <summary>
         /// Dodaje klienta do bazy.
         /// </summary>

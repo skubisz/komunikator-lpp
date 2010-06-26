@@ -187,11 +187,10 @@ class Communicator
         ServerResponse serverResponse = new ServerResponse(response);
 
         ServerResponseParams par = serverResponse.getParams();
-
         int index = 0;
         foreach (string login in usernames)
         {
-
+            //MessageBox.Show(login + " " + par[login]);
             main.updateStatus(login, index, par[login]);
             index++;
         }        

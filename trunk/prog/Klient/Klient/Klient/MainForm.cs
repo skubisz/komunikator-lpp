@@ -257,7 +257,6 @@ namespace Klient
 
         private void contactTimer_Tick(object sender, EventArgs e)
         {
-            return;
             contactTimer.Enabled = false;
 
             _communicator.refreshContactsStatus(this);
