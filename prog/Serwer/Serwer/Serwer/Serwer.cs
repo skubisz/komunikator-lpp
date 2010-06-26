@@ -180,6 +180,21 @@ namespace Serwer
                 response = mf.changeStatusMessage();
                 sendMessage(response);
             }
+            else if (type.CompareTo("refreshContactsStatus") == 0)
+            {
+                int users = Int32.Parse(param["users"]);
+                List<String> list1 = new List<String>();
+ 
+                for (int i = 1; i <= users; i++)
+                {
+                    list1.Add(param["username" + i.ToString()]);
+                }
+
+                List<Pair<String, String>> list2 = qm.getStatus(list1);
+                MessageFactory mf = MessageFactory.getInstance();
+                response = mf.refreshContactsStatusMessage(list2);
+                sendMessage(response);
+            }
             else if (type.CompareTo("changePassword") == 0)
             {
                 Dictionary<String, String> d = new Dictionary<String, String>();

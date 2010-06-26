@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows.Forms;
 
 namespace Serwer
 {
@@ -93,6 +94,24 @@ namespace Serwer
                 "   <type>changeStatus</type>" +
                 "</response>"
             );
+        }
+
+        public string refreshContactsStatusMessage(List<Pair<String, String>> list)
+        {
+            String msg = string.Format(
+                "<response>" +
+                "   <type>refreshContactsStatus</type>" +
+                "   <params>");
+
+            for (int i = 1; i <= list.Count; i++)
+            {
+                msg += string.Format("<param name=\"{0}\" value=\"{1}\" />", HttpUtility.HtmlEncode(list[i - 1].First), HttpUtility.HtmlEncode(list[i - 1].Second));
+            }
+
+            msg += string.Format("</params>" +
+                "</response>");
+
+            return msg;
         }
 
     }
