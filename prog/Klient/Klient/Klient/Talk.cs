@@ -28,7 +28,7 @@ namespace Klient
 
             Text += contactName;
 
-            Communicator.getInstance().archive.createNewTalk(_login, _talkId, contactLogin);
+            Communicator.getInstance().archive.createNewTalk(_login, _talkId, contactLogin, DateTime.Now);
             string url = string.Format(Communicator.getInstance().getBasePath() + "archive/{0}/{1}.html", _login, _talkId);
             
             //url = "file:///C:/komunikator/prog/Klient/Klient/Klient/bin/Debug/archive/c/35.html";

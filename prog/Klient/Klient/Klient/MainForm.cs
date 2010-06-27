@@ -210,9 +210,9 @@ namespace Klient
         }
 
         private void timer_Tick(object sender, EventArgs e)
-        {
-            
+        {            
             timer.Enabled = false;
+            
             
             List<CommunicatorMessage> messages = _communicator.readMessages();
 
@@ -240,7 +240,7 @@ namespace Klient
                     newTalk.addMessage(message.from, contactName, message.message);
                 }
             }
-
+            return;
             timer.Enabled = true;            
             
         }
@@ -258,6 +258,7 @@ namespace Klient
         private void contactTimer_Tick(object sender, EventArgs e)
         {
             contactTimer.Enabled = false;
+            return;
 
             _communicator.refreshContactsStatus(this);
             
@@ -297,6 +298,16 @@ namespace Klient
             _communicator.changeStatus("niedostepny");
             currentStatusDescription.Text = "niedostępny";
             currentStatus.BackColor = Color.Red;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_communicator.getLogedUser() != "")
+            {
+                _communicator.changeStatus("niedostepny");
+                currentStatusDescription.Text = "niedostępny";
+                currentStatus.BackColor = Color.Red;
+            }
         }       
     }
 }

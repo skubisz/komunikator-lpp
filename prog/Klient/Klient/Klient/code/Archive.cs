@@ -8,14 +8,15 @@ public class Talk
 {
     public string login;
     public int id;
-    public string firstMessage;    
+    public string firstMessage;
+    public string date;
 
-    public Talk(int id, string login, string firstMessage)
+    public Talk(int id, string login, string firstMessage, string date)
     {
         this.id = id;
         this.login = login;
         this.firstMessage = firstMessage;
-        
+        this.date = date;        
     }
 }
 
@@ -57,7 +58,7 @@ public class Archive
         }
     }
 
-    public void createNewTalk(string login, int talkId, string talker)
+    public void createNewTalk(string login, int talkId, string talker, DateTime time)
     {
         if (!File.Exists("archive/" + login + "/" + talkId.ToString() + ".html"))
         {
@@ -68,7 +69,7 @@ public class Archive
             File.WriteAllText("archive/" + login + "/" + talkId.ToString() + ".html", talkHtmlCode);
 
             StreamWriter file = File.AppendText("archive/archive.txt");
-            file.WriteLine(String.Format("{0};{1};{2}", login, talkId, talker));
+            file.WriteLine(String.Format("{0};{1};{2};{3}", login, talkId, talker, time));
             file.Close();
         }
     }
@@ -102,7 +103,7 @@ public class Archive
             {
                 int id = int.Parse(split[1]);
                 string firstMessage = File.ReadAllText("archive/" + login + "/" + id.ToString() + ".txt");
-                result.Add(new Talk(id, login, firstMessage));                
+                result.Add(new Talk(id, login, firstMessage, split[3]));                
             }
         }        
         
