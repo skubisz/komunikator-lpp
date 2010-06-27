@@ -240,7 +240,7 @@ namespace Klient
                     newTalk.addMessage(message.from, contactName, message.message);
                 }
             }
-            return;
+            
             timer.Enabled = true;            
             
         }
@@ -257,8 +257,7 @@ namespace Klient
 
         private void contactTimer_Tick(object sender, EventArgs e)
         {
-            contactTimer.Enabled = false;
-            return;
+            contactTimer.Enabled = false;           
 
             _communicator.refreshContactsStatus(this);
             
