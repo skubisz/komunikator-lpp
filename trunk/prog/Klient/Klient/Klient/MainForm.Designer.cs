@@ -212,21 +212,21 @@
             this.dostępnyToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dostępnyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.dostępnyToolStripMenuItem.Name = "dostępnyToolStripMenuItem";
-            this.dostępnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dostępnyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.dostępnyToolStripMenuItem.Text = "Dostępny";
             this.dostępnyToolStripMenuItem.Click += new System.EventHandler(this.dostępnyToolStripMenuItem_Click);
             // 
             // niewidocznyToolStripMenuItem
             // 
             this.niewidocznyToolStripMenuItem.Name = "niewidocznyToolStripMenuItem";
-            this.niewidocznyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.niewidocznyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.niewidocznyToolStripMenuItem.Text = "Niewidoczny";
             this.niewidocznyToolStripMenuItem.Click += new System.EventHandler(this.niewidocznyToolStripMenuItem_Click);
             // 
             // niedostępnyToolStripMenuItem
             // 
             this.niedostępnyToolStripMenuItem.Name = "niedostępnyToolStripMenuItem";
-            this.niedostępnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.niedostępnyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.niedostępnyToolStripMenuItem.Text = "Niedostępny";
             this.niedostępnyToolStripMenuItem.Click += new System.EventHandler(this.niedostępnyToolStripMenuItem_Click);
             // 
@@ -337,6 +337,7 @@
             this.Name = "MainForm";
             this.Text = "e-Talk";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
