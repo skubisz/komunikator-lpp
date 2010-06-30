@@ -589,9 +589,113 @@ Klasa \texttt{Serwer} tworzy nowy obiekt klasy \texttt{HandleClient} przekazują
 \subsection[Klient eTalk]{Klient eTalk}
 \subsubsection[Opis programu]{Opis programu}
 
-\subsubsection[Opis klasy About]{Opis klasy About}
-\texttt{About} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form}
-języka C\#. Formularz wyświetla informacje o programie i autorach.
+Klient eTalk jest programem przeznaczonym dla użytkownika końcowego. Program został napisany, aby umożliwić użytkownikom  łatwe korzystanie z serwera eTalk. Program ukrywa przed użytkownikiem  szczegóły protokołu, prezentując w zamian przyjazne okna dialogowe.
+
+\subsubsection[Opis okna About]{Opis okna About}
+\texttt{About} jest publiczną klasą formularza dziedziczącą po klasie bibliotecznej \texttt{Form} języka C\#. Formularz wyświetla informacje o programie i autorach.
+
+\subsubsection[Opis okna Archive]{Opis okna Archive}
+\texttt{Archive} jest klasą reprezentującą okno dialogowe, w którym użytkownik może przeglądać wcześniejsze rozmowy. Rozmowy są pogrupowane według rozmówcy.
+
+\subsubsection[Opis okna ChangePassword]{Opis okna ChangePassword}
+\texttt{ChangePassword} jest klasą reprezentującą okno dialogowe, w którym użytkownik może zmienić podane podczas rejestracji hasło. 
+
+\subsubsection[Opis okna CreateAccount]{Opis okna CreateAccount}
+\texttt{CreateAccount} jest klasą reprezentującą okno dialogowe, w którym użytkownik może podać dane niezbędna do utworzenia nowego hasła.
+
+\subsubsection[Opis okna EditContact]{Opis okna EditContact}
+\texttt{EditContact} jest klasą reprezentującą okno dialogowe, w którym użytkownik może zmieniać dane dotyczące osoby na jego liście kontaktów.\newline 
+
+\noindent Okno reprezentowane przez klasę \texttt{EditContact} może pracować w dwóch trybach:
+
+\begin{itemize}
+    \item[--] tryb \texttt{add} uruchamiany jest w przypadku utworzenia okna dialogowego z wykorzystaniem konstruktora \texttt{EditContact()}. W tym trybie możliwe jest dodawanie nowych osób do listy kontaktowej,
+    \item[--] tryb \texttt{edit} uruchamiany jest w przypadku utworzenia okna dialogowego z wykorzystaniem konstruktora \texttt{EditContact(string name, string login)}. W tym trybie możliwe jest modyfikowanie osób znajdujących się na liście kontaktów.
+\end{itemize}
+
+\subsubsection[Opis okna MainForm]{Opis okna MainForm}
+\texttt{MainForm} jest klasą reprezentującą główne okno aplikacji. Klasa posiada wiele dodatkowych metod aktualizujących stan okna:
+
+\begin{itemize}
+    \item[--] \texttt{refreschContacts()} -- metoda odświeża listę kontaktów po wprowadzeniu zmian,
+    \item[--] \texttt{enableMenuItems()} -- metoda aktywuje wszystkie przyciski dostępne tylko dla zalogowanego użytkownika,
+    \item[--] \texttt{disableMenuItems()} -- metoda odwrotna do metody \texttt{enableMenuItems()},
+    \item[--] \texttt{updateStatus(string login, int index, string status)} -- metoda aktualizuje status użytkownika po pobraniu danych z serwera. 
+\end{itemize}
+
+Klasa \texttt{MainForm} odpowiada również za cykliczne sprawdzanie statusów użytkowników oraz tego, czy nie ma jakiś oczekujących na pobranie wiadomości.
+
+\subsubsection[Opis okna SelectProfile]{Opis klasy SelectProfile}
+\texttt{SelectProfile} jest klasą reprezentującą okno dialogowe, w którym użytkownik może podać dane niezbędna do sprawdzenia jego tożsamości.
+
+\subsubsection[Opis okna Talk]{Opis okna Talk}
+\texttt{Talk} jest klasą reprezentującą okno dialogowe, w którym użytkownik może prowadzić rozmowę.
+
+\subsubsection[Opis klasy Talk]{Opis klasy Talk}
+\texttt{Talk} to klasa kontenerowa przechowująca dane pojedynczej rozmowy. 
+
+\subsubsection[Opis klasy Archive]{Opis klasy Archive}
+\texttt{Archive} to klasa udostępniająca metody służące do operowania na archiwum rozmów. Programista może skorzystać z metod:
+
+\begin{itemize}
+    \item[--] \texttt{addMessage(int talkId, string login, string senderLogin, string senderName, DateTime time, string message )} -- metoda służąca do dodawania wiadomości do archiwum,
+    \item[--] \texttt{readTalk(int talkId, string login)} -- metoda służąca do czytania zapisu rozmowy,
+    \item[--] \texttt{createNewTalk(string login, int talkId, string talker, DateTime time)} -- metoda tworząca nowy wpis w archiwum, z informacją o odbytej rozmowie,
+    \item[--] \texttt{readTalker(string login)} -- metoda czytająca listę rozmówców, z którymi przeprowadziliśmy przynajmniej jedną rozmowę,
+    \item[--] \texttt{readTalks(string login, string talker)} -- metoda czytająca listę rozmów przeprowadzonych z wybranym rozmówcą,
+    \item[--] \texttt{getNextId()} -- metoda pobierająca kolejny wolny numer identyfikacyjny rozmowy.
+\end{itemize} 
+
+\subsubsection[Opis klasy Communicator]{Opis klasy Communicator}
+\texttt{Communicator} to klasa reprezentująca cały mechanizm działania komunikatora eTalk. Klasa została napisana z wykorzystaniem wzorca singleton. Instancję obiektu można pobrać korzystając z metody \texttt{getInstance()}. Pozostałe dostępne metody to:
+
+\begin{itemize}
+    \item[--] \texttt{login(string login, string password, MainForm form)} -- metoda służąca do uwierzytelniania użytkownika,
+    \item[--] \texttt{createAccount(string login, string password, string name, string surname, string email, MainForm form)} -- metoda służąca do zakładania nowego konta,
+    \item[--] \texttt{connectionFail()} -- pomocnicza metoda informująca użytkownika o braku połączenia z serwerem eTalk,
+    \item[--] \texttt{readMessages()} -- metoda odpytująca serwer, czy są jakieś wiadomości oczekujące na wysłanie do aktualnie zalogowanego użytkownika,
+    \item[--] \texttt{getLogedUser()} -- metoda pobierająca nazwę aktualnie zalogowanego użytkownika,
+    \item[--] \texttt{sendMessage(string message, string to)} -- metoda wysyłająca wiadomość do innego użytkownika,
+    \item[--] \texttt{changePassword(string newPassword)} -- metoda umożliwiająca zmianę hasła zalogowanego użytkownika, 
+    \item[--] \texttt{refreshContactsStatus(MainForm main)} -- metoda pytająca serwer eTalk o aktualny status użytkowników znajdujących się na liście kontaktów,
+    \item[--] \texttt{changeStatus(string newStatus)} -- metoda zmieniająca aktualny status zalogowanego użytkownika.
+     
+\end{itemize} 
+
+\subsubsection[Opis klasy CommunicatorMessage]{Opis klasy CommunicatorMessage}
+\texttt{CommunicatorMessage} to klasa kontenerowa reprezentująca pojedynczą wiadomość wysyłaną przez użytkownika. 
+
+\subsubsection[Opis klasy Connection]{Opis klasy Connection}
+\texttt{Connection} to klasa odpowiedzialna za nawiązanie połączenia z serwerem eTalk. Klasa jest zaimplementowana zgodnie z wzorcem singleton. Do pobieranie egzemplarza klasy należy użyć metody \texttt{getInstance()}. Dodatkowo klasa udostępnia metodę \texttt{sendMessage(string message)}, która wysyła zapytanie do serwera eTalk oraz odbiera odpowiedź.  
+
+\subsubsection[Opis klasy Contact]{Opis klasy Contact}
+\texttt{Contact} to pomocnicza klasa kontenerowa do przechowywania informacji o jednym użytkowniku znajdującym się na liście kontaktów.
+
+\subsubsection[Opis klasy Contacts]{Opis klasy Contacts}
+\texttt{Contacts} to klasa reprezentująca listę kontaktową. Klasa udostępnia metody:
+
+\begin{itemize}
+    \item[--] \texttt{loadFromFile(string file)} -- metoda czyta listę kontaktów z zewnętrznego pliku,
+    \item[--] \texttt{saveToFile(string file)} -- metoda zapisująca listę kontaktów do zewnętrznego pliku,
+    \item[--] \texttt{addContact(string name, string login)} -- metoda umożliwiająca dodawanie osób do listy,
+    \item[--] \texttt{removeContact(string login)} -- metoda usuwająca kontakt o podanej nazwie użytkownika,
+    \item[--] \texttt{updateContact(string name, string login, string oldLogin)} -- metoda umożliwiająca zmianę danych osoby znajdującej się na liście kontaktów,
+    \item[--] \texttt{findContact(string login)} -- metoda wyszukująca osobę o podanej nazwie użytkownika na liście kontaktów,
+    \item[--] \texttt{getList()} -- metoda pobierająca listę.
+\end{itemize} 
+
+\subsubsection[Opis klasy Settings]{Opis klasy Settings}
+\texttt{Settings} jest klasą przechowującą ustawienia programu.  
+
+\subsubsection[Opis klasy User]{Opis klasy User}
+\texttt{User} jest klasą reprezentującą użytkownika aplikacji. Na klasę składają się metody:
+
+\begin{itemize}
+    \item[--] \texttt{logedUser} -- zwraca nazwę aktualnie zalogowanego użytkownika,
+    \item[--] \texttt{login(string number, string password)} -- przeprowadza proces uwierzytelniania użytkownika,
+    \item[--] \texttt{createAccount(string number, string password, string name, string surname, string email)} -- metoda służąca do zakładania nowego konta.
+\end{itemize}
+
 
 \subsubsection[Opis klasy MessageFactory]{Opis klasy MessageFactory}
 \texttt{MessageFactory} jest publiczną klasą służącą do wytwarzania żądań dla klienta.\\
