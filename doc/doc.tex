@@ -609,6 +609,151 @@ Metoda \texttt{getParams} zwraca główne parametry otrzymanej wiadomości i ewe
 Metoda \texttt{getExtraData} zwraca dodatkowe parametry, jeżeli zapytanie takie zawiera.
 
 \subsection[Opis protokołu komunikacyjnego aplikacji eTalk]{Opis protokołu komunikacyjnego aplikacji eTalk}
+\subsubsection[Wstęp]{Wstęp}
+Komunikacja pomiędzy użytkownikami odbywa się przez protokół TCP/IP z wykorzystaniem
+komunikatów w formacie XML. Każdy komunikat jest zbudowany zgodnie ze
+wzorem:\\\\
+\noindent  $<[request|response]>$\\
+\indent    $<type>$[nazwa akcji]$</type>$\\
+\indent    [parametry dodatkowe]\\
+$</[request|response]>$\\\\
+
+\noindent Część [nazwa akcji] określa cel wysłania komunikatu, a sekcja [dane dodatkowe] zawiera
+informacje potrzebne do wykonania danej akcji, różne, dla różnych operacji.
+
+\subsubsection[Uwierzytelnianie]{Uwierzytelnianie}
+Klient przesyła na serwer żądanie postaci:\\\\
+\noindent  $<request>$\\
+\indent    $<type>login</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="number"$ $value=numer$ $/>$\\
+\indent \indent $<param$ $name="password"$ $value=haslo$ $/>$\\
+\indent    $</params>$\\
+$</request>$\\\\
+
+\noindent Przesyłane są dwa parametry o nazwach: ,,number'' i ,,password'', ich wartości to odpowiednio numer użytkownika i hasło.\\
+Serwer przesyła odpowiedź postaci:\\\\
+\noindent  $<response>$\\
+\indent    $<type>login</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="result"$ $value=[success|fail]$ $/>$\\
+\indent    $</params>$\\
+$</response>$\\\\
+\noindent Przesyłany jest jeden parametr o nazwie ,,result'', jego wartości to napisy ,,success'' i ,,fail'' w zależności od tego, czy uwierzytelnie powiodło się lub nie.
+
+\subsubsection[Rejestracja]{Rejestracja}
+Klient przesyła na serwer żądanie postaci:\\\\
+\noindent  $<request>$\\
+\indent    $<type>createAccount</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="username"$ $value=nazwa\_uzytkownika$ $/>$\\
+\indent \indent $<param$ $name="password"$ $value=haslo$ $/>$\\
+\indent \indent $<param$ $name="name"$ $value=imie$ $/>$\\
+\indent \indent $<param$ $name="surname"$ $value=nazwisko$ $/>$\\
+\indent \indent $<param$ $name="email"$ $value=email$ $/>$\\
+\indent    $</params>$\\
+$</request>$\\\\
+
+\noindent Przesyłanych jest pięć parametrów o nazwach: ,,username'', ,,password'', ,,name'', ,,surname'', ,,email'' ich wartości to odpowiednio numer użytkownika, hasło, imię, nazwisko i adres email.\\
+Serwer przesyła odpowiedź postaci:\\\\
+\noindent  $<response>$\\
+\indent    $<type>createAccount</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="result"$ $value=[success|fail]$ $/>$\\
+\indent    $</params>$\\
+$</response>$\\\\
+\noindent Przesyłany jest jeden parametr o nazwie ,,result'', jego wartości to napisy ,,success'' i ,,fail'' w zależności od tego, czy rejestracja powiodła się lub nie.
+
+\subsubsection[Zmiana hasła]{Zmiana hasła}
+Klient przesyła na serwer żądanie postaci:\\\\
+\noindent  $<request>$\\
+\indent    $<type>changePassword</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="username"$ $value=nazwa\_uzytkownika$ $/>$\\
+\indent \indent $<param$ $name="newPassword"$ $value=nowe\_haslo$ $/>$\\
+\indent    $</params>$\\
+$</request>$\\\\
+
+\noindent Przesyłane są dwa parametry o nazwach: ,,username'' i ,,newPassword'', ich wartości to odpowiednio nazwa użytkownika i nowe hasło.\\
+Serwer przesyła odpowiedź bez parametrów postaci:\\\\
+\noindent  $<response>$\\
+\indent    $<type>changePassword</type>$\\
+$</response>$
+
+\subsubsection[Zmiana statusu]{Zmiana statusu}
+Klient przesyła na serwer żądanie postaci:\\\\
+\noindent  $<request>$\\
+\indent    $<type>changeStatus</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="username"$ $value=nazwa\_uzytkownika$ $/>$\\
+\indent \indent $<param$ $name="newStatus"$ $value=nowy\_status$ $/>$\\
+\indent    $</params>$\\
+$</request>$\\\\
+
+\noindent Przesyłane są dwa parametry o nazwach: ,,username'' i ,,newStatus'', ich wartości to odpowiednio nazwa użytkownika i nowy status.\\
+Serwer przesyła odpowiedź bez parametrów postaci:\\\\
+\noindent  $<response>$\\
+\indent    $<type>changeStatus</type>$\\
+$</response>$
+
+\subsubsection[Odświeżanie listy kontaktów]{Odświeżanie listy kontaktów}
+Klient przesyła na serwer żądanie postaci:\\\\
+\noindent  $<request>$\\
+\indent    $<type>refreshContactsStatus</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="users"$ $value=liczba\_kontaktow$ $/>$\\
+\indent \indent $<param$ $name="usernameX"$ $value=nazwa\_uzytkownika$ $/>$\\
+\indent    $</params>$\\
+$</request>$\\\\
+
+\noindent Przesyłanych jest n+1 parametrów, gdzie n to liczba znajomych w kontaktach, a pierwszy parametr to nazwa użytkownika, który prosi o odświeżenie kontaktów. Lista kontaktów jest reprezentowana przez n kolejnych parametrów.\\
+Serwer przesyła odpowiedź postaci:\\\\
+\noindent  $<response>$\\
+\indent    $<type>refreshContactsStatus</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="usernameX"$ $value=obecny\_status$ $/>$\\
+\indent    $</params>$\\
+$</response>$\\\\
+\noindent Serwer przesyła n parametrów, każdy parametr jako nazwę przyjmuje nazwę użytkownika, a wartością jest obecny status.
+
+\subsubsection[Wysyłanie wiadomości]{Wysyłanie wiadomości}
+Klient przesyła na serwer żądanie postaci:\\\\
+\noindent  $<request>$\\
+\indent    $<type>sendMessage</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="username"$ $value=nazwa\_nadawcy$ $/>$\\
+\indent \indent $<param$ $name="message"$ $value=tresc$ $/>$\\
+\indent \indent $<param$ $name="to"$ $value=nazwa\_adresata$ $/>$\\
+\indent    $</params>$\\
+$</request>$\\\\
+
+\noindent Przesyłane są trzy parametry o nazwach: ,,username'', ,,message'' i ,,to'', ich wartości to odpowiednio nazwa nadawcy, treść wiadomości i nazwa odbiorcy.\\
+Serwer przesyła odpowiedź bez parametrów postaci:\\\\
+\noindent  $<response>$\\
+\indent    $<type>sendMessage</type>$\\
+$</response>$
+
+\subsubsection[Odbieranie wiadomości]{Odbieranie wiadomości}
+Klient przesyła na serwer żądanie postaci:\\\\
+\noindent  $<request>$\\
+\indent    $<type>getMessages</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="username"$ $value=nazwa\_uzytkownika$ $/>$\\
+\indent    $</params>$\\
+$</request>$\\\\
+
+\noindent Przesyłany jest jeden parametr o nazwie ,,username'', a wartością jest nazwa użytkownika, który chce odebrać swoje wiadomości.
+Serwer przesyła odpowiedź postaci:\\\\
+\noindent  $<response>$\\
+\indent    $<type>getMessages</type>$\\
+\indent    $<params>$\\
+\indent \indent $<param$ $name="messages"$ $value=liczba\_wiadomosci$ $/>$\\
+\indent \indent $<param$ $name=X$ $value=tresc$ $extra=nazwa\_nadawcy$ $/>$\\
+\indent    $</params>$\\
+$</response>$\\\\
+
+\noindent Serwer przesyła n+1 parametrów, gdzie n to liczba wiadomości dla danego użytkownika.\\
+Pierwszy parametr to liczba wiadomości do odebrania. Kolejne n parametrów zawiera informacje o nieodebranych wiadomościach. Nazwa parametru to numer porządkowy wiadomości, wartość zawiera treść wiadomości, a paramter dodatkowy przechowuje nazwę nadawcy.
 
 \section[Raport z przeprowadzonych testów]{Raport z przeprowadzonych testów}
 \subsection[Test 1.]{Test 1.}
