@@ -1,0 +1,1 @@
+Projekt realizowany w ramach Licencjackiego projektu programistycznego, prowadzonego w Instytucie Informatyki Uniwersytetu Wrocławskiego.
